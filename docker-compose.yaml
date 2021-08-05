@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: ./docker/php.dockerfile
+    env_file:
+      - ./environment/php.env
+    ports:
+      - '8080:80'
+    volumes:
+      - ./backend:/var/www/html
+      - /var/www/html/src/vendor
+
+  mariadb:
+    image: mariadb:10.6
+    working_dir: /application
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - ./environment/mariadb.env
+    ports:
+      - '3306:3306'
+
+  adminer:
+    image: adminer
+    ports:
+      - '8081:8080'
+    depends_on:
+      - mariadb
+
+  composer:
+    build:
+      context: .
+      dockerfile: ./docker/composer.dockerfile
+    volumes:
+      - ./backend/src:/home/composer/app
+
+volumes:
+  db_data: {}
