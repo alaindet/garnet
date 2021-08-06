@@ -8,9 +8,7 @@ trait ServerRequestPathParser
 {
     protected static function getPath(): string
     {
-        // Remove subfolder first
-        $routePrefix = (Configuration::getInstance())->get('app.routePrefix');
-        $uri = str_replace($routePrefix, '', $_SERVER['REQUEST_URI']);
+        $uri = $_SERVER['REQUEST_URI'];
 
         // Strip query string
         if (false !== $pos = strpos($uri, '?')) {

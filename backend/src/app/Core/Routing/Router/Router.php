@@ -6,6 +6,8 @@ use FastRoute\Dispatcher;
 use function FastRoute\simpleDispatcher;
 use function FastRoute\cachedDispatcher;
 
+use App\Core\Exceptions\NotFoundHttpException;
+use App\Core\Exceptions\MethodNotAllowedHttpException;
 use App\Core\Routing\RouteInfo;
 use App\Core\Services\Configuration\Configuration;
 use App\Core\Http\Request\Request;
@@ -33,16 +35,12 @@ class Router
 
         switch ($result[0]) {
 
-            // TODO: Error request handler
             case Dispatcher::NOT_FOUND:
-                echo '404 NOT FOUND';
-                die();
+                throw new NotFoundHttpException('Route not found');
                 break;
 
-            // TODO: Error request handler
             case Dispatcher::METHOD_NOT_ALLOWED:
-                echo '405 METHOD NOT ALLOWED';
-                die();
+                throw new MethodNotAllowedHttpException('Method not allowed');
                 break;
 
             case Dispatcher::FOUND:
@@ -59,12 +57,12 @@ class Router
     {
         $config = Configuration::getInstance();
 
-        if ($config->get('env.development') === true) {
-            return simpleDispatcher($this->routeCollection);
+        if ($config->get('env.production')) {
+            return cachedDispatcher($this->routeCollection, [
+                'cacheFile' => $config->get('path.cache') . '/routes.php',
+            ]);
         }
 
-        return cachedDispatcher($this->routeCollection, [
-            'cacheFile' => $config->get('path.cache') . '/routes.php',
-        ]);
+        return simpleDispatcher($this->routeCollection);
     }
 }

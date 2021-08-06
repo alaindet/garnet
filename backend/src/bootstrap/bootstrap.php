@@ -15,14 +15,14 @@ require APP_DIR_SRC . '/vendor/autoload.php';
 // Load environment variablespathConstraints
 (Dotenv::createImmutable(APP_DIR_SRC))->load();
 
-// Load error handling
-require __DIR__ . '/errors.php';
-
 // Load configuration
 Configuration::getInstance([
     'configDir' => APP_DIR_SRC . '/config',
     'cachePath' => APP_DIR_SRC . '/cache/config.php',
 ]);
+
+// Load error handling
+require __DIR__ . '/errors.php';
 
 // Create server request
 $request = RequestFactory::createsServerRequestFromGlobals();
