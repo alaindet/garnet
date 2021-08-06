@@ -1,40 +1,23 @@
 <?php
 
-use Dotenv\Dotenv;
-
-use App\Core\Http\ResponseEmitter;
 use App\Core\Routing\Dispatcher;
 use App\Core\Routing\Router\Router;
 use App\Core\Http\RequestFactory\RequestFactory;
-use App\Core\Services\Configuration\Configuration;
+use App\Core\Http\ResponseEmitter;
 
-define('APP_DIR_SRC', dirname(__DIR__));
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-require APP_DIR_SRC . '/vendor/autoload.php';
-
-// Load environment variablespathConstraints
-(Dotenv::createImmutable(APP_DIR_SRC))->load();
-
-// Load configuration
-Configuration::getInstance([
-    'configDir' => APP_DIR_SRC . '/config',
-    'cachePath' => APP_DIR_SRC . '/cache/config.php',
-]);
-
-// Load error handling
 require __DIR__ . '/errors.php';
+require __DIR__ . '/configuration.php';
 
-// Create server request
-$request = RequestFactory::createsServerRequestFromGlobals();
+try {
+    $request = RequestFactory::createsServerRequestFromGlobals();
+    $routes = require_once dirname(__DIR__) . '/routes.php';
+    $routeInfo = (new Router($routes))->match($request);
+    $response = (new Dispatcher($request, $routeInfo))->dispatch();
+    ResponseEmitter::send($response);
+}
 
-// Load routes
-$routes = require_once APP_DIR_SRC . '/routes.php';
-
-// // Match request with routes
-$routeInfo = (new Router($routes))->match($request);
-
-// Build a response
-$response = (new Dispatcher($request, $routeInfo))->dispatch();
-
-// Send response to client
-ResponseEmitter::send($response);
+catch (\Exception $exception) {
+    exceptionHandler($exception);
+}

@@ -57,7 +57,7 @@ class Configuration
 
         $this->data = $this->buildData($configMetadata['configDir']);
 
-        if ($_ENV['OUTL_DEBUG'] === 'false') {
+        if ($_ENV['APP_DEBUG'] === 'false') {
             $this->storeIntoCache();
         }
     }

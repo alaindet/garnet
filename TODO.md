@@ -1,1 +1,2 @@
-- Error handling
+- [x] Error handling
+- [ ] Database service

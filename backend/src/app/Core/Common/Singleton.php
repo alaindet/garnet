@@ -16,7 +16,7 @@ trait Singleton
 
     /**
      * Returns always the same instance (builds it if none yet)
-     * 
+     *
      * @param array Variadic array, will be unpacked for __construct()
      * @return object Class instance
      */
@@ -44,7 +44,7 @@ trait Singleton
     /**
      * Prevent unserialization of this instance
      */
-    private function __wakeup()
+    public function __wakeup()
     {
         // None
     }

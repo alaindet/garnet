@@ -4,9 +4,11 @@ use App\Core\Routing\RouteGroup;
 use App\Core\Middleware\CorsMiddleware;
 use App\Core\Middleware\AuthenticationMiddleware;
 use App\Features\Todos\Routes as TodosRoutes;
+use App\Features\Tests\Routes as TestsRoutes;
 
 $routes = [
-    TodosRoutes::register(),
+    // TodosRoutes::register(),
+    TestsRoutes::register(),
     // ...
 ];
 
