@@ -1,3 +1,3 @@
 - [x] Error handling
-- [ ] Database service
+- [x] Database service
 - [ ] Add JWT authentication

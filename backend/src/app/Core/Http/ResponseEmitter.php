@@ -20,10 +20,15 @@ abstract class ResponseEmitter
     static public function sendJson(Response $response): void
     {
         $jsonFlags = (
-            JSON_UNESCAPED_UNICODE
+            // JSON_PRETTY_PRINT |
+            JSON_UNESCAPED_UNICODE |
+            JSON_UNESCAPED_SLASHES |
+            JSON_PRESERVE_ZERO_FRACTION |
+            JSON_THROW_ON_ERROR
         );
+
         $response->setBody(json_encode($response->getBody(), $jsonFlags));
-        $response->setHeader('Content-Type', 'application/json');
+        $response->setHeader('Content-Type', 'application/json; charset=UTF-8');
 
         self::sendStatusCode($response);
         self::sendHeaders($response);

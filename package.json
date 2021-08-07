@@ -1,0 +1,21 @@
+{
+  "name": "garnet",
+  "version": "0.0.0",
+  "description": "Garnet: a progress tracker",
+  "main": "index.js",
+  "scripts": {
+    "make:api-key": "node ./scripts/make-api-key.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alaindet/garnet.git"
+  },
+  "keywords": [],
+  "author": "Alain D'Ettorre <alain.det@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alaindet/garnet/issues"
+  },
+  "homepage": "https://github.com/alaindet/garnet#readme"
+}
