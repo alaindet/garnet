@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Exceptions;
+namespace App\Core\Exceptions\Http;
 
 use App\Core\Http\HttpStatusCode;
 

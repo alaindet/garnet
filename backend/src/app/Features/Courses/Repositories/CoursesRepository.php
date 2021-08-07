@@ -14,9 +14,11 @@ class CoursesRepository
         $this->db = appServiceProvider(Database::class);
     }
 
-    public function createCourse(CreateCourseDto $dto): int
+    public function getAllByTeacherId(string $teacherId): array
     {
-        // TODO...
-        return 3;
+        $sql = "SELECT * FROM courses WHERE teacher_id = :teacherid";
+        $params = [':teacherid' => $teacherId];
+
+        return $this->db->select($sql, $params);
     }
 }

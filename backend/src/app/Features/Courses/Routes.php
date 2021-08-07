@@ -12,11 +12,13 @@ class Routes
     {
         return (new RouteGroup)
             ->path('/courses')
-            ->pathConstraints([ 'id' => '\d+' ])
+            ->pathConstraints([
+                'teacherid' => '\d+'
+            ])
             ->handler(CoursesController::class)
             ->routes([
-                Route::post('/', '@create'),
-                // Route::get('/', '@getAllByTeacher'),
+                // Route::post('/', '@create'),
+                Route::get('/{teacherid}', '@getAllByTeacher'),
                 // Route::get('/{id}', '@getById'),
                 // Route::patch('/{id}', '@update'),
                 // Route::delete('/{id}', '@delete'),

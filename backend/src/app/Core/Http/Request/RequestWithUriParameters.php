@@ -11,6 +11,11 @@ trait RequestWithUriParameters
         return $this->uriParameters;
     }
 
+    public function getUriParameter(string $name)
+    {
+        return $this->uriParameters[$name];
+    }
+
     public function setUriParameters(array $uriParameters): self
     {
         $this->uriParameters = $uriParameters;

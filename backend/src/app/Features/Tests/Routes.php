@@ -15,8 +15,7 @@ class Routes
             ->pathConstraints([ 'courseId' => '\d+' ])
             ->handler(TestsController::class)
             ->routes([
-                Route::get('/courses', '@getAllCourses'),
-                Route::get('/courses/{courseId}/students', '@getStudentsByCourse')
+                Route::get('/', '@index'),
             ])
             ->collect();
     }

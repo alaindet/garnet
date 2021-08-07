@@ -6,8 +6,8 @@ use FastRoute\Dispatcher;
 use function FastRoute\simpleDispatcher;
 use function FastRoute\cachedDispatcher;
 
-use App\Core\Exceptions\NotFoundHttpException;
-use App\Core\Exceptions\MethodNotAllowedHttpException;
+use App\Core\Exceptions\Http\NotFoundHttpException;
+use App\Core\Exceptions\Http\MethodNotAllowedHttpException;
 use App\Core\Routing\RouteInfo;
 use App\Core\Services\Configuration\Configuration;
 use App\Core\Http\Request\Request;

@@ -2,8 +2,8 @@
 
 namespace App\Features\Courses\Services;
 
-use App\Features\Courses\Dtos\CreateCourseDto;
 use App\Features\Courses\Repositories\CoursesRepository;
+use App\Features\Courses\Dtos\CreateCourseDto;
 
 class CoursesService
 {
@@ -14,8 +14,8 @@ class CoursesService
         $this->coursesRepo = new CoursesRepository();
     }
 
-    public function createCourse(CreateCourseDto $dto): int
+    public function getAllByTeacherId(string $teacherId): array
     {
-        return $this->coursesRepo->createCourse($dto);
+        return $this->coursesRepo->getAllByTeacherId($teacherId);
     }
 }
