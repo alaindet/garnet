@@ -6,4 +6,5 @@ class Message
 {
     use MessageWithHeaders;
     use MessageWithBody;
+    use MessageWithDataTransferObject;
 }

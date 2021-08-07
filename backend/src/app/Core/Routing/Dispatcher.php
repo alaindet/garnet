@@ -5,7 +5,7 @@ namespace App\Core\Routing;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Core\Http\ResponseFactory;
-use App\Core\Middleware\Middleware;
+use App\Core\Middleware;
 
 class Dispatcher
 {

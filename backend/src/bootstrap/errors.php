@@ -1,6 +1,6 @@
 <?php
 
-use App\Core\Exceptions\HttpException;
+use App\Core\Exceptions\Http\HttpException;
 use App\Core\Http\HttpStatusCode;
 use App\Core\Http\ResponseEmitter;
 use App\Core\Http\ResponseFactory;
@@ -15,37 +15,40 @@ set_error_handler(
 // // Handle exceptions
 // set_exception_handler(function (\Exception $e) {
 
-//     // Initialize generic 500 error
+//     // Initialize generic 500 HTTP error
 //     $statusCode = HttpStatusCode::InternalServerError;
 //     $response = ResponseFactory::createResponse($statusCode);
 
-//     // Proper HttpException
+//     // Proper HTTP error
 //     if ($e instanceof HttpException) {
 //         $response->setStatusCode($e->getStatusCode());
 //         $response->setBody([
-//             'error' => true,
-//             'message' => $e->getMessage(),
+//             'error' => [
+//                 'message' => $e->getMessage(),
+//             ],
 //         ]);
 //     }
 
 //     // Production: Generic exception
-//     else if (appConfig('env.production')) {
-//         $response->setBody([
-//             'error' => true,
+//     $errorResponseBody = [
+//         'error' => [
 //             'message' => 'An error occurred',
-//         ]);
+//         ],
+//     ];
+
+//     // Development: Generic exception with details
+//     if (!appConfig('env.production')) {
+//         $errorResponseBody = [
+//             'error' => [
+//                 'message' => $e->getMessage(),
+//                 'file' => $e->getFile(),
+//                 'line' => $e->getLine(),
+//                 'trace' => $e->getTrace(),
+//             ],
+//         ];
 //     }
 
-//     // Development: Generic exception
-//     else {
-//         $response->setBody([
-//             'error' => true,
-//             'message' => $e->getMessage(),
-//             'file' => $e->getFile(),
-//             'line' => $e->getLine(),
-//             'trace' => $e->getTrace(),
-//         ]);
-//     }
+//     $response->setBody($errorResponseBody);
 
 //     ResponseEmitter::send($response);
 // });

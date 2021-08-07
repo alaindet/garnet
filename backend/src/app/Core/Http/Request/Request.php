@@ -10,4 +10,5 @@ class Request extends Message
     use RequestWithPath;
     use RequestWithQuery;
     use RequestWithUriParameters;
+    use RequestWithValidatedData;
 }

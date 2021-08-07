@@ -2,6 +2,7 @@
 
 namespace App\Core\Middleware;
 
+use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 
@@ -11,7 +12,7 @@ class CorsMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $origin = appConfig('cors.origin');
+        $origin = appConfig('security.cors.origin');
 
         $res->setHeader('Access-Control-Allow-Origin', $origin);
 

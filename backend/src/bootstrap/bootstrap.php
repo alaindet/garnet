@@ -10,14 +10,10 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require __DIR__ . '/errors.php';
 require __DIR__ . '/services.php';
 
-try {
-    $request = RequestFactory::createsServerRequestFromGlobals();
-    $routes = require_once dirname(__DIR__) . '/routes.php';
-    $routeInfo = (new Router($routes))->match($request);
-    $response = (new Dispatcher($request, $routeInfo))->dispatch();
-    ResponseEmitter::send($response);
-}
+$request = RequestFactory::createsServerRequestFromGlobals();
 
-catch (\Exception $exception) {
-    exceptionHandler($exception);
-}
+$routes = require_once dirname(__DIR__) . '/routes.php';
+$routeInfo = (new Router($routes))->match($request);
+
+$response = (new Dispatcher($request, $routeInfo))->dispatch();
+ResponseEmitter::send($response);

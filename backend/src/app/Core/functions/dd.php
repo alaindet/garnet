@@ -9,6 +9,9 @@
  */
 function dd($value)
 {
-    var_dump($value);
+    echo '<pre>' . print_r($value, true) . '</pre>';
     die();
+
+    // var_dump($value);
+    // die();
 }

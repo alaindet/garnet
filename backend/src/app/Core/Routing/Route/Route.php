@@ -53,9 +53,19 @@ class Route
         return $this->getOrSet('_handler', $handler);
     }
 
-    public function middleware(?array $middleware = null)
+    public function middleware($middleware = null)
     {
-        return $this->getOrSet('_middleware', $middleware);
+        if (!isset($middleware)) {
+            return $this->_middleware;
+        }
+
+        if (\is_array($middleware)) {
+            $this->_middleware = array_merge($this->_middleware, $middleware);
+        } else {
+            $this->_middleware[] = $middleware;
+        }
+
+        return $this;
     }
 
     public function pathConstraints(?array $pathConstraints = null)

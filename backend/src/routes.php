@@ -3,26 +3,25 @@
 use App\Core\Routing\RouteGroup;
 use App\Core\Middleware\CorsMiddleware;
 use App\Core\Middleware\AuthenticationMiddleware;
-use App\Features\Tests\Routes as TestsRoutes;
-use App\Features\Courses\Routes as CoursesRoutes;
 
 $routes = [
-    CoursesRoutes::register(),
-    // ...
+    \App\Features\Courses\Routes::register(),
+    \App\Features\Authentication\Routes::register(),
+    // Add route groups here...
 ];
 
-// Add test routes
+// Add test routes in development
 if (!appConfig('env.production')) {
-    $routes[] = TestsRoutes::register();
+    $routes[] = \App\Features\Tests\Routes::register();
 }
 
 $middleware = [
     CorsMiddleware::class,
     [AuthenticationMiddleware::class, ['teacher', 'student']],
-    // ...
+    // Add global middleware here...
 ];
 
 return (new RouteGroup)
     ->middleware($middleware)
-    ->routes(...$routes)
+    ->routes(array_merge(...$routes))
     ->collect();

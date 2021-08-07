@@ -2,10 +2,10 @@
 
 namespace App\Features\Courses\Repositories;
 
+use App\Core\Repository;
 use App\Core\Services\Database\Database;
-use App\Features\Courses\Dtos\CreateCourseDto;
 
-class CoursesRepository
+class CoursesRepository extends Repository
 {
     protected Database $db;
 

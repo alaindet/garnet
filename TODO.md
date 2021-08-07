@@ -1,3 +1,6 @@
 - [x] Error handling
 - [x] Database service
 - [ ] Add JWT authentication
+- [ ] ? Add exception to .htaccess?
+- [ ] Service Provider token aliases?
+- [ ] User session?
