@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Core\Services\Database;
+namespace App;
 
 use PDO;
 
 class DatabaseConnection
 {
-    private PDO $pdo;
     private $config;
+    private PDO $pdo;
 
     public function __construct(array $config)
     {
+        echo 'DatabaseConnection::__construct';
         $this->config = $config;
+        $this->connect();
     }
 
     public function getConnection(): PDO

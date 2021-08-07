@@ -8,7 +8,7 @@ use App\Core\Http\ResponseEmitter;
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 require __DIR__ . '/errors.php';
-require __DIR__ . '/configuration.php';
+require __DIR__ . '/services.php';
 
 try {
     $request = RequestFactory::createsServerRequestFromGlobals();

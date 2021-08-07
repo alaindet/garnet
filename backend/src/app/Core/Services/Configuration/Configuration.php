@@ -2,12 +2,13 @@
 
 namespace App\Core\Services\Configuration;
 
+use Dotenv\Dotenv;
+
 use App\Core\Common\Singleton;
 use App\Core\Services\Filesystem\Filesystem;
 
 class Configuration
 {
-    use Singleton;
     use ConfigurationCache;
 
     /** @var array */
@@ -54,6 +55,8 @@ class Configuration
             $this->data = $this->fetchFromCache();
             return;
         }
+
+        (Dotenv::createImmutable($configMetadata['envDir']))->load();
 
         $this->data = $this->buildData($configMetadata['configDir']);
 

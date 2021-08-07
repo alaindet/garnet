@@ -55,7 +55,7 @@ class Router
 
     private function getDispatcher(): Dispatcher
     {
-        $config = Configuration::getInstance();
+        $config = appServiceProvider(Configuration::class);
 
         if ($config->get('env.production')) {
             return cachedDispatcher($this->routeCollection, [

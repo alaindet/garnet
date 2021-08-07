@@ -11,7 +11,7 @@ class CoursesRepository
 
     public function __construct()
     {
-        $this->db = Database::getInstance();
+        $this->db = appServiceProvider(Database::class);
     }
 
     public function createCourse(CreateCourseDto $dto): int

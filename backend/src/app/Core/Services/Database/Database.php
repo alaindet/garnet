@@ -2,15 +2,32 @@
 
 namespace App\Core\Services\Database;
 
-use App\Core\Common\Singleton;
+use PDO;
 
 class Database
 {
-    use Singleton;
-    use DatabaseConnection;
+    private DatabaseConnection $connection;
 
-    public function __construct(array $databaseConfig)
+    public function __construct(DatabaseConnection $connection)
     {
-        $this->connect($databaseConfig);
+        $this->connection = $connection;
+        $this->connection->connect();
+    }
+
+    public function rawSelect(string $sql): array
+    {
+        $pdo = $this->connection->getConnection();
+        $statement = $pdo->query($sql);
+        if (!$statement) {
+            return [];
+        }
+        $results = $statement->fetchAll();
+        $statement->closeCursor();
+        return $results;
+    }
+
+    public function getPdo(): PDO
+    {
+        return $this->connection->getConnection();
     }
 }

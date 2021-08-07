@@ -13,17 +13,12 @@ class TestsController extends Controller
 
     public function __construct()
     {
-        $this->db = (Database::getInstance());
+        $this->db = appServiceProvider(Database::class);
     }
 
     public function getAllCourses(Request $req, Response $res, ...$args): Response
     {
-        $sql = "SELECT * FROM courses";
-
-        $pdo = $this->db->getConnection();
-        $query = $pdo->prepare($sql);
-        $query->execute();
-        $data = $query->fetchAll();
+        $data = $this->db->rawSelect("SELECT * FROM courses");
 
         $res->setBody([
             'message' => 'All courses',
@@ -33,7 +28,11 @@ class TestsController extends Controller
         return $res;
     }
 
-    public function getStudentsByCourse(Request $req, Response $res, ...$args): Response
+    public function getStudentsByCourse(
+        Request $req,
+        Response $res, 
+        ...$args
+    ): Response
     {
         $uriParams = $req->getUriParameters();
         $courseId = $uriParams['courseId'];
@@ -50,7 +49,7 @@ class TestsController extends Controller
                 cs.course_id = :courseid
         ";
 
-        $pdo = $this->db->getConnection();
+        $pdo = $this->db->getPdo();
         $query = $pdo->prepare($sql);
         $query->bindValue(':courseid', $courseId, \PDO::PARAM_INT);
         $query->execute();
