@@ -4,3 +4,7 @@
 - [ ] ? Add exception to .htaccess?
 - [ ] Service Provider token aliases?
 - [ ] User session?
+- [ ] Add role to JWT
+- [ ] Check role middleware
+- [ ] Add registration via invitation
+- [ ] Add invitations table

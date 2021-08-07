@@ -31,7 +31,7 @@ trait MessageWithHeaders
     public function hasHeader($name): bool
     {
         $headerKey = strtolower($name);
-        return array_key_exists($headerKey, $this->headers);
+        return $this->headers[$headerKey] ? true : false;
     }
 
     /**
@@ -45,7 +45,9 @@ trait MessageWithHeaders
 
         $headerKey = strtolower($name);
         $header = $this->headers[$headerKey];
-        return $this->splitCommaIfAny($header['value']);
+        $headerValue = $this->splitCommaIfAny($header['value']);
+
+        return \is_array($headerValue) ? $headerValue : [$headerValue];
     }
 
     public function getHeaderLine($name)
@@ -55,6 +57,7 @@ trait MessageWithHeaders
         }
 
         $headerKey = strtolower($name);
+
         return $this->headers[$headerKey]['value'];
     }
 

@@ -24,4 +24,13 @@ class TestsController extends Controller
 
         return $res;
     }
+
+    public function authNeeded(Request $req, Response $res, ...$args): Response
+    {
+        $res->setBody([
+            'message' => 'You have sufficient permissions to view this page',
+        ]);
+
+        return $res;
+    }
 }
