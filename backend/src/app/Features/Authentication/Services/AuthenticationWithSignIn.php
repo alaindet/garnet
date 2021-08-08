@@ -19,6 +19,7 @@ trait AuthenticationWithSignIn
 
         $dtoOut = new LoggedUserDto();
         $dtoOut->email = $dtoIn->email;
+        $dtoOut->role = 'TODO: Add role';
         $dtoOut->jwt = $jwt;
         $dtoOut->expireAt = $claims['exp'];
 

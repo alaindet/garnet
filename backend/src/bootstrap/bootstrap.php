@@ -9,6 +9,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 require __DIR__ . '/errors.php';
 require __DIR__ . '/services.php';
+require __DIR__ . '/options-request.php';
 
 $request = RequestFactory::createsServerRequestFromGlobals();
 

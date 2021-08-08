@@ -14,7 +14,18 @@ abstract class ResponseEmitter
      */
     static public function send(Response $response): void
     {
+        if ($response->getStatusCode() === HttpStatusCode::NoContent) {
+            self::sendEmpty($response);
+            return;
+        }
+
         self::sendJson($response);
+    }
+
+    static public function sendEmpty(Response $response): void
+    {
+        self::sendStatusCode($response);
+        self::sendHeaders($response);
     }
 
     static public function sendJson(Response $response): void
@@ -43,6 +54,7 @@ abstract class ResponseEmitter
     static private function sendHeaders(Response $response): void
     {
         foreach ($response->getHeaders() as $name => $value) {
+            $value = \is_string($value) ? $value : implode(', ', $value);
             header("{$name}: {$value}");
         }
     }

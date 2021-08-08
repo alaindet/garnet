@@ -30,4 +30,9 @@ trait RouteHttpMethodsHelpers
     {
         return new Route(HttpMethod::Delete, $path, $handler);
     }
+
+    public static function options(?string $path, ?string $handler): Route
+    {
+        return new Route(HttpMethod::Options, $path, $handler);
+    }
 }

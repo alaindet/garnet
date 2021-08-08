@@ -28,6 +28,10 @@ trait RouterCollectionParser
                 $r->addRoute($method, $path, $handlers);
             }
 
+            // TODO: Move
+            // Allows CORS OPTIONS requests
+            $r->addRoute('options', '/[{anything}]', 'appAllowOptionsRequest');
+
         };
     }
 }

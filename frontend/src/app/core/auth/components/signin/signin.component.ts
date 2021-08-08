@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { SignInService } from '../../services';
+import { AuthenticationService } from '../../services';
 import { SignInDto } from '../../types';
 
 @Component({
@@ -18,12 +18,10 @@ export class SignInComponent {
   });
 
   constructor(
-    private signInService: SignInService,
+    private authService: AuthenticationService,
   ) {}
 
   onSubmit(): void {
-
-    console.log('ciao');
 
     if (this.signInForm.invalid) {
       return;
@@ -31,8 +29,13 @@ export class SignInComponent {
 
     const dto: SignInDto = this.signInForm.value;
 
-    this.signInService.signIn(dto).subscribe(response => {
-      console.log('response', response);
+    this.authService.signIn(dto).subscribe({
+      next: res => {
+        console.log('SignInComponent.onSubmit next', res);
+      },
+      error: err => {
+        console.log('SignInComponent.onSubmit error', err);
+      },
     });
 
     // ...

@@ -10,7 +10,7 @@ import { InputTextModule as PrimeInputTextModule } from 'primeng/inputtext';
 
 // App
 import { SignInComponent } from './components/signin/signin.component';
-import { SignInService } from './services';
+import { AuthenticationService } from './services';
 
 const routes: Routes = [
   {
@@ -37,7 +37,7 @@ const routes: Routes = [
     SignInComponent,
   ],
   providers: [
-    SignInService,
+    AuthenticationService,
   ],
 })
 export class AuthModule {}

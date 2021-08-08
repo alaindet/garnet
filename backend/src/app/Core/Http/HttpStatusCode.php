@@ -13,6 +13,7 @@ class HttpStatusCode
     // 2xx: Successful response
     const Ok = 200;
     const Created = 201;
+    const NoContent = 204;
 
     // 3xx: Redirect messages
     const MovedPermanently = 301;

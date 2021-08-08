@@ -5,6 +5,8 @@
 - [ ] Service Provider token aliases?
 - [ ] User session?
 - [ ] Add role to JWT
+- [ ] Add role claim to JWT
 - [ ] Check role middleware
 - [ ] Add registration via invitation
 - [ ] Add invitations table
+- [ ] Manage login errors

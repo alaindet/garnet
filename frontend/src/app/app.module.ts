@@ -6,17 +6,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from '@app/core/auth';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ShouldBeLoggedGuard } from '@app/core/auth';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     HttpClientModule,
+    
+    AppRoutingModule,
     AuthModule,
+
+  ],
+  providers: [
+    ShouldBeLoggedGuard,
   ],
   bootstrap: [AppComponent],
 })
