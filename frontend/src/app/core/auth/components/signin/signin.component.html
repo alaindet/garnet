@@ -1,0 +1,43 @@
+<div class="-card">
+
+  <h1>Garnet App</h1>
+  <h2>Sign In</h2>
+
+  <form
+    [formGroup]="signInForm"
+    (ngSubmit)="onSubmit()"
+    class="-form"
+  >
+
+    <span class="p-input-icon-right">
+      <input
+        type="email"
+        pInputText
+        class="p-inputtext-lg"
+        formControlName="email"
+        placeholder="Email"
+      >
+      <i class="pi pi-search"></i>
+    </span>
+
+    <span class="p-input-icon-right">
+      <input
+        type="password"
+        pInputText
+        class="p-inputtext-lg"
+        formControlName="password"
+        placeholder="Password"
+      >
+      <i class="pi pi-lock"></i>
+    </span>
+
+    <p-button
+      label="Sign In"
+      type="submit"
+      icon="{{ isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in' }}"
+      [disabled]="isLoading"
+      iconPos="right"
+    ></p-button>
+
+  </form>
+</div>

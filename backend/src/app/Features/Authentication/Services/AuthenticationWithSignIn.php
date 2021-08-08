@@ -2,6 +2,8 @@
 
 namespace App\Features\Authentication\Services;
 
+use Firebase\JWT\JWT;
+
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Features\Authentication\Dtos\{LoginUserDto, LoggedUserDto};
 
@@ -60,7 +62,7 @@ trait AuthenticationWithSignIn
         ];
 
         $jwtSecret = $config->get('security.jwt.secret');
-        $jwt = \Firebase\JWT\JWT::encode($claims, $jwtSecret);
+        $jwt = JWT::encode($claims, $jwtSecret);
 
         return [$jwt, $claims];
     }
