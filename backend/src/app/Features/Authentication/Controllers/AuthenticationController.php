@@ -16,11 +16,11 @@ class AuthenticationController extends Controller
         $this->authService = new AuthenticationService();
     }
 
-    public function login(Request $req, Response $res): Response
+    public function signIn(Request $req, Response $res): Response
     {
         $dtoIn = $req->getDto();
 
-        $dtoOut = $this->authService->login($dtoIn);
+        $dtoOut = $this->authService->signIn($dtoIn);
 
         $res->setBody([
             'message' => "$dtoIn->email logged in successfully",

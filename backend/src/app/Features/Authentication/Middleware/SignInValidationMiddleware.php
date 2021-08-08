@@ -8,7 +8,7 @@ use App\Core\Http\Response\Response;
 use App\Core\Middleware;
 use App\Features\Authentication\Dtos\LoginUserDto;
 
-class LoginValidationMiddleware extends Middleware
+class SignInValidationMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
 

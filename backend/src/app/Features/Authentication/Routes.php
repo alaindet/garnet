@@ -5,7 +5,7 @@ namespace App\Features\Authentication;
 use App\Core\Routing\Route\Route;
 use App\Core\Routing\RouteGroup;
 use App\Features\Authentication\Controllers\AuthenticationController;
-use App\Features\Authentication\Middleware\LoginValidationMiddleware;
+use App\Features\Authentication\Middleware\SignInValidationMiddleware;
 
 class Routes
 {
@@ -15,8 +15,8 @@ class Routes
             ->path('/auth')
             ->handler(AuthenticationController::class)
             ->routes([
-                Route::post('/login', '@login')
-                    ->middleware(LoginValidationMiddleware::class)
+                Route::post('/signin', '@signIn')
+                    ->middleware(SignInValidationMiddleware::class)
             ])
             ->collect();
     }
