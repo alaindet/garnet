@@ -11,6 +11,16 @@ trait RequestWithQuery
         return $this->query;
     }
 
+    public function hasQueryParameter(string $param): bool
+    {
+        return isset($this->query[$param]);
+    }
+
+    public function getQueryParameter(string $param)
+    {
+        return $this->query[$param];
+    }
+
     /**
      * Ex.:
      * - 'a=1&b2=' => ['a' => '1', 'b' => '2']

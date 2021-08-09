@@ -17,8 +17,20 @@ class CoursesController extends Controller
         $this->coursesService = new CoursesService();
     }
 
-    public function getAllByTeacher(Request $req, Response $res): Response
+    public function getAll(Request $req, Response $res): Response
     {
+        dd($req->getAuthenticationData());
+
+        if ($req->hasQueryParameter('teacherId')) {
+            // Check if GET param "teacherId" is present and if current user is a teacher and that teacher specifically
+        }
+
+        if ($req->hasQueryParameter('studentId')) {
+            // Check if GET param "studentId" is present and if current user is a student and that student specifically
+        }
+
+        // Perform query
+
         $teacherId = $req->getUriParameter('teacherid');
 
         $data = $this->coursesService->getAllByTeacherId($teacherId);

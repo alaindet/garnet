@@ -15,20 +15,20 @@ class AuthenticationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $authHeader = $req->getHeaderLine('Authorization');
-
-        if ($authHeader === '') {
+        if (!$req->hasHeader('Authorization')) {
             $message = 'You are not authorized';
             throw new UnauthorizedHttpException($message);
         }
 
         try {
+            $authHeader = $req->getHeaderLine('Authorization');
             [$bearer, $jwt] = explode(' ', $authHeader);
             $secret = appConfig('security.jwt.secret');
             $decoded = JWT::decode($jwt, $secret, ['HS256']);
+            $req->setAuthenticationData($decoded);
             return $res;
         }
-        
+
         catch (\Exception $e) {
             $message = 'You are not authorized';
             throw new UnauthorizedHttpException($message);

@@ -12,16 +12,13 @@ trait AuthenticationWithSignIn
     public function signIn(LoginUserDto $dtoIn): LoggedUserDto
     {
         $user = $this->validateLoginDto($dtoIn);
-
-        // TODO: Add session to database...
-
-        [$jwt, $claims] = $this->buildJwt($user);
+        [$fromDate, $toDate] = $this->computeTimeRange();
+        $userSessionHash = $this->userSessionsRepo->create($user, $fromDate, $toDate);
+        [$jwt, $claims] = $this->buildJwt($userSessionHash, $fromDate, $toDate);
 
         $dtoOut = new LoggedUserDto();
-        $dtoOut->email = $dtoIn->email;
-        $dtoOut->role = 'TODO: Add role';
         $dtoOut->jwt = $jwt;
-        $dtoOut->expireAt = $claims['exp'];
+        $dtoOut->expireAt = $toDate;
 
         return $dtoOut;
     }
@@ -30,7 +27,7 @@ trait AuthenticationWithSignIn
     {
         $user = $this->usersRepo->findUserByEmail(
             $dto->email,
-            ['email', 'password', 'user_id']
+            ['user_id', 'role_id', 'email', 'password']
         );
 
         $userMissing = $user === null;
@@ -44,15 +41,30 @@ trait AuthenticationWithSignIn
         return $user;
     }
 
-    private function buildJwt(array $user): array
+    private function computeTimeRange(): array
+    {
+        $dateFormat = 'Y-m-d H:i:s';
+        $fromTimestamp = time();
+        $toTimestamp = $fromTimestamp + appConfig('security.jwt.expires');
+        $fromDate = date($dateFormat, $fromTimestamp);
+        $toDate = date($dateFormat, $toTimestamp);
+
+        return [$fromDate, $toDate];
+    }
+
+    private function buildJwt(
+        string $userSessionHash,
+        string $fromDate,
+        string $toDate
+    ): array
     {
         $config = appConfig();
-    
+
         $issuerClaim = $config->get('security.jwt.issuer');
-        $subjectClaim = $user['user_id']; // TODO: Session id?
-        $issuedAtClaim = time();
-        $expiresInClaim = $issuedAtClaim + $config->get('security.jwt.expires');
-        $notBeforeClaim = $issuedAtClaim;
+        $subjectClaim = $userSessionHash;
+        $issuedAtClaim = $fromDate;
+        $expiresInClaim = $toDate;
+        $notBeforeClaim = $fromDate;
 
         $claims = [
             'iss' => $issuerClaim,

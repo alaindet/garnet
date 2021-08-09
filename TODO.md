@@ -1,12 +1,7 @@
-- [x] Error handling
-- [x] Database service
-- [ ] Add JWT authentication
-- [ ] ? Add exception to .htaccess?
-- [ ] Service Provider token aliases?
 - [ ] User session?
-- [ ] Add role to JWT
 - [ ] Add role claim to JWT
 - [ ] Check role middleware
 - [ ] Add registration via invitation
 - [ ] Add invitations table
 - [ ] Manage login errors
+- [ ] Courses list page for both roles

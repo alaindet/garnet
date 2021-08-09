@@ -31,7 +31,7 @@ trait MessageWithHeaders
     public function hasHeader($name): bool
     {
         $headerKey = strtolower($name);
-        return $this->headers[$headerKey] ? true : false;
+        return isset($this->headers[$headerKey]);
     }
 
     /**
