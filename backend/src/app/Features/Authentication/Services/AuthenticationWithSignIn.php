@@ -29,7 +29,6 @@ trait AuthenticationWithSignIn
 
         $dtoOut = new LoggedUserDto();
         $dtoOut->jwt = $jwt;
-        $dtoOut->expireAt = $dates['to']['timestamp'];
 
         return $dtoOut;
     }
@@ -53,12 +52,12 @@ trait AuthenticationWithSignIn
 
     private function computeTimeRange(): array
     {
-        $fromTimestamp = Time::getTimestamp();
-        $diff = appConfig('security.jwt.expires') * 1000;
+        $fromTimestamp = Time::getTimestampInSeconds();
+        $diff = appConfig('security.jwt.expires');
         $toTimestamp = $fromTimestamp + $diff;
 
-        $fromDate = Time::getDate($fromTimestamp);
-        $toDate = Time::getDate($toTimestamp);
+        $fromDate = Time::getDateFromSeconds($fromTimestamp);
+        $toDate = Time::getDateFromSeconds($toTimestamp);
 
         return [
             'from' => [

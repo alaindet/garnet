@@ -5,3 +5,4 @@
 - [ ] Add invitations table
 - [ ] Manage login errors
 - [ ] Courses list page for both roles
+- [ ] Move user sessions to Redis?

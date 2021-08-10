@@ -25,7 +25,7 @@ class Database
         return $this->connection->getConnection();
     }
 
-    public function execute(string $sql, array $params = [])
+    public function execute(string $sql, array $params = []): int
     {
         $query = $this->getPreparedStatement($sql, $params);
         $executed = $query->execute();
