@@ -4,6 +4,7 @@ namespace App\Features\Authentication\Services;
 
 use Firebase\JWT\JWT;
 
+use App\Shared\Utils\Time;
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Features\Authentication\Dtos\{LoginUserDto, LoggedUserDto};
 
@@ -12,23 +13,32 @@ trait AuthenticationWithSignIn
     public function signIn(LoginUserDto $dtoIn): LoggedUserDto
     {
         $user = $this->validateLoginDto($dtoIn);
-        [$fromDate, $toDate] = $this->computeTimeRange();
-        $userSessionHash = $this->userSessionsRepo->create($user, $fromDate, $toDate);
-        [$jwt, $claims] = $this->buildJwt($userSessionHash, $fromDate, $toDate);
+        $dates = $this->computeTimeRange();
+
+        $userSessionHash = $this->userSessionsRepo->create(
+            $user,
+            $dates['from']['date'],
+            $dates['to']['date']
+        );
+
+        [$jwt, $claims] = $this->buildJwt(
+            $userSessionHash,
+            $dates['from']['timestamp'],
+            $dates['to']['timestamp']
+        );
 
         $dtoOut = new LoggedUserDto();
         $dtoOut->jwt = $jwt;
-        $dtoOut->expireAt = $toDate;
+        $dtoOut->expireAt = $dates['to']['timestamp'];
 
         return $dtoOut;
     }
 
     private function validateLoginDto(LoginUserDto $dto): array
     {
-        $user = $this->usersRepo->findUserByEmail(
-            $dto->email,
-            ['user_id', 'role_id', 'email', 'password']
-        );
+        $fields = ['user_id', 'role_id', 'email', 'password'];
+
+        $user = $this->usersRepo->findUserByEmail($dto->email, $fields);
 
         $userMissing = $user === null;
         $wrongPassword = !password_verify($dto->password, $user['password']);
@@ -43,13 +53,23 @@ trait AuthenticationWithSignIn
 
     private function computeTimeRange(): array
     {
-        $dateFormat = 'Y-m-d H:i:s';
-        $fromTimestamp = time();
-        $toTimestamp = $fromTimestamp + appConfig('security.jwt.expires');
-        $fromDate = date($dateFormat, $fromTimestamp);
-        $toDate = date($dateFormat, $toTimestamp);
+        $fromTimestamp = Time::getTimestamp();
+        $diff = appConfig('security.jwt.expires') * 1000;
+        $toTimestamp = $fromTimestamp + $diff;
 
-        return [$fromDate, $toDate];
+        $fromDate = Time::getDate($fromTimestamp);
+        $toDate = Time::getDate($toTimestamp);
+
+        return [
+            'from' => [
+                'timestamp' => $fromTimestamp,
+                'date' => $fromDate,
+            ],
+            'to' => [
+                'timestamp' => $toTimestamp,
+                'date' => $toDate,
+            ],
+        ];
     }
 
     private function buildJwt(

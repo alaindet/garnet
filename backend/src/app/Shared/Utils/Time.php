@@ -6,28 +6,19 @@ abstract class Time
 {
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    static public function getTimestamp(): int
+    static public function getTimestamp(?string $date = null): int
     {
-        return round(microtime(true) * 1000);
+        return ($date !== null)
+            ? strtotime($date) * 1000
+            : microtime(true) * 1000;
     }
-
-    static public function getTimestampFromDatetime(string $date): int
+    
+    static public function getDate(?int $timestamp = null): string
     {
-        return strtotime($date) * 1000;
-    }
-
-    static public function getDatetimeFromTimestamp(int $unixTimestamp): string
-    {
-        return date(self::DATE_FORMAT, $unixTimestamp / 1000);
-    }
-
-    static public function getCurrentDate(): string
-    {
-        return date(self::DATE_FORMAT, time());
-    }
-
-    static public function getCurrentTimestamp(): int
-    {
-        return time() * 1000;
+        $dateFormat = 'Y-m-d H:i:s.v';
+    
+        return ($timestamp !== null)
+            ? date(self::DATE_FORMAT, $timestamp / 1000)
+            : date(self::DATE_FORMAT);
     }
 }
