@@ -6,6 +6,7 @@ use App\Core\Controller;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Features\Courses\Dtos\CreateCourseDto;
+use App\Features\Users\Repositories\UserRolesRepository;
 use App\Features\Courses\Services\CoursesService;
 
 class CoursesController extends Controller
@@ -17,28 +18,34 @@ class CoursesController extends Controller
         $this->coursesService = new CoursesService();
     }
 
+    private function getTeacherCourses(string $teacherId): array
+    {
+        return [];
+    }
+
+    private function getStudentCourses(string $studentId): array
+    {
+        return [];
+    }
+
     public function getAll(Request $req, Response $res): Response
     {
-        dd($req->getAuthenticationData());
+        $data = null;
+        $authData = $req->getAuthenticationData();
+        $role = $authData['user_role_id'];
 
-        if ($req->hasQueryParameter('teacherId')) {
-            // Check if GET param "teacherId" is present and if current user is a teacher and that teacher specifically
+        switch ($role) {
+            case UserRolesRepository::TEACHER:
+                $teacherId = $req->getQueryParameter('teacherId');
+                if ($teacherId === null) {
+                    // BAD REQUEST
+                }
+                // FETCH
+                break;
+            case UserRolesRepository::STUDENT:
+                // ...
+                break;
         }
-
-        if ($req->hasQueryParameter('studentId')) {
-            // Check if GET param "studentId" is present and if current user is a student and that student specifically
-        }
-
-        // Perform query
-
-        $teacherId = $req->getUriParameter('teacherid');
-
-        $data = $this->coursesService->getAllByTeacherId($teacherId);
-
-        $res->setBody([
-            'message' => "All courses of teacher #{$teacherId}",
-            'data' => $data,
-        ]);
 
         return $res;
     }

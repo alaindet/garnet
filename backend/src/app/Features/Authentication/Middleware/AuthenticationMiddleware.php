@@ -46,8 +46,7 @@ class AuthenticationMiddleware extends Middleware
 
             $req->setAuthenticationData([
                 'user_id' => $userSession['user_id'],
-                'role_id' => $userSession['role_id'],
-                'jwt' => $decoded,
+                'user_role_id' => $userSession['user_role_id'],
             ]);
 
             return $res;

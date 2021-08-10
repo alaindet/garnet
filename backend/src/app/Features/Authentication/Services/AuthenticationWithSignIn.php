@@ -35,7 +35,7 @@ trait AuthenticationWithSignIn
 
     private function validateLoginDto(LoginUserDto $dto): array
     {
-        $fields = ['user_id', 'role_id', 'email', 'password'];
+        $fields = ['user_id', 'user_role_id', 'email', 'password'];
 
         $user = $this->usersRepo->findUserByEmail($dto->email, $fields);
 

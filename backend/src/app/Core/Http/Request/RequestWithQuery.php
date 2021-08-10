@@ -18,7 +18,7 @@ trait RequestWithQuery
 
     public function getQueryParameter(string $param)
     {
-        return $this->query[$param];
+        return $this->query[$param] ?? null;
     }
 
     /**

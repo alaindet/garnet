@@ -26,7 +26,7 @@ class UserSessionsRepository extends Repository
             'created_on' => $fromDate,
             'expires_on' => $toDate,
             'user_id' => $user['user_id'],
-            'role_id' => $user['role_id'],
+            'user_role_id' => $user['user_role_id'],
         ]);
 
         $fields = [];
