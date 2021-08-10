@@ -3,7 +3,6 @@
 namespace App\Features\Courses\Services;
 
 use App\Features\Courses\Repositories\CoursesRepository;
-use App\Features\Courses\Dtos\CreateCourseDto;
 
 class CoursesService
 {
@@ -17,5 +16,10 @@ class CoursesService
     public function getAllByTeacherId(string $teacherId): array
     {
         return $this->coursesRepo->getAllByTeacherId($teacherId);
+    }
+
+    public function getAllByStudentId(string $studentId): array
+    {
+        return $this->coursesRepo->getAllByStudentId($studentId);
     }
 }

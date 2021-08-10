@@ -3,6 +3,8 @@
 namespace App\Features\Courses\Controllers;
 
 use App\Core\Controller;
+use App\Core\Exceptions\Http\BadRequestHttpException;
+use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Features\Courses\Dtos\CreateCourseDto;
@@ -18,35 +20,32 @@ class CoursesController extends Controller
         $this->coursesService = new CoursesService();
     }
 
-    private function getTeacherCourses(string $teacherId): array
-    {
-        return [];
-    }
-
-    private function getStudentCourses(string $studentId): array
-    {
-        return [];
-    }
-
     public function getAll(Request $req, Response $res): Response
     {
+        $message = '';
         $data = null;
         $authData = $req->getAuthenticationData();
-        $role = $authData['user_role_id'];
+        $userId = $authData['user_id'];
+        $userRoleId = $authData['user_role_id'];
 
-        switch ($role) {
+        switch ($userRoleId) {
             case UserRolesRepository::TEACHER:
-                $teacherId = $req->getQueryParameter('teacherId');
-                if ($teacherId === null) {
-                    // BAD REQUEST
-                }
-                // FETCH
+                $message = "All courses of teacher #{$userId}";
+                $data = $this->coursesService->getAllByTeacherId($userId);
                 break;
             case UserRolesRepository::STUDENT:
-                // ...
+                $message = "All courses of student #{$userId}";
+                $data = $this->coursesService->getAllByStudentId($userId);
                 break;
+            default:
+                throw new UnauthorizedHttpException('You are not authorized');
         }
 
+        $res->setBody([
+            'message' => $message,
+            'data' => $data,
+        ]);
         return $res;
     }
 }
+
