@@ -17,7 +17,7 @@ import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from '@app/core/auth';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    
+
     AppRoutingModule,
     AuthModule,
 
