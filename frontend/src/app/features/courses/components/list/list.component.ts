@@ -6,12 +6,12 @@ import { CoursesService } from '../../services';
 import { Course } from '../../types';
 
 @Component({
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
   providers: [PrimeMessageService],
 })
-export class CoursesComponent implements OnInit {
- 
+export class CoursesListComponent implements OnInit {
+
   isLoading = false;
   courses: Course[] | null = null;
   studentHint = 'You follow this course';

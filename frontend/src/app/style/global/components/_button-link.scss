@@ -1,0 +1,15 @@
+/**
+ * To be used on <a pButton> components
+ */
+@mixin app-component-button-link()
+{
+  .app-button-link {
+    text-decoration: none;
+    transition: 0.15s all ease-out;
+
+    &:hover {
+      filter: brightness(1.1);
+      transition: 0.15s all ease-out;
+    }
+  }
+}

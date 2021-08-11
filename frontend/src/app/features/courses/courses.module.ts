@@ -5,14 +5,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CardModule as PrimeCardModule } from 'primeng/card';
 import { SkeletonModule as PrimeSkeletonModule } from 'primeng/skeleton';
+import { ButtonModule as PrimeButtonModule } from 'primeng/button';
 
-import { CoursesComponent } from './components/courses/courses.component';
+import { CoursesListComponent } from './components/list/list.component';
+import { CreateCourseComponent } from './components/create/create.component';
 import { CoursesService } from './services';
 
 const routes: Routes = [
   {
     path: '',
-    component: CoursesComponent,
+    component: CoursesListComponent,
+  },
+  {
+    path: 'create',
+    component: CreateCourseComponent,
   },
 ];
 
@@ -23,9 +29,11 @@ const routes: Routes = [
     ReactiveFormsModule,
     PrimeCardModule,
     PrimeSkeletonModule,
+    PrimeButtonModule,
   ],
   declarations: [
-    CoursesComponent,
+    CoursesListComponent,
+    CreateCourseComponent,
   ],
   providers: [
     CoursesService,

@@ -32,11 +32,13 @@
     </span>
 
     <p-button
+      pRipple
       label="Sign In"
       type="submit"
       icon="{{ isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in' }}"
       [disabled]="isLoading"
       iconPos="right"
+      styleClass="p-button-raised"
     ></p-button>
 
   </form>

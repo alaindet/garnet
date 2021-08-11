@@ -6,20 +6,19 @@
   box-sizing: border-box;
 }
 
+:root {
+  --app-background: #e8e8e8;
+}
+
 body {
   margin: 0;
-  background-color: var(--surface-a);
+  background-color: var(--app-background);
   font-family: var(--font-family);
   color: var(--text-color);
 }
 
 // TODO: Move from here
-.-course-card {
-  margin: 1rem;
-}
-
-// TODO: Move from here
-.-skeleton-course-card {
-  margin: 1rem;
+.skeleton-p-card {
+  margin: 1rem 0;
   width: auto !important;
 }
