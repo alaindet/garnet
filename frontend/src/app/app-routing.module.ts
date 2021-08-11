@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from '@app/core/auth/guards';
+import { MainLayoutComponent } from '@app/core/main-layout';
 
 const DEFAULT_ROUTE = 'courses';
 
@@ -12,10 +13,18 @@ const routes: Routes = [
     redirectTo: DEFAULT_ROUTE,
   },
   {
-    path: 'courses',
+    path: '',
+    canActivate: [ShouldBeLoggedGuard],
     canLoad: [ShouldBeLoggedGuard],
-    loadChildren: () => import('./features/courses/courses.module')
-      .then(m => m.CoursesModule),
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: 'courses',
+        canLoad: [ShouldBeLoggedGuard],
+        loadChildren: () => import('./features/courses/courses.module')
+          .then(m => m.CoursesModule),
+      },
+    ],
   },
   {
     path: 'auth',

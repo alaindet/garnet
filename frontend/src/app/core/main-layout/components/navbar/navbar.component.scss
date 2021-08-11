@@ -1,0 +1,25 @@
+@import 'style';
+
+.-sticky {
+  display: block;
+  padding: 1rem 0;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  height: var(--garnet-size-navbar);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--garnet-color-background);
+  z-index: var(--garnet-zindex-navbar);
+}
+
+.-static-dummy {
+  display: block;
+  height: var(--garnet-size-navbar);
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.33rem;
+  text-align: center;
+}

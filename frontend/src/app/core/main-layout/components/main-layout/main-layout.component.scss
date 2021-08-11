@@ -1,0 +1,7 @@
+@import 'style';
+
+:host {
+  display: block;
+  // margin-top: var(--size-navbar);
+  border: 1px solid red;
+}

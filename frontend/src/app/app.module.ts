@@ -7,6 +7,7 @@ import { AuthModule } from '@app/core/auth';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from '@app/core/auth';
+import { MainLayoutComponentModule } from '@app/core/main-layout';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from '@app/core/auth';
 
     AppRoutingModule,
     AuthModule,
+    MainLayoutComponentModule,
 
   ],
   providers: [

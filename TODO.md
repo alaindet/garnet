@@ -13,3 +13,4 @@
 - [ ] Remove user sessions and put role_id and user_id into JWT!
 - [ ] Navbar sticky-on-scroll-bottom
 - [ ] Create CSS responsive container
+- [ ] Add show/hide sticky header via combineLatest = isIntersecting + scrollDirection

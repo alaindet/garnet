@@ -7,12 +7,14 @@
 }
 
 :root {
-  --app-background: #e8e8e8;
+  --garnet-size-navbar: 57px;
+  --garnet-color-background: #efefef;
+  --garnet-zindex-navbar: 2;
 }
 
 body {
   margin: 0;
-  background-color: var(--app-background);
+  background-color: var(--garnet-color-background);
   font-family: var(--font-family);
   color: var(--text-color);
 }
