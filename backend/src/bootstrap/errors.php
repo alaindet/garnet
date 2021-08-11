@@ -19,17 +19,17 @@ set_exception_handler(
     {
         // Initialize generic 500 HTTP error
         $statusCode = HttpStatusCode::InternalServerError;
-        $response = ResponseFactory::createResponse($statusCode);
+        $res = ResponseFactory::createResponse($statusCode, $withCors = true);
 
         // Proper HTTP error
         if ($e instanceof HttpException) {
-            $response->setStatusCode($e->getStatusCode());
-            $response->setBody([
+            $res->setStatusCode($e->getStatusCode());
+            $res->setBody([
                 'error' => [
                     'message' => $e->getMessage(),
                 ],
             ]);
-            ResponseEmitter::send($response);
+            ResponseEmitter::send($res);
             return;
         }
 
@@ -52,8 +52,8 @@ set_exception_handler(
             ];
         }
 
-        $response->setBody($errorResponseBody);
+        $res->setBody($errorResponseBody);
 
-        ResponseEmitter::send($response);
+        ResponseEmitter::send($res);
     }
 );

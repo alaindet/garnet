@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule as PrimeCardModule } from 'primeng/card';
 import { ButtonModule as PrimeButtonModule } from 'primeng/button';
 import { InputTextModule as PrimeInputTextModule } from 'primeng/inputtext';
+import { ToastModule as PrimeToastModule } from 'primeng/toast';
 
 // App
 import { SignInComponent } from './components/signin/signin.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
     PrimeCardModule,
     PrimeButtonModule,
     PrimeInputTextModule,
+    PrimeToastModule,
   ],
   declarations: [
     SignInComponent,

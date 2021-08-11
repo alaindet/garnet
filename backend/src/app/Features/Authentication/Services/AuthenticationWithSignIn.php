@@ -43,7 +43,7 @@ trait AuthenticationWithSignIn
         $wrongPassword = !password_verify($dto->password, $user['password']);
 
         if ($userMissing || $wrongPassword) {
-            $message = 'Wrong email or password';
+            $message = 'Wrong email and/or password';
             throw new UnauthorizedHttpException($message);
         }
 

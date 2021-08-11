@@ -33,7 +33,8 @@
             "styles": [
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/vela-orange/theme.css",
+              
+              "primeng/resources/themes/saga-orange/theme.css",
               "node_modules/primeng/resources/primeng.min.css"
             ],
             "stylePreprocessorOptions": {

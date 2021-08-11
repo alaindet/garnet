@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-// :root {
-//   --primary: #ffb300;
-// }
+@import 'global';
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -13,4 +11,15 @@ body {
   background-color: var(--surface-a);
   font-family: var(--font-family);
   color: var(--text-color);
+}
+
+// TODO: Move from here
+.-course-card {
+  margin: 1rem;
+}
+
+// TODO: Move from here
+.-skeleton-course-card {
+  margin: 1rem;
+  width: auto !important;
 }

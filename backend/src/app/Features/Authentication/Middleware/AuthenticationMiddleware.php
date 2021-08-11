@@ -35,7 +35,7 @@ class AuthenticationMiddleware extends Middleware
             $decoded = JWT::decode($jwt, $secret, ['HS256']);
 
             if (Time::getTimestampInSeconds() >= $decoded->exp) {
-                $this->throwUnauthorized();
+                $this->throwUnauthorized('Your session has expired');
             }
 
             $userSession = $this->userSessionsRepo->getByHash($decoded->sub);

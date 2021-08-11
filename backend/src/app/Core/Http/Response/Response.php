@@ -8,6 +8,13 @@ class Response extends Message
 {
     protected int $statusCode = 200;
 
+    public function __construct(?int $statusCode = null)
+    {
+        if ($statusCode !== null) {
+            $this->statusCode = $statusCode;
+        }
+    }
+
     public function getStatusCode(): int
     {
         return $this->statusCode;

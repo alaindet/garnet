@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ShouldBeLoggedGuard } from './core/auth/guards/should-be-logged.guard';
+import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from '@app/core/auth/guards';
+
+const DEFAULT_ROUTE = 'courses';
 
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'profile',
+    redirectTo: DEFAULT_ROUTE,
   },
   {
-    path: 'profile',
+    path: 'courses',
     canLoad: [ShouldBeLoggedGuard],
-    loadChildren: () => import('./features/profile/profile.module')
-      .then(m => m.ProfileModule),
+    loadChildren: () => import('./features/courses/courses.module')
+      .then(m => m.CoursesModule),
   },
   {
     path: 'auth',
+    canActivate: [ShouldNotBeLoggedGuard],
     loadChildren: () => import('./core/auth/auth.module')
       .then(m => m.AuthModule),
   },

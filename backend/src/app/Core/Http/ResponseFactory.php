@@ -7,11 +7,11 @@ use App\Core\Http\Response\Response;
 abstract class ResponseFactory
 {
     static public function createResponse(
-        int $statusCode = HttpStatusCode::Ok
+        int $statusCode = HttpStatusCode::Ok,
+        bool $withCors = false
     ): Response
     {
-        $response = new Response();
-        $response->setStatusCode($statusCode);
-        return $response;
+        $res = new Response($statusCode);
+        return $withCors ? appResponseWithCors($res) : $res;
     }
 }

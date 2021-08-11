@@ -1,0 +1,6 @@
+@mixin app-override-toast()
+{
+  .p-toast {
+    width: initial !important;
+  }
+}
