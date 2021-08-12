@@ -24,6 +24,8 @@
 
   &.--open {
     background-color: #ccc;
+    position: fixed;
+    z-index: app-store('z-index.sidebar-toggle');
 
     .line-top {
       transform: translateY(6px) rotate(45deg);
@@ -44,23 +46,24 @@
   height: 4px;
   border-radius: 2px;
   margin: 2px 0;
+  background-color: app-store('color.text');
 }
 
 .line-top,
 .line-middle,
 .line-bottom {
   transform-origin: center;
-  transition: 0.2s all ease-out;
+  transition: 0.15s all ease-out;
 }
 
-.line-top {
-  background-color: app-store('color.secondary-light');
-}
+// .line-top {
+//   background-color: app-store('color.secondary-light');
+// }
 
-.line-middle {
-  background-color: app-store('color.secondary-mid-light');
-}
+// .line-middle {
+//   background-color: app-store('color.secondary-mid-light');
+// }
 
-.line-bottom {
-  background-color: app-store('color.secondary');
-}
+// .line-bottom {
+//   background-color: app-store('color.secondary');
+// }

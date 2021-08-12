@@ -23,6 +23,11 @@ export class MainLayoutComponent implements AfterViewInit {
     this.observeScrollingDirection();
   }
 
+  onSidebarClose(): void {
+    this.ui.isSidebarOpen = false;
+    console.log('onSidebarClose()');
+  }
+
   private observeScrollingDirection(): void {
     let lastScrollY = window.scrollY;
     fromEvent(window, 'scroll')

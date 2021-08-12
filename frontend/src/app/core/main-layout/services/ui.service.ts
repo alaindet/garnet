@@ -13,9 +13,11 @@ export class UiService {
   private _title$ = new BehaviorSubject<string>('Garnet App');
   private _isDummyNavbarVisible$ = new BehaviorSubject<boolean>(true);
   private _scrollingDirection$ = new BehaviorSubject<ScrollingDirection | null>(null);
+  private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
+  isSidebarOpen$ = this._isSidebarOpen$.asObservable();
 
   constructor() {
     this.isNavbarSticky$ = this.computeIsNavbarSticky();
@@ -23,6 +25,14 @@ export class UiService {
 
   set title(title: string) {
     this._title$.next(title);
+  }
+
+  set isSidebarOpen(open: boolean) {
+    this._isSidebarOpen$.next(open);
+  }
+
+  toggleSidebar(): void {
+    this._isSidebarOpen$.next(!this._isSidebarOpen$.getValue());
   }
 
   set isDummyNavbarVisible(isVisible: boolean) {

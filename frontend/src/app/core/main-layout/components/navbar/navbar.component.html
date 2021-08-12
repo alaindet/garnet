@@ -2,7 +2,8 @@
 
   <div class="-sidebar-toggle">
     <app-sidebar-toggle
-      [isOpen]="false"
+      [isOpen]="!!(ui.isSidebarOpen$ | async)"
+      (click)="ui.toggleSidebar()"
     ></app-sidebar-toggle>
   </div>
 

@@ -1,1 +1,15 @@
 @import 'style';
+
+:host {
+  position: fixed;
+  z-index: app-store('z-index.sidebar');
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  transform: translateX(-100%);
+  transition: 0.15s transform ease-in-out;
+
+  &.--open {
+    transform: translateX(0);
+  }
+}
