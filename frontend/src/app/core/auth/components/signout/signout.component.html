@@ -1,0 +1,28 @@
+<main class="app-container">
+
+  <!-- Back -->
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Back to the app"
+    class="p-button-raised p-button-text p-button-secondary -back"
+    icon="pi pi-arrow-left"
+    iconPos="left"
+    (click)="onBackClick()"
+  ></button>
+
+  <!-- Sign Out -->
+  <p-card header="Sign Out">
+    <p>Are you sure you want to sign out?</p>
+    <p-button
+      pRipple
+      label="Sign Out"
+      icon="pi pi-sign-out"
+      iconPos="right"
+      styleClass="p-button-raised"
+      (click)="onSignOut()"
+    ></p-button>
+  </p-card>
+
+</main>

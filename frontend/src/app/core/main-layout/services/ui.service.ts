@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { environment } from '@environment/environment';
 import { isNavbarSticky } from '../functions';
 import { ScrollingDirection } from '../types';
 
@@ -19,11 +21,19 @@ export class UiService {
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
 
-  constructor() {
+  constructor(
+    private titleService: Title,
+  ) {
     this.isNavbarSticky$ = this.computeIsNavbarSticky();
   }
 
   set title(title: string) {
+    this.titleService.setTitle(`${environment.appName} || ${title}`);
+    this._title$.next(title);
+  }
+
+  setTitle(title: string) {
+    this.titleService.setTitle(`${environment.appName} || ${title}`);
     this._title$.next(title);
   }
 
@@ -44,7 +54,11 @@ export class UiService {
   }
 
   private computeIsNavbarSticky(): any {
-    return combineLatest([this._isDummyNavbarVisible$, this._scrollingDirection$])
+    return combineLatest([
+      this._isDummyNavbarVisible$,
+      this._scrollingDirection$,
+      this._isSidebarOpen$,
+    ])
       .pipe(map(isNavbarSticky));
   }
 }

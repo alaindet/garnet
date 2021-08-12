@@ -11,7 +11,7 @@
   border-radius: 50%;
   cursor: pointer;
   z-index: 3;
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease-out;
 
   &:hover {
@@ -26,6 +26,8 @@
     background-color: #ccc;
     position: fixed;
     z-index: app-store('z-index.sidebar-toggle');
+    top: 0.5rem;
+    left: 1rem;
 
     .line-top {
       transform: translateY(6px) rotate(45deg);
@@ -46,7 +48,7 @@
   height: 4px;
   border-radius: 2px;
   margin: 2px 0;
-  background-color: app-store('color.text');
+  background-color: scale_color(app-store('color.text'), $lightness: 50%);
 }
 
 .line-top,
@@ -56,14 +58,14 @@
   transition: 0.15s all ease-out;
 }
 
-// .line-top {
-//   background-color: app-store('color.secondary-light');
-// }
+.line-top {
+  background-color: scale_color(app-store('color.primary'), $lightness: 30%);
+}
 
-// .line-middle {
-//   background-color: app-store('color.secondary-mid-light');
-// }
+.line-middle {
+  background-color: app-store('color.primary');
+}
 
-// .line-bottom {
-//   background-color: app-store('color.secondary');
-// }
+.line-bottom {
+  background-color: scale_color(app-store('color.primary'), $lightness: -20%);
+}

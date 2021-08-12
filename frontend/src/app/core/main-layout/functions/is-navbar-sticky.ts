@@ -2,11 +2,17 @@ import { ScrollingDirection } from '../types';
 
 export const isNavbarSticky = ([
   isDummyNavbarVisible,
-  scrollingDirection
+  scrollingDirection,
+  isSidebarOpen,
 ]: [
   isDummyNavbarVisible: boolean,
-  scrollingDirection: ScrollingDirection | null
+  scrollingDirection: ScrollingDirection | null,
+  isSidebarOpen: boolean
 ]) => {
+
+  if (isSidebarOpen) {
+    return true;
+  }
 
   // Initial state
   if (scrollingDirection === null) {

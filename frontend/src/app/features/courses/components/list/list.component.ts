@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { MessageService as PrimeMessageService } from 'primeng/api';
+import { Title } from '@angular/platform-browser';
 
+import { MessageService as PrimeMessageService } from 'primeng/api';
 import { CoursesService } from '../../services';
 import { Course } from '../../types';
+import { UiService } from '@app/core/main-layout/services';
 
 @Component({
   templateUrl: './list.component.html',
@@ -20,9 +22,12 @@ export class CoursesListComponent implements OnInit {
   constructor(
     private coursesService: CoursesService,
     private messageService: PrimeMessageService,
+    private titleService: Title,
+    private ui: UiService,
   ) {}
 
   ngOnInit(): void {
+    this.ui.setTitle('Courses');
     this.fetchCourses();
   }
 

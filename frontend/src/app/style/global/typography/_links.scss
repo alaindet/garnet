@@ -1,0 +1,30 @@
+@mixin app-typography-links()
+{
+  a {
+    color: app-store('color.primary-mid-dark');
+    text-decoration: none;
+    position: relative;
+    transition: 0.15s color ease-out;
+  }
+
+  a:hover {
+    color: app-store('color.primary');
+
+    &::after {
+      width: 100%;
+      border-color: app-store('color.primary');
+    }
+  }
+
+  a::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.15s width ease-out;
+    width: 50%;
+    min-width: 1.5rem;
+    border-bottom: 2px solid app-store('color.primary-mid-dark');
+  }
+}

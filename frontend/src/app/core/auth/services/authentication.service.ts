@@ -27,6 +27,10 @@ export class AuthenticationService {
       }));
   }
 
+  signOut(): void {
+    localStorage.removeItem(this.USER_KEY);
+  }
+
   isSignedIn(): boolean {
 
     const userItem = localStorage.getItem(this.USER_KEY);

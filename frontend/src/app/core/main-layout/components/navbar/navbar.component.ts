@@ -10,7 +10,7 @@ import { UiService } from '../../services';
 })
 export class NavbarComponent implements AfterViewInit, OnDestroy {
 
-  @Input() title: string | null = '';
+  // @Input() title: string | null = '';
 
   @ViewChild('staticDummyRef')
   staticDummyRef!: ElementRef;

@@ -11,12 +11,20 @@ import { ToastModule as PrimeToastModule } from 'primeng/toast';
 
 // App
 import { SignInComponent } from './components/signin/signin.component';
+import { SignOutComponent } from './components/signout/signout.component';
 import { AuthenticationService } from './services';
+import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from './guards';
 
 const routes: Routes = [
   {
     path: 'sign-in',
+    canActivate: [ShouldNotBeLoggedGuard],
     component: SignInComponent,
+  },
+  {
+    path: 'sign-out',
+    canActivate: [ShouldBeLoggedGuard],
+    component: SignOutComponent,
   },
 ];
 
@@ -34,9 +42,7 @@ const routes: Routes = [
   ],
   declarations: [
     SignInComponent,
-  ],
-  exports: [
-    SignInComponent,
+    SignOutComponent,
   ],
   providers: [
     AuthenticationService,
