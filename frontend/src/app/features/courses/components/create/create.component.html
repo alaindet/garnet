@@ -1,3 +1,39 @@
-<p>Create course</p>
+<p-card>
+  <form [formGroup]="courseForm" (ngSubmit)="onCreateCourse()">
 
-TODO: Form here
+    <!-- Name -->
+    <div class="-form-field">
+      <label>Name</label>
+      <input
+        formControlName="name"
+        type="text"
+        pInputText
+        placeholder="Course name"
+      >
+    </div>
+
+    <!-- Description -->
+    <div class="-form-field">
+      <label>Description</label>
+      <textarea
+        formControlName="description"
+        rows="5"
+        cols="30"
+        pInputTextarea
+        placeholder="Course description"
+      ></textarea>
+    </div>
+
+    <!-- Save -->
+    <p-button
+      pRipple
+      label="Create"
+      type="submit"
+      icon="{{ isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-plus' }}"
+      [disabled]="isLoading"
+      iconPos="right"
+      styleClass="p-button-raised"
+    ></p-button>
+
+  </form>
+</p-card>

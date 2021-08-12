@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { AuthenticationService } from '@app/core/auth/services';
-import { Course, GetCoursesResponse } from '../types';
+import { Course, GetCoursesResponse, CreateCourseDto, CreateCourseResponse } from '../types';
 
 @Injectable()
 export class CoursesService {
@@ -18,12 +18,25 @@ export class CoursesService {
   getAllCourses(): Observable<Course[]> {
     const url = environment.apiUrl + '/courses';
 
-    // Move into interceptor
+    // TODO: Move into interceptor
     const jwt = this.authService.getToken();
     const headers = new HttpHeaders()
       .set('Authorization', `Bearer ${jwt}`);
 
     return this.http.get<GetCoursesResponse>(url, { headers })
       .pipe(map(response => response.data))
+  }
+
+  createCourse(dto: CreateCourseDto): Observable<Course> {
+
+    const url = environment.apiUrl + '/courses';
+
+    // TODO: Move into interceptor
+    const jwt = this.authService.getToken();
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${jwt}`);
+
+    return this.http.post<CreateCourseResponse>(url, dto, { headers })
+      .pipe(map(response => response.data));
   }
 }

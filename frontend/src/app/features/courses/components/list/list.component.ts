@@ -27,7 +27,7 @@ export class CoursesListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ui.setTitle('Courses');
+    this.ui.title = 'Courses';
     this.fetchCourses();
   }
 

@@ -8,8 +8,7 @@
     transition: 0.15s all ease-out;
 
     &:hover {
-      filter: brightness(1.1);
-      transition: 0.15s all ease-out;
+      background-color: scale_color(app-store('color.primary'), $lightness: -10%);
     }
   }
 }

@@ -20,6 +20,28 @@ class CoursesController extends Controller
         $this->coursesService = new CoursesService();
     }
 
+    public function create(Request $req, Response $res): Response
+    {
+        $authData = $req->getAuthenticationData();
+        $body = $req->getBody();
+
+        $dto = new CreateCourseDto();
+        $dto->teacherId = $authData['user_id'];
+        $dto->name = $body['name'];
+        $dto->description = !empty($body['description'])
+            ? $body['description']
+            : null;
+
+        $course = $this->coursesService->create($dto);
+
+        $res->setBody([
+            'message' => 'New course created',
+            'data' => $course,
+        ]);
+
+        return $res;
+    }
+
     public function getAll(Request $req, Response $res): Response
     {
         $message = '';
@@ -45,6 +67,7 @@ class CoursesController extends Controller
             'message' => $message,
             'data' => $data,
         ]);
+
         return $res;
     }
 }

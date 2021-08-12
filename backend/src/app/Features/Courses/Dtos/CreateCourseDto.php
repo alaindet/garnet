@@ -6,4 +6,5 @@ class CreateCourseDto
 {
     public string $teacherId;
     public string $name;
+    public ?string $description;
 }

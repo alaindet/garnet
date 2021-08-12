@@ -1,16 +1,10 @@
-- [ ] User session?
-- [ ] Add role claim to JWT
-- [ ] Check role middleware
 - [ ] Add registration via invitation
 - [ ] Add invitations table
-- [ ] Manage login errors
 - [ ] Courses list page for both roles
-- [ ] Move user sessions to Redis?
 - [ ] Move Bearer token logic into interceptor
 - [ ] Get token from memory, not from localStorage
 - [ ] Centralize toaster
-- [ ] Cronjob to remove unused user sessions
 - [ ] Remove user sessions and put role_id and user_id into JWT!
-- [ ] Navbar sticky-on-scroll-bottom
-- [ ] Create CSS responsive container
-- [ ] Add show/hide sticky header via combineLatest = isIntersecting + scrollDirection
+- [ ] Add CheckRoleMiddleware with configuration (ex.: "must be teacher")
+- [ ] Add CreateCourseValidationMiddleware
+- [ ] Darken skeletons via brightness CSS functions

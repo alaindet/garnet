@@ -32,11 +32,6 @@ export class UiService {
     this._title$.next(title);
   }
 
-  setTitle(title: string) {
-    this.titleService.setTitle(`${environment.appName} || ${title}`);
-    this._title$.next(title);
-  }
-
   set isSidebarOpen(open: boolean) {
     this._isSidebarOpen$.next(open);
   }

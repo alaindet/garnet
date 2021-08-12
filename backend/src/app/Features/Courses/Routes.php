@@ -24,6 +24,7 @@ class Routes
             ->routes([
                 // Route::post('/', '@create'),
                 Route::get('/', '@getAll'),
+                Route::post('/', '@create'),
                 // Route::get('/{id}', '@getById'),
                 // Route::patch('/{id}', '@update'),
                 // Route::delete('/{id}', '@delete'),

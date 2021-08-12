@@ -1,13 +1,13 @@
-@mixin app-typography-links()
+@mixin app-typography-links($exclude: '.app-button-link')
 {
-  a {
+  a:not(#{$exclude}) {
     color: app-store('color.primary-mid-dark');
     text-decoration: none;
     position: relative;
     transition: 0.15s color ease-out;
   }
 
-  a:hover {
+  a:not(#{$exclude}):hover {
     color: app-store('color.primary');
 
     &::after {
@@ -16,7 +16,7 @@
     }
   }
 
-  a::after {
+  a:not(#{$exclude})::after {
     content: '';
     position: absolute;
     bottom: -10%;

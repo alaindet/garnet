@@ -6,6 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule as PrimeCardModule } from 'primeng/card';
 import { SkeletonModule as PrimeSkeletonModule } from 'primeng/skeleton';
 import { ButtonModule as PrimeButtonModule } from 'primeng/button';
+import { InputTextModule as PrimeInputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule as PrimeInputTextareaModule } from 'primeng/inputtextarea';
 
 import { CoursesListComponent } from './components/list/list.component';
 import { CreateCourseComponent } from './components/create/create.component';
@@ -30,6 +32,8 @@ const routes: Routes = [
     PrimeCardModule,
     PrimeSkeletonModule,
     PrimeButtonModule,
+    PrimeInputTextModule,
+    PrimeInputTextareaModule,
   ],
   declarations: [
     CoursesListComponent,

@@ -4,6 +4,8 @@ namespace App\Features\Courses\Repositories;
 
 use App\Core\Repository;
 use App\Core\Services\Database\Database;
+use App\Features\Courses\Dtos\CreateCourseDto;
+use App\Shared\Utils\Time;
 
 class CoursesRepository extends Repository
 {
@@ -13,6 +15,46 @@ class CoursesRepository extends Repository
     public function __construct()
     {
         $this->db = appServiceProvider(Database::class);
+    }
+
+    /*
+     class CreateCourseDto
+    {
+        public string $teacherId;
+        public string $name;
+        public ?string $description;
+    }
+     */
+    public function create(CreateCourseDto $dto): array
+    {
+        $now = Time::getDate();
+        $table = self::TABLE;
+
+        $sql = "
+            INSERT INTO {$table}
+                (teacher_id, created_on, updated_on, name, description)
+            VALUES
+                (:teacherid, :createdon, :updatedon, :name, :description)
+        ";
+
+        $params = [
+            ':teacherid' => $dto->teacherId,
+            ':createdon' => $now,
+            ':updatedon' => $now,
+            ':name' => $dto->name,
+            ':description' => $dto->description,
+        ];
+
+        $courseId = $this->db->insert($sql, $params);
+
+        return [
+            'course_id' => $courseId,
+            'teacher_id' => $dto->teacherId,
+            'created_on' => $now,
+            'updated_on' => $now,
+            'name' => $dto->name,
+            'description' => $dto->description,
+        ];
     }
 
     public function getAllByTeacherId(string $teacherId): array
