@@ -1,4 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+
+import { UiService } from '../../services';
 
 @Component({
   selector: 'app-navbar',
@@ -6,39 +8,50 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, V
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements AfterViewInit {
+export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   @Input() title: string | null = '';
 
   @ViewChild('staticDummyRef')
   staticDummyRef!: ElementRef;
 
+  private observer?: IntersectionObserver;
+
+  constructor(
+    public ui: UiService,
+  ) {}
+
   ngAfterViewInit(): void {
     this.detachStickyNavbarOnScroll();
+
+    // TODO: Remove
+    this.ui.isNavbarSticky$.subscribe(x => console.log('isNavbarSticky', x));
+  }
+
+  ngOnDestroy(): void {
+    this.observer?.disconnect();
   }
 
   private detachStickyNavbarOnScroll(): void {
 
     const options = {
-      // root: document.querySelector('#scrollArea'),
-      root: null, // Viewport
+      root: null, // Root is viewport
       rootMargin: '0px',
       threshold: 0
     }
 
     const target = this.staticDummyRef.nativeElement;
-
-    const callback = (
-      entries: IntersectionObserverEntry[],
-      observer: IntersectionObserver,
-    ) => {
-      const dummyNavbar = entries[0];
-      console.log('isIntersecting', dummyNavbar.isIntersecting);
-      // observer.unobserve(target);
-    };
-
+    const callback = this.updateUiService.bind(this);
     const observer = new IntersectionObserver(callback, options);
 
     observer.observe(target);
+  }
+
+  private updateUiService(
+    entries: IntersectionObserverEntry[],
+    observer: IntersectionObserver,
+  ): void {
+    const dummyNavbar = entries[0];
+    this.ui.isDummyNavbarVisible = dummyNavbar.isIntersecting;
   }
 }

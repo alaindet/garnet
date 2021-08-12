@@ -1,13 +1,9 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { fromEvent, animationFrameScheduler } from 'rxjs';
-import { throttleTime, filter, map, distinctUntilChanged } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { throttleTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { UiService } from '../../services';
-
-export enum ScrollDirection {
-  Up = 'up',
-  Down = 'down'
-}
+import { ScrollDirection } from '../../types';
 
 @Component({
   selector: 'app-main-layout',
@@ -21,7 +17,6 @@ export class MainLayoutComponent implements AfterViewInit {
 
   constructor(
     public ui: UiService,
-    private host: ElementRef,
   ) {}
 
   ngAfterViewInit(): void {
@@ -42,6 +37,6 @@ export class MainLayoutComponent implements AfterViewInit {
         }),
         distinctUntilChanged(),
       )
-      .subscribe(scrollDir => console.log('scrollDir', scrollDir));
+      .subscribe(scrollDir => this.ui.scrollingDirection = scrollDir);
   }
 }
