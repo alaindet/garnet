@@ -1,0 +1,22 @@
+// References
+// https://www.htmlcsscolor.com/hex/FFC107
+// https://www.htmlcsscolor.com/hex/0035d3
+// https://www.htmlcsscolor.com/hex/07ffc1
+
+$_: app-store('color', (
+
+  'primary': #ffc107,
+  'primary-light': #FFF1CB,
+  'primary-dark': #533E02,
+  'primary-mid-light': #FFE59A,
+  'primary-mid-dark': #A37B05,
+
+  'secondary': #0035d3,
+  'secondary-light': #BDCAF4,
+  'secondary-dark': #001656,
+  'secondary-mid-light': #7D97E9,
+  'secondary-mid-dark': #002287,
+
+  'background': #efefef,
+
+));

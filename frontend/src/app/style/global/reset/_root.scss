@@ -1,0 +1,13 @@
+@mixin app-reset-root()
+{
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    background-color: app-store('color.background');
+    font-family: var(--font-family);
+    color: var(--text-color);
+  }
+}

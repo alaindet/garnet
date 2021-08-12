@@ -1,0 +1,66 @@
+@import 'style';
+
+:host {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: app-store('color.background');
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  transition: background-color 0.3s ease-out;
+
+  &:hover {
+    background-color: #ccc;
+  }
+
+  &:hover.--open {
+    background-color: #bbb;
+  }
+
+  &.--open {
+    background-color: #ccc;
+
+    .line-top {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .line-middle {
+      transform: translateY(0) rotate(-45deg);
+    }
+
+    .line-bottom {
+      opacity: 0;
+    }
+  }
+}
+
+.line {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+  margin: 2px 0;
+}
+
+.line-top,
+.line-middle,
+.line-bottom {
+  transform-origin: center;
+  transition: 0.2s all ease-out;
+}
+
+.line-top {
+  background-color: app-store('color.secondary-light');
+}
+
+.line-middle {
+  background-color: app-store('color.secondary-mid-light');
+}
+
+.line-bottom {
+  background-color: app-store('color.secondary');
+}

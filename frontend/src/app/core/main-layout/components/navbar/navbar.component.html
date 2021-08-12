@@ -1,5 +1,17 @@
-<div class="-sticky">
-  <h1>{{ title }}</h1>
+<div class="-navbar" [class.--sticky]="ui.isNavbarSticky$ | async">
+
+  <div class="-sidebar-toggle">
+    <app-sidebar-toggle
+      [isOpen]="false"
+    ></app-sidebar-toggle>
+  </div>
+
+  <div class="-brand">
+    <h1>
+      {{ title }}
+    </h1>
+  </div>
+
 </div>
 
 <div #staticDummyRef class="-static-dummy"></div>

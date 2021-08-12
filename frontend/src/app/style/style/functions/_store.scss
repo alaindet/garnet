@@ -1,0 +1,20 @@
+@function app-store-get($query)
+{
+  @return app-map-get($APP-STORE, $query);
+}
+
+@function app-store-set($key, $value)
+{
+  $APP-STORE: app-map-set($APP-STORE, $key, $value) !global;
+  @return null;
+}
+
+/// Alias of app-store-get and app-store-set
+@function app-store($query, $value: null)
+{
+  @if ($value != null) {
+    @return app-store-set($query, $value);
+  } @else {
+    @return app-store-get($query);
+  }
+}

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { ScrollDirection } from '../types';
+import { isNavbarSticky } from '../functions';
+import { ScrollingDirection } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class UiService {
 
   private _title$ = new BehaviorSubject<string>('Garnet App');
   private _isDummyNavbarVisible$ = new BehaviorSubject<boolean>(true);
-  private _scrollingDirection$ = new BehaviorSubject<ScrollDirection | null>(null);
+  private _scrollingDirection$ = new BehaviorSubject<ScrollingDirection | null>(null);
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
@@ -28,26 +29,12 @@ export class UiService {
     this._isDummyNavbarVisible$.next(isVisible);
   }
 
-  set scrollingDirection(scrollingDirection: ScrollDirection) {
+  set scrollingDirection(scrollingDirection: ScrollingDirection) {
     this._scrollingDirection$.next(scrollingDirection);
   }
 
   private computeIsNavbarSticky(): any {
     return combineLatest([this._isDummyNavbarVisible$, this._scrollingDirection$])
-      .pipe(
-        map(
-          ([isDummyNavbarVisible, scrollingDirection]) => {
-
-            if (scrollingDirection === null) {
-              return false;
-            }
-
-            return (
-              !isDummyNavbarVisible &&
-              scrollingDirection === ScrollDirection.Up
-            );
-          }
-        )
-      );
+      .pipe(map(isNavbarSticky));
   }
 }

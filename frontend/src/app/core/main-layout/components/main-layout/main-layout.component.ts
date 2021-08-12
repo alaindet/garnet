@@ -3,7 +3,7 @@ import { fromEvent } from 'rxjs';
 import { throttleTime, map, distinctUntilChanged } from 'rxjs/operators';
 
 import { UiService } from '../../services';
-import { ScrollDirection } from '../../types';
+import { ScrollingDirection } from '../../types';
 
 @Component({
   selector: 'app-main-layout',
@@ -27,13 +27,11 @@ export class MainLayoutComponent implements AfterViewInit {
     let lastScrollY = window.scrollY;
     fromEvent(window, 'scroll')
       .pipe(
-        // throttleTime(0, animationFrameScheduler),
-        // throttleTime(1000 / 30), // 30 FPS
         throttleTime(1000 / 5), // 5 FPS
         map(() => {
           const isScrollingDown = (window.scrollY - lastScrollY) > 0;
           lastScrollY = window.scrollY;
-          return isScrollingDown ? ScrollDirection.Down : ScrollDirection.Up;
+          return isScrollingDown ? ScrollingDirection.Down : ScrollingDirection.Up;
         }),
         distinctUntilChanged(),
       )

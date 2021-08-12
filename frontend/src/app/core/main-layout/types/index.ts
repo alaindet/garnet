@@ -1,1 +1,1 @@
-export * from './scroll-direction';
+export * from './scrolling--direction';

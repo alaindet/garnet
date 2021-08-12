@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar-toggle',
   templateUrl: './sidebar-toggle.component.html',
-  styleUrls: ['./sidebar-toggle.component.scss']
+  styleUrls: ['./sidebar-toggle.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarToggleComponent implements OnInit {
+export class SidebarToggleComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  @HostBinding('class.--open')
+  @Input()
+  isOpen = false;
 }

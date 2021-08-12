@@ -1,21 +1,35 @@
 @import 'style';
 
-.-sticky {
-  display: block;
+.-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 1rem 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  height: var(--garnet-size-navbar);
+  height: app-store('size.height.navbar');
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: var(--garnet-color-background);
-  z-index: var(--garnet-zindex-navbar);
+  background-color: app-store('color.background');
+  z-index: 2;//app-store('z-index.navbar');
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: 0.15s transform ease-in-out;
+
+  &.--sticky {
+    transform: scaleY(1);
+  }
+}
+
+.-sidebar-toggle {
+  position: absolute;
+  left: 1rem;
 }
 
 .-static-dummy {
   display: block;
-  height: var(--garnet-size-navbar);
+  height: app-store('size.height.navbar');
 }
 
 h1 {

@@ -23,9 +23,6 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.detachStickyNavbarOnScroll();
-
-    // TODO: Remove
-    this.ui.isNavbarSticky$.subscribe(x => console.log('isNavbarSticky', x));
   }
 
   ngOnDestroy(): void {
