@@ -8,3 +8,5 @@
 - [ ] Add CheckRoleMiddleware with configuration (ex.: "must be teacher")
 - [ ] Add CreateCourseValidationMiddleware
 - [ ] Darken skeletons via brightness CSS functions
+- [ ] Add gaps to grid
+- [ ] Debug spacing classes

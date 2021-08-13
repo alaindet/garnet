@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 // import { MessageService } from 'primeng/api';
@@ -19,6 +20,7 @@ export class CreateCourseComponent implements OnInit {
 
   constructor(
     private ui: UiService,
+    private location: Location,
     private coursesService: CoursesService,
     private router: Router,
     // private messageService: MessageService,
@@ -27,6 +29,10 @@ export class CreateCourseComponent implements OnInit {
   ngOnInit(): void {
     this.ui.title = 'Create course';
     this.initForm();
+  }
+
+  onBackClick(): void {
+    this.location.back();
   }
 
   onCreateCourse(): void {

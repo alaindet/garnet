@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { Title } from '@angular/platform-browser';
 
 import { MessageService as PrimeMessageService } from 'primeng/api';
 import { CoursesService } from '../../services';
@@ -22,7 +21,6 @@ export class CoursesListComponent implements OnInit {
   constructor(
     private coursesService: CoursesService,
     private messageService: PrimeMessageService,
-    private titleService: Title,
     private ui: UiService,
   ) {}
 

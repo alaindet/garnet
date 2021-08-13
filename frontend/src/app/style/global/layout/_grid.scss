@@ -1,0 +1,61 @@
+@mixin app-layout-grid($prefix: 'ya-', $config)
+{
+
+  .#{$prefix}rows {
+    box-sizing: border-box;
+  }
+
+  .#{$prefix}cols {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    > * {
+      box-sizing: border-box;
+    }
+  }
+
+  .#{$prefix}cols--gap {
+    $gap: 1rem;
+    margin-left: -1 * $gap;
+    margin-right: -1 * $gap;
+
+    > * {
+      padding-left: $gap;
+      padding-right: $gap;
+    }
+  }
+
+  .#{$prefix}row {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+
+    > * {
+      box-sizing: border-box;
+    }
+  }
+
+  $breakpoints: app-map-get($config, 'breakpoints');
+  $cols: app-map-get($config, 'columns');
+
+  .#{$prefix}col {
+    flex: 1 1 0;
+
+    @for $i from 1 through $cols {
+      &-#{$i} {
+        flex-basis: app-round-decimals($i * (100% / $cols), 3);
+      }
+    }
+
+    @each $breakpoint-key, $breakpoint-value in $breakpoints {
+      @media screen and (min-width: $breakpoint-value) {
+        @for $i from 1 through $cols {
+          &-#{$breakpoint-key}-#{$i} {
+            flex-basis: app-round-decimals($i * (100% / $cols), 3);
+          }
+        }
+      }
+    }
+  }
+}

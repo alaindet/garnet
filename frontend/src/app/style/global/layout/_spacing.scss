@@ -1,0 +1,49 @@
+@mixin app-layout-spacing($prefix: 'ya-', $config)
+{
+  $rules: app-map-get($config, 'rules');
+  $spacer: app-map-get($config, 'spacer');
+  $spacer-multipliers: app-map-get($config, 'spacer-multipliers');
+
+  @each $key, $rule in $rules {
+    @each $i, $multiplier in $spacer-multipliers {
+
+      $value: $multiplier * $spacer;
+
+      .#{$prefix}#{$key} {
+
+        // 4 sides
+        &#{$i} {
+          #{$rule}: $value;
+        }
+
+        // 2 sides
+        &y#{$i} {
+          #{$rule}-top: $value;
+          #{$rule}-bottom: $value;
+        }
+
+        &x#{$i} {
+          #{$rule}-left: $value;
+          #{$rule}-right: $value;
+        }
+
+        // 1 side
+        &t#{$i} {
+          #{$rule}-top: $value;
+        }
+
+        &r#{$i} {
+          #{$rule}-right: $value;
+        }
+
+        &b#{$i} {
+          #{$rule}-bottom: $value;
+        }
+
+        &l#{$i} {
+          #{$rule}-left: $value;
+        }
+      }
+    }
+  }
+}

@@ -13,28 +13,39 @@
 
 <!-- Courses list -->
 <ng-container *ngIf="!isLoading; else loadingRef">
-  <div class="p-grid" *ngIf="courses?.length; else noCoursesRef">
+  <div *ngIf="courses?.length; else noCoursesRef" class="app-cols app-cols--gap">
+    <div *ngFor="let course of courses" class="app-col-12 app-col-s-6 app-col-m-4">
+      <p-card [header]="course.name">
+        <ul>
+          <li>
+            {{ teacherHint }}
+          </li>
+          <li>
+            <strong>Created on: </strong>
+            {{ course.created_on | date }}
+          </li>
+          <li>
+            <strong>Updated on: </strong>
+            {{ course.updated_on | date }}
+          </li>
+          <li>
+            {{ course.description }}
+          </li>
+        </ul>
 
-    <p-card
-      *ngFor="let course of courses"
-      [header]="course.name"
-      [subheader]="teacherHint"
-      styleClass="p-col-6"
-    >
-      <p>{{ course.description }}</p>
-      <ng-template pTemplate="footer">
-        <a
-          routerLink="/courses/{{ course?.course_id }}"
-          label="Show"
-          pButton
-          type="button"
-          icon="pi pi-arrow-right"
-          iconPos="right"
-          class="app-button-link p-button-rounded"
-        ></a>
-      </ng-template>
-    </p-card>
-
+        <ng-template pTemplate="footer">
+          <a
+            routerLink="/courses/{{ course?.course_id }}"
+            label="Show"
+            pButton
+            type="button"
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            class="app-button-link p-button-rounded"
+          ></a>
+        </ng-template>
+      </p-card>
+    </div>
   </div>
 </ng-container>
 

@@ -45,8 +45,8 @@ $line-thickness: 4px;
 .line {
   width: 0.57 * $diameter;
   height: $line-thickness;
-  border-radius: $line-thickness / 2;
-  margin: ($line-thickness / 2) 0;
+  border-radius: $line-thickness * 0.5;
+  margin: ($line-thickness * 0.5) 0;
   background: app-store('color.background');
 }
 
