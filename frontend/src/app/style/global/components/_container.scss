@@ -4,14 +4,17 @@
     'mobile': (
       'gutter': 10px,
       'breakpoint': 0,
+      'focus-max-width': 400px,
     ),
     'tablet': (
       'gutter': 20px,
       'breakpoint': 768px,
+      'focus-max-width': 500px,
     ),
     'desktop': (
       'gutter': 72px,
       'breakpoint': 1024px,
+      'focus-max-width': 500px,
     ),
   );
 
@@ -26,6 +29,24 @@
       $breakpoint: map-get($device-data, 'breakpoint');
 
       @media screen and (min-width: $breakpoint) {
+        padding-left: $gutter;
+        padding-right: $gutter;
+      }
+    }
+  }
+
+  // With little content in the center
+  .app-container-focused {
+    margin: 0 auto;
+
+    @each $device, $device-data in $breakpoints {
+
+      $gutter: map-get($device-data, 'gutter');
+      $breakpoint: map-get($device-data, 'breakpoint');
+      $focus-max-width: map-get($device-data, 'focus-max-width');
+
+      @media screen and (min-width: $breakpoint) {
+        max-width: $focus-max-width;
         padding-left: $gutter;
         padding-right: $gutter;
       }

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
-import { throttleTime, map, distinctUntilChanged } from 'rxjs/operators';
+import { throttleTime, map, distinctUntilChanged, filter } from 'rxjs/operators';
 
 import { UiService } from '../../services';
 import { ScrollingDirection } from '../../types';
@@ -22,10 +23,12 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(
     public ui: UiService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.observeLockedScrolling();
+    this.closeSidebarOnNavigation();
   }
 
   ngAfterViewInit(): void {
@@ -60,5 +63,11 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
         distinctUntilChanged(),
       )
       .subscribe(scrollDir => this.ui.scrollingDirection = scrollDir);
+  }
+
+  private closeSidebarOnNavigation(): void {
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe(() => this.ui.isSidebarOpen = false);
   }
 }

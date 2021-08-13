@@ -9,6 +9,8 @@
 // Components
 @include app-component-button-link();
 @include app-component-container();
+@include app-component-title();
 
 // Typography
 @include app-typography-links();
+@include app-typography-headers();

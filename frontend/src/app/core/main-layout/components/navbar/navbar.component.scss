@@ -5,14 +5,13 @@
   align-items: center;
   justify-content: center;
   padding: 1rem 0;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  border-bottom: 2px solid rgba(0,0,0,0.1);
   height: app-store('size.height.navbar');
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: app-store('color.background');
-  z-index: 2;//app-store('z-index.navbar');
+  background-color: app-store('color.primary');
   transform: scaleY(0);
   transform-origin: top;
   transition: 0.15s transform ease-in-out;
@@ -32,8 +31,9 @@
   height: app-store('size.height.navbar');
 }
 
-h1 {
+.-brand h1 {
   margin: 0;
   font-size: 1.33rem;
   text-align: center;
+  color: app-store('color.primary-mid-dark');
 }

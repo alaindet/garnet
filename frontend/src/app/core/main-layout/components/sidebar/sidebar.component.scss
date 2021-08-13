@@ -13,17 +13,17 @@
 .-sidebar {
   position: fixed;
   z-index: app-store('z-index.sidebar');
-  top: 0;
+  top: app-store('size.height.navbar');
   bottom: 0;
-  right: 0;
-  background-color: app-store('color.background');
-  transform: translateX(120%);
+  left: 0;
+  // background-color: app-store('color.background');
+  background-color: white;
+  transform: translateX(-120%);
   transition: 0.15s transform ease-in-out;
   width: 250px;
   max-width: 90vw;
   padding: 2rem;
   font-size: 1.5rem;
-  text-align: right;
 }
 
 @keyframes app-sidebar-shadow {
@@ -44,7 +44,7 @@
 .-backdrop {
   position: fixed;
   z-index: app-store('z-index.sidebar-backdrop');
-  top: 0;
+  top: app-store('size.height.navbar');
   bottom: 0;
   left: 0;
   right: 0;

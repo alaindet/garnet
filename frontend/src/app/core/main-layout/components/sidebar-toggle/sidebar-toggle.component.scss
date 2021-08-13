@@ -1,33 +1,32 @@
 @import 'style';
 
+$diameter: 38px;
+$line-thickness: 4px;
+
 :host {
   display: inline-flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: app-store('color.background');
-  width: 42px;
-  height: 42px;
+  background-color: app-store('color.primary');
+  width: $diameter;
+  height: $diameter;
   border-radius: 50%;
   cursor: pointer;
   z-index: 3;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   transition: background-color 0.3s ease-out;
 
-  &:hover {
-    background-color: #ccc;
+  &.--open:hover {
+    background-color: rgba(0,0,0,0.4);
   }
 
-  &:hover.--open {
-    background-color: #bbb;
+  &:hover {
+    background-color: rgba(0,0,0,0.2);
   }
 
   &.--open {
-    background-color: #ccc;
-    position: fixed;
-    z-index: app-store('z-index.sidebar-toggle');
-    top: 0.5rem;
-    left: 1rem;
+    background-color: rgba(0,0,0,0.3);
 
     .line-top {
       transform: translateY(6px) rotate(45deg);
@@ -44,11 +43,11 @@
 }
 
 .line {
-  width: 24px;
-  height: 4px;
-  border-radius: 2px;
-  margin: 2px 0;
-  background-color: scale_color(app-store('color.text'), $lightness: 50%);
+  width: 0.57 * $diameter;
+  height: $line-thickness;
+  border-radius: $line-thickness / 2;
+  margin: ($line-thickness / 2) 0;
+  background: app-store('color.background');
 }
 
 .line-top,
@@ -56,16 +55,4 @@
 .line-bottom {
   transform-origin: center;
   transition: 0.15s all ease-out;
-}
-
-.line-top {
-  background-color: scale_color(app-store('color.primary'), $lightness: 30%);
-}
-
-.line-middle {
-  background-color: app-store('color.primary');
-}
-
-.line-bottom {
-  background-color: scale_color(app-store('color.primary'), $lightness: -20%);
 }

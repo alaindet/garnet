@@ -7,8 +7,12 @@
   flex-direction: column;
 }
 
-.-card {
-  max-width: 300px;
+::ng-deep .-sign-in-card {
+  padding: 1rem;
+
+  .p-card-content {
+    padding-top: 0;
+  }
 }
 
 .-form {

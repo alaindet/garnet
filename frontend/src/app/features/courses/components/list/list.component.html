@@ -1,44 +1,42 @@
-<div class="app-container">
+<!-- Create new -->
+<section class="app-standout-section">
+  <a
+    routerLink="/courses/create"
+    label="Create new course"
+    pButton
+    type="button"
+    icon="pi pi-plus"
+    iconPos="right"
+    class="app-button-link p-button-rounded p-button-lg"
+  ></a>
+</section>
 
-  <!-- Create new -->
-  <section class="app-standout-section">
-    <a
-      routerLink="/courses/create"
-      label="Create new course"
-      pButton
-      type="button"
-      icon="pi pi-plus"
-      iconPos="right"
-      class="app-button-link"
-    ></a>
-  </section>
+<!-- Courses list -->
+<ng-container *ngIf="!isLoading; else loadingRef">
+  <div class="p-grid" *ngIf="courses?.length; else noCoursesRef">
 
-  <!-- Courses list -->
-  <ng-container *ngIf="!isLoading; else loadingRef">
-    <ng-container *ngIf="courses?.length; else noCoursesRef">
+    <p-card
+      *ngFor="let course of courses"
+      [header]="course.name"
+      [subheader]="teacherHint"
+      styleClass="p-col-6"
+    >
+      <p>{{ course.description }}</p>
+      <ng-template pTemplate="footer">
+        <a
+          routerLink="/courses/{{ course?.course_id }}"
+          label="Show"
+          pButton
+          type="button"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          class="app-button-link p-button-rounded"
+        ></a>
+      </ng-template>
+    </p-card>
 
-      <p-card
-        *ngFor="let course of courses"
-        [header]="course.name"
-        [subheader]="teacherHint"
-      >
-        <p>{{ course.description }}</p>
-        <ng-template pTemplate="footer">
-          <a
-            routerLink="/courses/{{ course?.course_id }}"
-            label="Show"
-            pButton
-            type="button"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            class="app-button-link"
-          ></a>
-        </ng-template>
-      </p-card>
-
-    </ng-container>
-  </ng-container>
-</div>
+  </div>
+</ng-container>
 
 <ng-template #loadingRef>
   <p-skeleton height="192px" styleClass="skeleton-p-card"></p-skeleton>

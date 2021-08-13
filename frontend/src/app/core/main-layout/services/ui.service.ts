@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -23,6 +24,7 @@ export class UiService {
 
   constructor(
     private titleService: Title,
+    private router: Router,
   ) {
     this.isNavbarSticky$ = this.computeIsNavbarSticky();
   }

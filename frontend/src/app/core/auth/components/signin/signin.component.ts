@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -6,13 +6,14 @@ import { MessageService as PrimeMessageService } from 'primeng/api';
 
 import { AuthenticationService } from '../../services';
 import { SignInDto } from '../../types';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
   providers: [PrimeMessageService],
 })
-export class SignInComponent {
+export class SignInComponent implements OnInit {
 
   isLoading = false;
 
@@ -25,7 +26,12 @@ export class SignInComponent {
     private authService: AuthenticationService,
     private router: Router,
     private messageService: PrimeMessageService,
+    private titleService: Title,
   ) {}
+
+  ngOnInit(): void {
+    this.titleService.setTitle('Garnet || Sign In');
+  }
 
   onSubmit(): void {
 
