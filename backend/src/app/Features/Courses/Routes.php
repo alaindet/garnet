@@ -6,6 +6,7 @@ use App\Core\Routing\Route\Route;
 use App\Core\Routing\RouteGroup;
 use App\Features\Authentication\Middleware\AuthenticationMiddleware;
 use App\Features\Courses\Controllers\CoursesController;
+use App\Features\Courses\Middleware\CreateCourseValidationMiddleware;
 
 class Routes
 {
@@ -24,7 +25,9 @@ class Routes
             ->routes([
                 // Route::post('/', '@create'),
                 Route::get('/', '@getAll'),
-                Route::post('/', '@create'),
+                Route::get('/', '@getOne'),
+                Route::post('/', '@create')
+                    ->middleware(CreateCourseValidationMiddleware::class),
                 // Route::get('/{id}', '@getById'),
                 // Route::patch('/{id}', '@update'),
                 // Route::delete('/{id}', '@delete'),
