@@ -12,26 +12,22 @@ namespace App;
  *     ]
  * ])
  */
-class BetweenRuleValidator extends RuleValidator
+class BetweenRuleValidator extends AbstractSingleRuleValidator
 {
-    public $name = 'between';
-    public $errorBehavior = RuleValidator::ERROR_BEHAVIOR_CONTINUE;
-    public $context = RuleValidator::CONTEXT_SINGLE;
+    const NAME = 'between';
 
-    public function validateSingle(
-        ValidationErrors $errors,
-        $value,
-        array ...$params
-    ): ValidationErrors
+    public function validateSingle($value, array ...$params): ?array
     {
         $from = $params['from'];
         $to = $params['to'];
 
         if ($value < $from || $value > $to) {
+            $errors = [];
             $message = "Input {$value} must be between {$from} and {$to}";
-            $this->errors->add($this->name, $message);
+            $errors[self::NAME] = $message;
+            return $errors;
         }
 
-        return $errors;
+        return null;
     }
 }

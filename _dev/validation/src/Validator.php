@@ -21,16 +21,22 @@ class Validator
         $this->rules = $rules;
         $this->errors = new ValidationErrors();
     }
-    /**
-     * validate
-     *
-     * @return bool
-     */
+
     public function validate(): bool
     {
         foreach ($this->rules as $inputKey => $ruleValidators) {
             foreach ($ruleValidators as $ruleName => $ruleParams) {
-                // ...
+
+                $ruleValidatorClass = $this->ruleValidators[$ruleName];
+                $errorBehavior = constant("{$ruleValidatorClass}::ERROR_BEHAVIOR");
+                $ruleValidator = new $ruleValidatorClass($this->errors);
+
+                $ruleValidator->validate(
+                    $this->errors,
+                    $this->input,
+                    $inputKey,
+                    ...$ruleParams
+                );
 
 
                 // $bits = explode(':', $rule, 2);
