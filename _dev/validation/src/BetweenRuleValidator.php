@@ -4,7 +4,7 @@ namespace App;
 
 /**
  * Can validate integer, decimals and strings
- * 
+ *
  * Ex.:
  * validate([
  *     'foo' => [
@@ -16,16 +16,23 @@ class BetweenRuleValidator extends AbstractSingleRuleValidator
 {
     const NAME = 'between';
 
+    protected array $errorTemplates = [
+        'between' => 'Value :value must be between :from and :to',
+    ];
+
     public function validateSingle($value, array ...$params): ?array
     {
         $from = $params['from'];
         $to = $params['to'];
 
         if ($value < $from || $value > $to) {
-            $errors = [];
-            $message = "Input {$value} must be between {$from} and {$to}";
-            $errors[self::NAME] = $message;
-            return $errors;
+            return [
+                'between' => $this->getErrorMessage('between', [
+                    ':value' => $value,
+                    ':from' => $from,
+                    ':to' => $to,
+                ]),
+            ];
         }
 
         return null;

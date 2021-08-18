@@ -3,7 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 $input = [
-    'name' => 'Lorem',
+    'name' => 'lorem',
 ];
 
 $rules = [
@@ -14,7 +14,9 @@ $rules = [
 
 $validator = new \App\Validator($input, $rules);
 
-$validator->validate();
+$valid = $validator->validate();
+
+var_dump($valid);
 
 // $validator = new GroupValidator([
 //     'name' => '',

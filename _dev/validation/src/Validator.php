@@ -31,22 +31,24 @@ class Validator
                 $errorBehavior = constant("{$ruleValidatorClass}::ERROR_BEHAVIOR");
                 $ruleValidator = new $ruleValidatorClass($this->errors);
 
-                $ruleValidator->validate(
+                $ruleErrors = $ruleValidator->validate(
                     $this->errors,
                     $this->input,
                     $inputKey,
                     ...$ruleParams
                 );
 
+                // Stop validation
+                if (
+                    $errorBehavior === AbstractRuleValidator::ERROR_BEHAVIOR_STOP &&
+                    $ruleErrors !== null
+                ) {
+                    // TODO: ...
+                }
 
-                // $bits = explode(':', $rule, 2);
-                // $ruleName = $bits[0];
-                // $ruleValue = $bits[1] ?? null;
-                // $validator = $this->validators[$ruleName];
-                // $this->$validator($inputName, $ruleValue);
-
-                // // $skip === true Skips remaining rules, doesn't add errors
-                // if ($this->skip) break;
+                foreach ($ruleErrors as $name => $message) {
+                    $this->errors->add($name, $message);
+                }
             }
         }
 
@@ -63,7 +65,7 @@ $validator = (
     [
         'foo' => [
             'between' => [1, 40],
-        ]   
+        ]
     ]
 );
 

@@ -14,6 +14,44 @@ abstract class AbstractRuleValidator
     const ERROR_BEHAVIOR = self::ERROR_BEHAVIOR_CONTINUE;
 
     /**
+     * Contains the strings to use as templates on error
+     * Template variables are prefixed with :, ex.: :value
+     * The key is the error name, the value is the template
+     *
+     * This is overridden by child classes and further overridden by user
+     * if needed, for example for internationalization
+     *
+     * Ex.:
+     * ['between' => 'Value :value is not between :from and :to']
+     *
+     * @var array
+     */
+    protected array $errorTemplates = [];
+
+    protected function setErrorTemplate(string $name, string $template): void
+    {
+        $this->errorTemplates[$name] = $template;
+    }
+
+    protected function getErrorMessage(
+        string $templateName,
+        array $params
+    ): string
+    {
+        $template = $this->errorTemplates[$templateName];
+
+        $replaceThis = [];
+        $withThis = [];
+
+        foreach ($params as $placeholder => $value) {
+            $replaceThis[] = $placeholder;
+            $withThis[] = $value;
+        }
+
+        return str_replace($replaceThis, $withThis, $template);
+    }
+
+    /**
      * Executes a sigle context or group context rule validator based on the
      * configuration of the rule validator instance extending this class
      *
