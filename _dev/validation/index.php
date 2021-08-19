@@ -4,6 +4,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 $input = [
     'name' => 'lorem',
+    'foo' => 42,
 ];
 
 $rules = [
@@ -11,6 +12,12 @@ $rules = [
         'filled' => true,
         'between' => ['a', 'z'],
         'in' => ['lorem', 'ipsum', 'dolor', 'sit', 'amet'],
+        'equals' => 'lorem',
+    ],
+    'foo' => [
+        'equals' => 42,
+        'except' => 69,
+        'exceptIn' => [13, 43],
     ],
 ];
 

@@ -2,7 +2,11 @@
 
 namespace App;
 
+// Based on https://github.com/alaindet/fowdb/blob/main/backend/src/app/Services/Validation/ValidationRulesTrait.php
 use App\RuleValidators\BetweenRuleValidator;
+use App\RuleValidators\EqualsRuleValidator;
+use App\RuleValidators\ExceptInRuleValidator;
+use App\RuleValidators\ExceptRuleValidator;
 use App\RuleValidators\FilledRuleValidator;
 use App\RuleValidators\InRuleValidator;
 // ...
@@ -18,6 +22,9 @@ class Validator
     private array $rules;
     private array $ruleValidators = [
         'between' => BetweenRuleValidator::class,
+        'equals' => EqualsRuleValidator::class,
+        'except' => ExceptRuleValidator::class,
+        'exceptIn' => ExceptInRuleValidator::class,
         'filled' => FilledRuleValidator::class,
         'in' => InRuleValidator::class,
         // ...

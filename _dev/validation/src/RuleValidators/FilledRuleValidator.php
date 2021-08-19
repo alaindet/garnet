@@ -25,8 +25,8 @@ class FilledRuleValidator extends AbstractSingleRuleValidator
     const NAME = 'filled';
 
     protected array $errorTemplates = [
-        'filled-true' => 'Value :value must be filled',
-        'filled-false' => 'Value :value must not be filled',
+        'filledTrue' => 'Value :value must be filled',
+        'filledFalse' => 'Value :value must not be filled',
     ];
 
     public function validateSingle($value, ...$params): ?array
@@ -41,7 +41,7 @@ class FilledRuleValidator extends AbstractSingleRuleValidator
 
         if ($shouldBeFilled && !$isFilled) {
             return [
-                'filled' => $this->getErrorMessage('filled-true', [
+                'filled' => $this->getErrorMessage('filledTrue', [
                     ':value' => $value,
                 ])
             ];
@@ -49,7 +49,7 @@ class FilledRuleValidator extends AbstractSingleRuleValidator
 
         if (!$shouldBeFilled && $isFilled) {
             return [
-                'filled' => $this->getErrorMessage('filled-false', [
+                'filled' => $this->getErrorMessage('filledFalse', [
                     ':value' => $value,
                 ])
             ];
