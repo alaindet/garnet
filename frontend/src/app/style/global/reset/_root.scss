@@ -4,10 +4,14 @@
     box-sizing: border-box;
   }
 
+  html,
+  body {
+    height: 100%;
+  }
+
   body {
     margin: 0;
     background-color: app-store('color.background');
-    font-family: 'PT Sans', Helvetica, Arial, sans-serif;
-    color: var(--text-color);
+    font-family: Roboto, 'Helvetica Neue'\, Arial, sans-serif;
   }
 }

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// Angular Material
+import { MatButtonModule } from '@angular/material/button';
+
 // Prime NG
 import { CardModule as PrimeCardModule } from 'primeng/card';
 import { ButtonModule as PrimeButtonModule } from 'primeng/button';
@@ -33,6 +36,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ReactiveFormsModule,
+
+    // Angular Material
+    MatButtonModule,
 
     // Prime NG
     PrimeCardModule,
