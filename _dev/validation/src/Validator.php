@@ -2,18 +2,26 @@
 
 namespace App;
 
+use App\RuleValidators\BetweenRuleValidator;
+use App\RuleValidators\FilledRuleValidator;
+use App\RuleValidators\InRuleValidator;
+// ...
+
 /**
  * Validates an associative array
  */
 class Validator
 {
-    private array $ruleValidators = [
-        'between' => BetweenRuleValidator::class,
-        // ...
-    ];
+    public ValidationErrors $errors;
 
     private array $input = [];
     private array $rules;
+    private array $ruleValidators = [
+        'between' => BetweenRuleValidator::class,
+        'filled' => FilledRuleValidator::class,
+        'in' => InRuleValidator::class,
+        // ...
+    ];
 
     public function __construct(array $input, ?array $rules = null)
     {
@@ -31,23 +39,26 @@ class Validator
                 $errorBehavior = constant("{$ruleValidatorClass}::ERROR_BEHAVIOR");
                 $ruleValidator = new $ruleValidatorClass($this->errors);
 
+                if (!\is_array($ruleParams)) {
+                    $ruleParams = [$ruleParams];
+                }
+
                 $ruleErrors = $ruleValidator->validate(
-                    $this->errors,
                     $this->input,
                     $inputKey,
                     ...$ruleParams
                 );
 
-                // Stop validation
-                if (
-                    $errorBehavior === AbstractRuleValidator::ERROR_BEHAVIOR_STOP &&
-                    $ruleErrors !== null
-                ) {
-                    // TODO: ...
+                if ($ruleErrors !== null) {
+                    foreach ($ruleErrors as $name => $message) {
+                        $this->errors->add($name, $message);
+                    }
                 }
 
-                foreach ($ruleErrors as $name => $message) {
-                    $this->errors->add($name, $message);
+                // Stop validation?
+                $stopsOnError = AbstractRuleValidator::ERROR_BEHAVIOR_STOP;
+                if ($errorBehavior === $stopsOnError && $ruleErrors !== null) {
+                    return false;
                 }
             }
         }
@@ -55,18 +66,3 @@ class Validator
         return $this->errors->isEmpty();
     }
 }
-
-/*
-
-$validator = (
-    [
-        'foo' => 42,
-    ],
-    [
-        'foo' => [
-            'between' => [1, 40],
-        ]
-    ]
-);
-
-*/

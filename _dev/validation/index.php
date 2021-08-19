@@ -8,7 +8,9 @@ $input = [
 
 $rules = [
     'name' => [
-        'between' => ['aaron', 'zachary'],
+        'filled' => true,
+        'between' => ['a', 'z'],
+        'in' => ['lorem', 'ipsum', 'dolor', 'sit', 'amet'],
     ],
 ];
 
@@ -16,8 +18,9 @@ $validator = new \App\Validator($input, $rules);
 
 $valid = $validator->validate();
 
-var_dump($valid);
+$errors = $validator->errors->getAll();
 
-// $validator = new GroupValidator([
-//     'name' => '',
-// ]);
+var_dump([
+    'valid' => $valid,
+    'errors' => $errors,
+]);

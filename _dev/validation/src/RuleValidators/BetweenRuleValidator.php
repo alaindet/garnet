@@ -1,6 +1,8 @@
 <?php
 
-namespace App;
+namespace App\RuleValidators;
+
+use App\AbstractSingleRuleValidator;
 
 /**
  * Can validate integer, decimals and strings
@@ -20,10 +22,10 @@ class BetweenRuleValidator extends AbstractSingleRuleValidator
         'between' => 'Value :value must be between :from and :to',
     ];
 
-    public function validateSingle($value, array ...$params): ?array
+    public function validateSingle($value, ...$params): ?array
     {
-        $from = $params['from'];
-        $to = $params['to'];
+        $from = $params[0];
+        $to = $params[1];
 
         if ($value < $from || $value > $to) {
             return [

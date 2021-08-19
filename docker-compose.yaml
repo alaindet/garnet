@@ -39,5 +39,7 @@ services:
       - ./backend/src:/home/composer/app
       # - ./_dev/some-demo:/home/composer/app
 
+  # mailhog: TODO
+
 volumes:
   db_data: {}
