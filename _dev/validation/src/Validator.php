@@ -9,6 +9,12 @@ use App\RuleValidators\ExceptRuleValidator;
 use App\RuleValidators\FilledRuleValidator;
 use App\RuleValidators\InRuleValidator;
 use App\RuleValidators\IsRuleValidator;
+use App\RuleValidators\MaxLengthRuleValidator;
+use App\RuleValidators\MaxRuleValidator;
+use App\RuleValidators\MinLengthRuleValidator;
+use App\RuleValidators\MinRuleValidator;
+use App\RuleValidators\RegexRuleValidator;
+use App\RuleValidators\RequiredRuleValidator;
 // ...
 
 /**
@@ -28,6 +34,12 @@ class Validator
         'filled' => FilledRuleValidator::class,
         'in' => InRuleValidator::class,
         'is' => IsRuleValidator::class,
+        'maxLength' => MaxLengthRuleValidator::class,
+        'max' => MaxRuleValidator::class,
+        'minLength' => MinLengthRuleValidator::class,
+        'min' => MinRuleValidator::class,
+        'regex' => RegexRuleValidator::class,
+        'required' => RequiredRuleValidator::class,
         // ...
     ];
 
@@ -58,8 +70,9 @@ class Validator
                 );
 
                 if ($ruleErrors !== null) {
-                    foreach ($ruleErrors as $name => $message) {
-                        $this->errors->add($name, $message);
+                    foreach ($ruleErrors as $ruleErrorKey => $ruleErrorMessage) {
+                        $key = "{$inputKey}.{$ruleErrorKey}";
+                        $this->errors->add($key, $ruleErrorMessage);
                     }
                 }
 
