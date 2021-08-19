@@ -25,7 +25,6 @@ class Routes
             ->routes([
                 // Route::post('/', '@create'),
                 Route::get('/', '@getAll'),
-                Route::get('/', '@getOne'),
                 Route::post('/', '@create')
                     ->middleware(CreateCourseValidationMiddleware::class),
                 // Route::get('/{id}', '@getById'),

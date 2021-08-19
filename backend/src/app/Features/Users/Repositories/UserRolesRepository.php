@@ -8,8 +8,10 @@ use App\Core\Services\Database\Database;
 class UserRolesRepository extends Repository
 {
     const TABLE = 'user_roles';
-    const TEACHER = 1;
-    const STUDENT = 2;
+
+    const ADMIN = 1;
+    const TEACHER = 2;
+    const STUDENT = 3;
 
     protected Database $db;
 

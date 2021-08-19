@@ -1,3 +1,5 @@
+-- Adminer 4.8.1 MySQL 5.5.5-10.6.4-MariaDB-1:10.6.4+maria~focal dump
+
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -12,13 +14,13 @@ CREATE TABLE `courses` (
   `course_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `teacher_id` int(10) unsigned NOT NULL,
   `created_on` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_on` timestamp NOT NULL DEFAULT current_timestamp()  ON UPDATE current_timestamp(),
+  `updated_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `name` varchar(191) NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`course_id`),
   KEY `teacher_id` (`teacher_id`),
   CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `courses` (`course_id`, `teacher_id`, `created_on`, `updated_on`, `name`, `description`) VALUES
 (1,	2,	'2021-08-05 18:47:08',	'2021-08-05 18:47:08',	'React autumn 2021',	'Lorem ipsum dolor sit amet'),
@@ -34,23 +36,12 @@ CREATE TABLE `course_student` (
   CONSTRAINT `course_student_ibfk_2` FOREIGN KEY (`student_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `course_student` (`course_id`, `student_id`) VALUES
-(1,	4),
-(1,	5),
-(1,	6),
-(2,	7),
-(2,	8);
-
-CREATE TABLE `task_states` (
-  `task_state_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) NOT NULL,
-  PRIMARY KEY (`task_state_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `task_states` (`task_state_id`, `name`) VALUES
-(1,	'To Do'),
-(2,	'In Progress'),
-(3,	'Done');
+INSERT INTO `course_student` (`course_id`, `student_id`, `created_on`) VALUES
+(1,	4,	'2021-08-19 22:46:00'),
+(1,	5,	'2021-08-19 22:46:00'),
+(1,	6,	'2021-08-19 22:46:00'),
+(2,	7,	'2021-08-19 22:46:00'),
+(2,	8,	'2021-08-19 22:46:00');
 
 CREATE TABLE `tasks` (
   `task_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -62,7 +53,7 @@ CREATE TABLE `tasks` (
   PRIMARY KEY (`task_id`),
   KEY `course_id` (`course_id`),
   CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `tasks` (`task_id`, `course_id`, `created_on`, `updated_on`, `name`, `description`) VALUES
 (1,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Init repo',	'Initialize repository on GitHub'),
@@ -85,6 +76,17 @@ INSERT INTO `tasks` (`task_id`, `course_id`, `created_on`, `updated_on`, `name`,
 (18,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Delete todos',	'As a user, I want to delete all todos'),
 (19,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Authentication',	'As a user, I want to authenticate via username and password so that I get back a JWT access token'),
 (20,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Validation',	'Validate todo CRUD operations');
+
+CREATE TABLE `task_states` (
+  `task_state_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(191) NOT NULL,
+  PRIMARY KEY (`task_state_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `task_states` (`task_state_id`, `name`) VALUES
+(1,	'To Do'),
+(2,	'In Progress'),
+(3,	'Done');
 
 CREATE TABLE `task_user` (
   `task_id` int(10) unsigned NOT NULL,
@@ -163,7 +165,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`),
   KEY `role_id` (`user_role_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_role_id`) REFERENCES `user_roles` (`user_role_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `users` (`user_id`, `created_on`, `updated_on`, `first_name`, `last_name`, `user_role_id`, `email`, `password`) VALUES
 (1,	'2021-08-20 00:32:00',	'2021-08-20 00:32:00',	'Admin',	'Admin',	1,	'admin.admin@example.com',	'$2y$10$z.XhAtYEQYVkhlMb5Ur.0uuUiYEy57Ti4QmSuyABwBwlCnm.FQtMu'),
@@ -179,9 +181,11 @@ CREATE TABLE `user_roles` (
   `user_role_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(191) NOT NULL,
   PRIMARY KEY (`user_role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `user_roles` (`user_role_id`, `name`) VALUES
-(1, 'Admin'),
+(1,	'Admin'),
 (2,	'Teacher'),
 (3,	'Student');
+
+-- 2021-08-19 22:46:24

@@ -8,19 +8,11 @@ use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
-use App\Features\Users\Repositories\UserSessionsRepository;
 use App\Shared\Utils\Time;
 
 class AuthenticationMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
-
-    private UserSessionsRepository $userSessionsRepo;
-
-    public function __construct()
-    {
-        $this->userSessionsRepo = new UserSessionsRepository();
-    }
 
     public function process(Request $req, Response $res, ...$args): Response
     {
@@ -38,15 +30,11 @@ class AuthenticationMiddleware extends Middleware
                 $this->throwUnauthorized('Your session has expired');
             }
 
-            $userSession = $this->userSessionsRepo->getByHash($decoded->sub);
-
-            if ($userSession === null) {
-                $this->throwUnauthorized();
-            }
+            $appRole = 'app.role';
 
             $req->setAuthenticationData([
-                'user_id' => $userSession['user_id'],
-                'user_role_id' => $userSession['user_role_id'],
+                'user_id' => $decoded->sub,
+                'user_role_id' => $decoded->$appRole,
             ]);
 
             return $res;

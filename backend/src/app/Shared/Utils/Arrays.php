@@ -4,6 +4,22 @@ namespace App\Shared\Utils;
 
 abstract class Arrays
 {
+    /**
+     * Reference
+     * https://stackoverflow.com/a/173479
+     *
+     * @param array $arr
+     * @return boolean
+     */
+    function isAssoc(array $arr)
+    {
+        if ($arr === []) {
+            return false;
+        }
+
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
     static public function filter(array $arr, $callback): array
     {
         $result = [];

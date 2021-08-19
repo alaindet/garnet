@@ -13,19 +13,12 @@ trait AuthenticationWithSignIn
     public function signIn(LoginUserDto $dtoIn): LoggedUserDto
     {
         $user = $this->validateLoginDto($dtoIn);
+
         $dates = $this->computeTimeRange();
+        $from = $dates['from']['timestamp'];
+        $to = $dates['to']['timestamp'];
 
-        $userSessionHash = $this->userSessionsRepo->create(
-            $user,
-            $dates['from']['date'],
-            $dates['to']['date']
-        );
-
-        [$jwt, $claims] = $this->buildJwt(
-            $userSessionHash,
-            $dates['from']['timestamp'],
-            $dates['to']['timestamp']
-        );
+        $jwt = $this->buildJwt($user, $from, $to);
 
         $dtoOut = new LoggedUserDto();
         $dtoOut->jwt = $jwt;
@@ -72,30 +65,35 @@ trait AuthenticationWithSignIn
     }
 
     private function buildJwt(
-        string $userSessionHash,
+        array $user,
         string $fromDate,
         string $toDate
-    ): array
+    ): string
     {
         $config = appConfig();
 
         $issuerClaim = $config->get('security.jwt.issuer');
-        $subjectClaim = $userSessionHash;
+        $subjectClaim = $user['user_id'];
         $issuedAtClaim = $fromDate;
         $expiresInClaim = $toDate;
         $notBeforeClaim = $fromDate;
 
         $claims = [
+
+            // Standard
             'iss' => $issuerClaim,
             'sub' => $subjectClaim,
             'exp' => $expiresInClaim,
             'nbf' => $notBeforeClaim,
             'iat' => $issuedAtClaim,
+
+            // Custom
+            'app.role' => $user['user_role_id'],
         ];
 
         $jwtSecret = $config->get('security.jwt.secret');
         $jwt = JWT::encode($claims, $jwtSecret);
 
-        return [$jwt, $claims];
+        return $jwt;
     }
 }
