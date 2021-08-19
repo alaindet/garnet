@@ -13,11 +13,13 @@ $rules = [
         'between' => ['a', 'z'],
         'in' => ['lorem', 'ipsum', 'dolor', 'sit', 'amet'],
         'equals' => 'lorem',
+        'is' => 'alphanumeric',
     ],
     'foo' => [
         'equals' => 42,
         'except' => 69,
         'exceptIn' => [13, 43],
+        'is' => ['string', 'integer'],
     ],
 ];
 
