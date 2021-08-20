@@ -24,5 +24,5 @@
 @include app-layout-spacing('app-', app-store('layout.spacing'));
 
 // 3rd-party
-$theme: app-3rdparty-theme-wario();
-@include app-3rdparty-material($theme);
+$custom-theme-config: app-3rdparty-theme-wario();
+@include app-3rdparty-material($custom-theme-config);

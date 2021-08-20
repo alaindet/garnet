@@ -2,18 +2,48 @@
 // For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
 
-@mixin app-3rdparty-material($theme)
+@mixin app-3rdparty-material($theme-config)
 {
+  // TYPOGRAPHY ---------------------------------------------------------------
+  // Set typography directly on core to avoid overriding default typography
+  // It can only be done when using one theme!
   // Be sure that you only ever include this mixin once!
-  @include mat.core();
+  $theme-typography: map-get($theme-config, 'typography');
+  @include mat.core($theme-typography);
 
-  $light-theme: map-get($theme, light);
-  $dark-theme: map-get($theme, dark);
+  // COLORS -------------------------------------------------------------------
+  $theme-color-schemas: map-get($theme-config, 'colors');
+
+  // Build light schema
+  $light-schema: map-get($theme-color-schemas, 'light');
+  $light-theme: mat.define-light-theme((color: $light-schema));
+
+  // Build dark theme
+  $dark-schema: map-get($theme-color-schemas, 'dark');
+  $dark-theme: mat.define-dark-theme((color: $dark-schema));
+
+  // REGULAR AND REVERSE THEME ------------------------------------------------
+  $theme-default-schema: map-get($theme-color-schemas, 'default');
+
+  $regular-theme: null;
+  $reverse-theme: null;
+
+  @if ($theme-default-schema == 'light') {
+    $regular-theme: $light-theme;
+    $reverse-theme: $dark-theme;
+  } @else {
+    $regular-theme: $dark-theme;
+    $reverse-theme: $light-theme;
+  }
 
   // Include theme styles for core and each component used in your app.
   // Alternatively, you can import and @include the theme mixins for each component
   // that you are using.
-  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-themes($regular-theme);
+
+  body.theme-reverse {
+    @include mat.all-component-themes($reverse-theme);
+  }
 }
 
 // TODO: Import single components?

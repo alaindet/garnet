@@ -115,20 +115,32 @@
   );
 }
 
+@function app-3rdparty-theme-wario-typography()
+{
+  $body-font: Roboto, 'Helvetica Neue', sans-serif;
+  $headers-font: 'Arvo', Georgia, Times, serif;
+
+  @return mat.define-typography-config(
+    $font-family:   $body-font,
+    $display-4:     mat.define-typography-level(112px, 112px, 600, $headers-font, -0.05em),
+    $display-3:     mat.define-typography-level(56px, 56px, 600, $headers-font, -0.02em),
+    $display-2:     mat.define-typography-level(45px, 48px, 600, $headers-font, -0.005em),
+    $display-1:     mat.define-typography-level(34px, 40px, 600, $headers-font),
+    $headline:      mat.define-typography-level(24px, 32px, 600, $headers-font),
+    $title:         mat.define-typography-level(20px, 32px, 600, $headers-font),
+    $subheading-2:  mat.define-typography-level(16px, 28px, 500, $headers-font),
+    $subheading-1:  mat.define-typography-level(15px, 24px, 500, $headers-font),
+  );
+}
+
 @function app-3rdparty-theme-wario()
 {
   @return (
-    light: mat.define-light-theme(
-      (
-        color: app-3rdparty-theme-wario-light(),
-        // TODO: Typography? ...
-      )
-    ),
-    dark: mat.define-dark-theme(
-      (
-        color: app-3rdparty-theme-wario-dark(),
-        // TODO: Typography? ...
-      )
+    typography: app-3rdparty-theme-wario-typography(),
+    colors: (
+      default: 'light',
+      light: app-3rdparty-theme-wario-light(),
+      dark: app-3rdparty-theme-wario-dark(),
     ),
   );
 }
