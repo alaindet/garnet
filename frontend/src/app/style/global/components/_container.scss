@@ -36,7 +36,7 @@
   }
 
   // With little content in the center
-  .app-container-focused {
+  .app-container-narrow {
     margin: 0 auto;
 
     @each $device, $device-data in $breakpoints {

@@ -1,6 +1,4 @@
-- [ ] Add Angular Material component theme for each individual component
+- [ ] Add Angular Material components theme for each individual component
 - [ ] Add dark theme and dark theme toggle
-- [ ] Import single components?
-- [ ] Typography
 - [ ] Switch to dark theme?
 - [ ] Move theme files to separate files

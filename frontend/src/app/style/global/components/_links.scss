@@ -1,13 +1,29 @@
-@mixin app-typography-links($exclude: '.app-button-link')
+@mixin app-component-link()
 {
-  a:not(#{$exclude}) {
+  a.app-link {
     color: app-store('color.primary-mid-dark');
     text-decoration: none;
     position: relative;
     transition: 0.15s color ease-out;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: 0.15s width ease-out;
+      width: 50%;
+      min-width: 1.5rem;
+      border-bottom: 2px solid app-store('color.primary-mid-dark');
+    }
+
+    &:hover {
+      color: app-store('color.primary');
+    }
   }
 
-  a:not(#{$exclude}):hover {
+  a.app-link:hover {
     color: app-store('color.primary');
 
     &::after {
@@ -16,7 +32,7 @@
     }
   }
 
-  a:not(#{$exclude})::after {
+  a.app-link::after {
     content: '';
     position: absolute;
     bottom: -10%;

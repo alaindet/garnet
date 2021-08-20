@@ -1,15 +1,14 @@
-// Custom Theming for Angular Material
-// For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
 
-@mixin app-3rdparty-material($theme-config)
+@mixin app-3rdparty-material-theme($theme-config)
 {
   // TYPOGRAPHY ---------------------------------------------------------------
   // Set typography directly on core to avoid overriding default typography
   // It can only be done when using one theme!
   // Be sure that you only ever include this mixin once!
-  $theme-typography: map-get($theme-config, 'typography');
-  @include mat.core($theme-typography);
+  @include mat.core(
+    map-get($theme-config, 'typography')
+  );
 
   // COLORS -------------------------------------------------------------------
   $theme-color-schemas: map-get($theme-config, 'colors');
@@ -41,12 +40,7 @@
   // that you are using.
   @include mat.all-component-themes($regular-theme);
 
-  body.theme-reverse {
+  body.material-theme-reverse {
     @include mat.all-component-themes($reverse-theme);
   }
 }
-
-// TODO: Import single components?
-// TODO: Typography
-// TODO: Switch to dark theme?
-// TODO: Move theme files to separate files

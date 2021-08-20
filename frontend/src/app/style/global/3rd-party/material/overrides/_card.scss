@@ -1,0 +1,6 @@
+@mixin app-3rdparty-material-override-card()
+{
+  mat-card {
+    border-radius: 1rem;
+  }
+}
