@@ -1,9 +1,9 @@
+<!-- TODO -->
 <main class="app-container-focused">
 
   <!-- Back -->
   <button
-    pButton
-    pRipple
+    mat-button
     type="button"
     label="Back to the app"
     class="p-button-raised p-button-rounded p-button-text p-button-secondary -back"
@@ -13,17 +13,15 @@
   ></button>
 
   <!-- Sign Out -->
-  <p-card>
+  <mat-card>
     <h2 style="margin-top: 0">Sign Out</h2>
     <p>Are you sure you want to sign out?</p>
-    <p-button
-      pRipple
-      label="Sign Out"
-      icon="pi pi-sign-out"
-      iconPos="right"
-      styleClass="p-button-rounded"
+    <button
+      mat-flat-button
       (click)="onSignOut()"
-    ></p-button>
-  </p-card>
+    >
+      Sign Out
+    </button>
+  </mat-card>
 
 </main>

@@ -1,57 +1,49 @@
-<p-card styleClass="-sign-in-card">
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+  <mat-card>
 
-  <h1>Garnet App</h1>
-  <h2>Sign In</h2>
+    <mat-card-header>
+      <mat-card-title>Garnet App</mat-card-title>
+      <mat-card-subtitle>Sign In</mat-card-subtitle>
+    </mat-card-header>
 
-  <form
-    [formGroup]="signInForm"
-    (ngSubmit)="onSubmit()"
-    class="-form"
-  >
+    <mat-card-content>
 
-    <span class="p-input-icon-right">
-      <input
-        type="email"
-        pInputText
-        class="p-inputtext-lg"
-        formControlName="email"
-        placeholder="Email"
+      <!-- Email -->
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          type="email"
+          placeholder="Enter your email..."
+          formControlName="email"
+        >
+        <mat-icon matSuffix aria-hidden="true">person</mat-icon>
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input
+          matInput
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        >
+        <mat-icon matSuffix aria-hidden="true">password</mat-icon>
+      </mat-form-field>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="isLoading"
+        type="submit"
       >
-      <i class="pi pi-search"></i>
-    </span>
+        Sign In
+      </button>
+    </mat-card-actions>
 
-    <span class="p-input-icon-right">
-      <input
-        type="password"
-        pInputText
-        class="p-inputtext-lg"
-        formControlName="password"
-        placeholder="Password"
-      >
-      <i class="pi pi-lock"></i>
-    </span>
-
-    <p-button
-      pRipple
-      label="Sign In"
-      type="submit"
-      icon="{{ isLoading ? 'pi pi-spin pi-spinner' : 'pi pi-sign-in' }}"
-      [disabled]="isLoading"
-      iconPos="right"
-      styleClass="p-button-rounded"
-    ></p-button>
-
-    <!-- TODO: Remove? -->
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="isLoading"
-      type="submit"
-    >
-      Sign In
-    </button>
-
-  </form>
-</p-card>
-
-<p-toast></p-toast>
+  </mat-card>
+</form>

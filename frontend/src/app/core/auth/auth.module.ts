@@ -5,12 +5,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Angular Material
 import { MatButtonModule } from '@angular/material/button';
-
-// Prime NG
-import { CardModule as PrimeCardModule } from 'primeng/card';
-import { ButtonModule as PrimeButtonModule } from 'primeng/button';
-import { InputTextModule as PrimeInputTextModule } from 'primeng/inputtext';
-import { ToastModule as PrimeToastModule } from 'primeng/toast';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 // App
 import { SignInComponent } from './components/signin/signin.component';
@@ -39,12 +37,10 @@ const routes: Routes = [
 
     // Angular Material
     MatButtonModule,
-
-    // Prime NG
-    PrimeCardModule,
-    PrimeButtonModule,
-    PrimeInputTextModule,
-    PrimeToastModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
   ],
   declarations: [
     SignInComponent,
