@@ -1,9 +1,21 @@
 @import 'style';
 
+$background-fallback: app-store('color.theme.accent.200');
+$background-gradient: linear-gradient(
+  90deg,
+  app-store('color.theme.accent.200') 0%,
+  app-store('color.theme.accent.50') 50%,
+  app-store('color.theme.accent.200') 100%
+);
+
 :host {
-  display: block;
-  background-color: app-store('color.theme.accent.200');
-  // TODO...
+  display: inline-block;
+  background-color: $background-fallback;
+  background-image: $background-gradient;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  animation: app-skeleton-loading 1.5s infinite ease-in;
+  margin: .5rem;
 
   &.--circle {
     border-radius: 100%;
@@ -12,4 +24,9 @@
   &.--rounded {
     border-radius: 1rem;
   }
+}
+
+@keyframes app-skeleton-loading {
+  0% { background-position: -50%; }
+  100% { background-position: 150%; }
 }
