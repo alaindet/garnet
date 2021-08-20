@@ -1,23 +1,28 @@
 // Reset
 @include app-reset-root();
 
+// TODO: Remove
 // Overrides
 @include app-override-card();
 @include app-override-skeleton();
 @include app-override-toast();
 
+// TODO: Remove
 // Components
 @include app-component-button-link();
 @include app-component-container();
 @include app-component-title();
 
+// TODO: Remove
 // Typography
 @include app-typography-links();
 @include app-typography-headers();
 
+// TODO: Remove
 // Layout
 @include app-layout-grid('app-', app-store('layout.grid'));
 @include app-layout-spacing('app-', app-store('layout.spacing'));
 
-// Vendor
-@include app-vendor-material();
+// 3rd-party
+$theme: app-3rdparty-theme-wario();
+@include app-3rdparty-material($theme);

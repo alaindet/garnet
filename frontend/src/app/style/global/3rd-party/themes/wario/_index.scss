@@ -1,0 +1,134 @@
+// @import './colors';
+// @import './light';
+// @import './theme';
+// @import './typography';
+
+@use '~@angular/material' as mat;
+
+@function app-3rdparty-theme-wario-light()
+{
+  @return (
+    primary: mat.define-palette((
+      50: #fff6da,
+      100: #fff0c1,
+      200: #ffe9a8,
+      300: #ffdd77,
+      400: #ffd145,
+      500: #ffc107,
+      600: #dfa700,
+      700: #b78a00,
+      800: #906c00,
+      900: #5c4500,
+      contrast: (
+        50: rgba(black, 0.87),
+        100: rgba(black, 0.87),
+        200: rgba(black, 0.87),
+        300: rgba(black, 0.87),
+        400: rgba(black, 0.87),
+        500: rgba(black, 0.87),
+        600: rgba(black, 0.87),
+        700: white,
+        800: white,
+        900: white,
+      ),
+    )),
+    accent: mat.define-palette((
+      50: #e5e3f7,
+      100: #d4d1f2,
+      200: #c2beed,
+      300: #9f99e3,
+      400: #7d74d9,
+      500: #5146cc,
+      600: #3d32b7,
+      700: #322996,
+      800: #282176,
+      900: #19154b,
+      contrast: (
+        50: rgba(black, 0.87),
+        100: rgba(black, 0.87),
+        200: rgba(black, 0.87),
+        300: rgba(black, 0.87),
+        400: rgba(black, 0.87),
+        500: white,
+        600: white,
+        700: white,
+        800: white,
+        900: white,
+      ),
+    )),
+    warn: mat.define-palette(mat.$red-palette),
+  );
+}
+
+@function app-3rdparty-theme-wario-dark()
+{
+  @return (
+    primary: mat.define-palette((
+      50: #fff6da,
+      100: #fff0c1,
+      200: #ffe9a8,
+      300: #ffdd77,
+      400: #ffd145,
+      500: #ffc107,
+      600: #dfa700,
+      700: #b78a00,
+      800: #906c00,
+      900: #5c4500,
+      contrast: (
+        50: rgba(black, 0.87),
+        100: rgba(black, 0.87),
+        200: rgba(black, 0.87),
+        300: rgba(black, 0.87),
+        400: rgba(black, 0.87),
+        500: rgba(black, 0.87),
+        600: rgba(black, 0.87),
+        700: white,
+        800: white,
+        900: white,
+      ),
+    )),
+    accent: mat.define-palette((
+      50: #e5e3f7,
+      100: #d4d1f2,
+      200: #c2beed,
+      300: #9f99e3,
+      400: #7d74d9,
+      500: #5146cc,
+      600: #3d32b7,
+      700: #322996,
+      800: #282176,
+      900: #19154b,
+      contrast: (
+        50: rgba(black, 0.87),
+        100: rgba(black, 0.87),
+        200: rgba(black, 0.87),
+        300: rgba(black, 0.87),
+        400: rgba(black, 0.87),
+        500: white,
+        600: white,
+        700: white,
+        800: white,
+        900: white,
+      ),
+    )),
+    warn: mat.define-palette(mat.$red-palette),
+  );
+}
+
+@function app-3rdparty-theme-wario()
+{
+  @return (
+    light: mat.define-light-theme(
+      (
+        color: app-3rdparty-theme-wario-light(),
+        // TODO: Typography? ...
+      )
+    ),
+    dark: mat.define-dark-theme(
+      (
+        color: app-3rdparty-theme-wario-dark(),
+        // TODO: Typography? ...
+      )
+    ),
+  );
+}
