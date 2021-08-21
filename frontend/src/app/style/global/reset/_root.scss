@@ -11,7 +11,7 @@
 
   body {
     margin: 0;
-    background-color: app-store('color.background');
+    background: linear-gradient(0, rgba(213,223,228,1) 0%, rgba(239,239,239,1) 100%);
     font-family: Roboto, 'Helvetica Neue'\, Arial, sans-serif;
   }
 }

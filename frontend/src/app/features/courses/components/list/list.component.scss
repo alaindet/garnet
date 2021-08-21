@@ -1,15 +1,11 @@
 @import 'style';
 
-.app-standout-section {
-  margin: 2.5rem 0;
+.-card {
+  position: relative;
 }
 
-.-skeleton-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  > * {
-    margin: 0.5rem;
-  }
+.-floating-menu-handle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }

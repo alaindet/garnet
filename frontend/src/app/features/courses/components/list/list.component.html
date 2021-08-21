@@ -1,61 +1,84 @@
-<!-- Create new -->
-<section class="app-standout-section">
-  <a
-    routerLink="/courses/create"
-    label="Create new course"
-    pButton
-    type="button"
-    icon="pi pi-plus"
-    iconPos="right"
-    class="app-button-link p-button-rounded p-button-lg"
-  ></a>
-</section>
+<div class="app-page-header">
+  <h1>Courses</h1>
+</div>
 
 <!-- Courses list -->
 <ng-container *ngIf="!isLoading; else loadingRef">
-  <div *ngIf="courses?.length; else noCoursesRef" class="app-cols app-cols--gap">
-    <div *ngFor="let course of courses" class="app-col-12 app-col-s-6 app-col-m-4">
-      <p-card [header]="course.name">
-        <ul>
-          <li>
-            {{ teacherHint }}
-          </li>
-          <li>
-            <strong>Created on: </strong>
-            {{ course.created_on | date }}
-          </li>
-          <li>
-            <strong>Updated on: </strong>
-            {{ course.updated_on | date }}
-          </li>
-          <li>
-            {{ course.description }}
-          </li>
-        </ul>
+  <div
+    *ngIf="courses?.length; else noCoursesRef"
+    class="app-cols app-cols--gap"
+  >
+    <div
+      *ngFor="let course of courses; let index = index"
+      class="app-col-12 app-col-s-6 app-col-m-4 app-mt3"
+    >
 
-        <ng-template pTemplate="footer">
-          <a
-            routerLink="/courses/{{ course?.course_id }}"
-            label="Show"
-            pButton
-            type="button"
-            icon="pi pi-arrow-right"
-            iconPos="right"
-            class="app-button-link p-button-rounded"
-          ></a>
-        </ng-template>
-      </p-card>
+      <!-- Material -->
+      <mat-card class="-card">
+
+        <mat-card-content>
+
+          <mat-card-title>
+            <h2>{{ course.name }}</h2>
+          </mat-card-title>
+          <mat-card-subtitle>
+            Created on: {{ course.created_on | date }},
+            Last modified: {{ course.updated_on | date }}
+          </mat-card-subtitle>
+
+          <p>
+            {{ course.description }}
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions>
+
+          <button mat-flat-button color="primary" (click)="onShowStudents()">
+            See Students
+          </button>
+
+          <button
+            class="-floating-menu-handle"
+            mat-icon-button
+            color="accent"
+            [matMenuTriggerFor]="courseCardMenu"
+          >
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+
+          <mat-menu #courseCardMenu="matMenu">
+            <button
+              mat-menu-item
+              (click)="onMenuActionClicked(CoursesAction.EditTasks)"
+            >
+              Edit tasks
+            </button>
+
+            <button
+              mat-menu-item
+              (click)="onMenuActionClicked(CoursesAction.EditCourse)"
+            >
+              Edit course
+            </button>
+
+            <button
+              mat-menu-item
+              (click)="onMenuActionClicked(CoursesAction.ShowDeleteConfirmation)"
+            >
+              Delete course
+            </button>
+          </mat-menu>
+
+        </mat-card-actions>
+
+      </mat-card>
+
     </div>
   </div>
 </ng-container>
 
 <ng-template #loadingRef>
-  <p-skeleton height="192px" styleClass="skeleton-p-card"></p-skeleton>
-  <div class="-skeleton-dots">
-    <p-skeleton shape="circle" size="1rem"></p-skeleton>
-    <p-skeleton shape="circle" size="1rem"></p-skeleton>
-    <p-skeleton shape="circle" size="1rem"></p-skeleton>
-  </div>
+  Loading...
 </ng-template>
 
 <ng-template #noCoursesRef>

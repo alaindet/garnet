@@ -1,7 +1,7 @@
 @mixin app-component-link()
 {
-  a.app-link {
-    color: app-store('color.primary-mid-dark');
+  .app-link {
+    color: app-store('color.theme.primary.700');
     text-decoration: none;
     position: relative;
     transition: 0.15s color ease-out;
@@ -15,24 +15,24 @@
       transition: 0.15s width ease-out;
       width: 50%;
       min-width: 1.5rem;
-      border-bottom: 2px solid app-store('color.primary-mid-dark');
+      border-bottom: 3px solid app-store('color.theme.primary.700');
     }
 
     &:hover {
-      color: app-store('color.primary');
+      color: app-store('color.theme.primary.500');
     }
   }
 
-  a.app-link:hover {
-    color: app-store('color.primary');
+  .app-link:hover {
+    color: app-store('color.theme.primary.500');
 
     &::after {
       width: 100%;
-      border-color: app-store('color.primary');
+      border-color: app-store('color.theme.primary.500');
     }
   }
 
-  a.app-link::after {
+  .app-link::after {
     content: '';
     position: absolute;
     bottom: -10%;
@@ -41,6 +41,6 @@
     transition: 0.15s width ease-out;
     width: 50%;
     min-width: 1.5rem;
-    border-bottom: 2px solid app-store('color.primary-mid-dark');
+    border-bottom: 2px solid app-store('color.theme.primary.700');
   }
 }

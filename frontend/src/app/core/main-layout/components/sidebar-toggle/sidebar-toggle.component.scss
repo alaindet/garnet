@@ -8,7 +8,6 @@ $line-thickness: 4px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: app-store('color.primary');
   width: $diameter;
   height: $diameter;
   border-radius: 50%;
@@ -18,15 +17,21 @@ $line-thickness: 4px;
   transition: background-color 0.3s ease-out;
 
   &.--open:hover {
-    background-color: rgba(0,0,0,0.4);
+    .line {
+      background-color: app-store('color.theme.accent.800');
+    }
   }
 
   &:hover {
-    background-color: rgba(0,0,0,0.2);
+    background-color: rgba(0,0,0,0.1);
   }
 
   &.--open {
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.2);
+
+    .line {
+      transition: 0.15s background-color ease-out;
+    }
 
     .line-top {
       transform: translateY(6px) rotate(45deg);
@@ -47,7 +52,7 @@ $line-thickness: 4px;
   height: $line-thickness;
   border-radius: $line-thickness * 0.5;
   margin: ($line-thickness * 0.5) 0;
-  background: app-store('color.background');
+  background: app-store('color.theme.accent.700');
 }
 
 .line-top,

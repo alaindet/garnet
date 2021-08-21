@@ -11,7 +11,7 @@
   top: 0;
   left: 0;
   right: 0;
-  background-color: app-store('color.primary');
+  background-color: app-store('color.theme.primary.400');
   transform: scaleY(0);
   transform-origin: top;
   transition: 0.15s transform ease-in-out;
@@ -35,5 +35,5 @@
   margin: 0;
   font-size: 1.33rem;
   text-align: center;
-  color: app-store('color.primary-mid-dark');
+  color: app-store('color.theme.accent.700');
 }

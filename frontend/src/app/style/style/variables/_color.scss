@@ -1,23 +1,60 @@
-// References
-// https://www.htmlcsscolor.com/hex/FFC107
-// https://www.htmlcsscolor.com/hex/0035d3
-// https://www.htmlcsscolor.com/hex/07ffc1
-
 $_: app-store('color', (
 
-  'primary': #ffc107,
-  'primary-light': #FFF1CB,
-  'primary-dark': #533E02,
-  'primary-mid-light': #FFE59A,
-  'primary-mid-dark': #A37B05,
+  // The current theme's palette
+  'theme': (
 
-  'secondary': #0035d3,
-  'secondary-light': #BDCAF4,
-  'secondary-dark': #001656,
-  'secondary-mid-light': #7D97E9,
-  'secondary-mid-dark': #002287,
+    'background': white,
 
-  'background': #efefef,
-  'text': #495057,
+    'primary': (
+      '50': #fff6da,
+      '100': #fff0c1,
+      '200': #ffe9a8,
+      '300': #ffdd77,
+      '400': #ffd145,
+      '500': #ffc107,
+      '600': #dfa700,
+      '700': #b78a00,
+      '800': #906c00,
+      '900': #5c4500,
+      contrast: (
+        '50': rgba(black, 0.87),
+        '100': rgba(black, 0.87),
+        '200': rgba(black, 0.87),
+        '300': rgba(black, 0.87),
+        '400': rgba(black, 0.87),
+        '500': rgba(black, 0.87),
+        '600': rgba(black, 0.87),
+        '700': white,
+        '800': white,
+        '900': white,
+      ),
+    ),
+
+    'accent': (
+      '50': #eceff1,
+      '100': #cfd8dc,
+      '200': #b0bec5,
+      '300': #90a4ae,
+      '400': #78909c,
+      '500': #607d8b,
+      '600': #546e7a,
+      '700': #455a64,
+      '800': #37474f,
+      '900': #263238,
+      contrast: (
+        '50': rgba(black, 0.87),
+        '100': rgba(black, 0.87),
+        '200': rgba(black, 0.87),
+        '300': rgba(black, 0.87),
+        '400': rgba(black, 0.87),
+        '500': white,
+        '600': white,
+        '700': white,
+        '800': white,
+        '900': white,
+      ),
+    ),
+
+  ),
 
 ));

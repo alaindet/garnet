@@ -4,14 +4,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background-image: linear-gradient(45deg, #d4d1f2, #e5e3f7);
-}
-
-.-card {
-  max-width: 500px;
-  padding: 2rem !important;
-  border-radius: 1rem;
 }
 
 .-card-content > * {

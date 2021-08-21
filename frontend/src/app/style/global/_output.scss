@@ -2,9 +2,7 @@
 @include app-reset-root();
 
 // 3rd-party custom theme
-$theme-config: app-3rdparty-material-theme-wario();
-
-@debug $theme-config;
+$theme-config: app-3rdparty-material-theme-grossular();
 
 @include app-3rdparty-material-theme($theme-config);
 
@@ -13,8 +11,9 @@ $theme-config: app-3rdparty-material-theme-wario();
 // ...
 
 // Components
-@include app-component-link();
 @include app-component-container();
+@include app-component-link();
+@include app-component-page-header();
 // ...
 
 // Layout

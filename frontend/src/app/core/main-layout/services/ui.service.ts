@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { isNavbarSticky } from '../functions';
-import { ScrollingDirection } from '../types';
+import { ScrollingDirection, FabConfiguration } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,14 +16,17 @@ export class UiService {
   private _isDummyNavbarVisible$ = new BehaviorSubject<boolean>(true);
   private _scrollingDirection$ = new BehaviorSubject<ScrollingDirection | null>(null);
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
+  private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
+  private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
+  fab$ = this._fab$.asObservable();
+  fabClicked$ = this._fabClicked$.asObservable();
 
   constructor(
     private titleService: Title,
-    private router: Router,
   ) {
     this.isNavbarSticky$ = this.computeIsNavbarSticky();
   }
@@ -42,12 +44,20 @@ export class UiService {
     this._isSidebarOpen$.next(!this._isSidebarOpen$.getValue());
   }
 
+  clickFab(actionName: string): void {
+    this._fabClicked$.next(actionName);
+  }
+
   set isDummyNavbarVisible(isVisible: boolean) {
     this._isDummyNavbarVisible$.next(isVisible);
   }
 
   set scrollingDirection(scrollingDirection: ScrollingDirection) {
     this._scrollingDirection$.next(scrollingDirection);
+  }
+
+  set fab(config: FabConfiguration | null) {
+    this._fab$.next(config);
   }
 
   private computeIsNavbarSticky(): any {

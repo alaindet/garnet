@@ -1,27 +1,26 @@
-<!-- TODO -->
-<main class="app-container-focused">
+<main class="app-container-narrow">
 
   <!-- Back -->
-  <button
-    mat-button
-    type="button"
-    label="Back to the app"
-    class="p-button-raised p-button-rounded p-button-text p-button-secondary -back"
-    icon="pi pi-arrow-left"
-    iconPos="left"
-    (click)="onBackClick()"
-  ></button>
-
-  <!-- Sign Out -->
-  <mat-card>
-    <h2 style="margin-top: 0">Sign Out</h2>
-    <p>Are you sure you want to sign out?</p>
-    <button
-      mat-flat-button
-      (click)="onSignOut()"
-    >
-      Sign Out
+  <div class="app-mt4 app-mb3">
+    <button mat-stroked-button (click)="onBackClick()">
+      <mat-icon>arrow_back</mat-icon>
+      Go back to the app
     </button>
-  </mat-card>
+  </div>
 
+  <mat-card>
+
+    <mat-card-content>
+
+      <h1>Sign Out</h1>
+
+      <p>Are you sure you want to sign out?</p>
+
+      <!-- Sign out -->
+      <button mat-flat-button color="primary" (click)="onSignOut()">
+        Sign Out
+      </button>
+    </mat-card-content>
+
+  </mat-card>
 </main>

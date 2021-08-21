@@ -1,0 +1,56 @@
+@use '~@angular/material' as mat;
+
+@function app-3rdparty-material-theme-grossular-light()
+{
+  @return (
+    primary: mat.define-palette((
+      50: app-store('color.theme.primary.50'),
+      100: app-store('color.theme.primary.100'),
+      200: app-store('color.theme.primary.200'),
+      300: app-store('color.theme.primary.300'),
+      400: app-store('color.theme.primary.400'),
+      500: app-store('color.theme.primary.500'),
+      600: app-store('color.theme.primary.600'),
+      700: app-store('color.theme.primary.700'),
+      800: app-store('color.theme.primary.800'),
+      900: app-store('color.theme.primary.900'),
+      contrast: (
+        50: app-store('color.theme.primary.contrast.50'),
+        100: app-store('color.theme.primary.contrast.100'),
+        200: app-store('color.theme.primary.contrast.200'),
+        300: app-store('color.theme.primary.contrast.300'),
+        400: app-store('color.theme.primary.contrast.400'),
+        500: app-store('color.theme.primary.contrast.500'),
+        600: app-store('color.theme.primary.contrast.600'),
+        700: app-store('color.theme.primary.contrast.700'),
+        800: app-store('color.theme.primary.contrast.800'),
+        900: app-store('color.theme.primary.contrast.900'),
+      ),
+    )),
+    accent: mat.define-palette((
+      50: app-store('color.theme.accent.50'),
+      100: app-store('color.theme.accent.100'),
+      200: app-store('color.theme.accent.200'),
+      300: app-store('color.theme.accent.300'),
+      400: app-store('color.theme.accent.400'),
+      500: app-store('color.theme.accent.500'),
+      600: app-store('color.theme.accent.600'),
+      700: app-store('color.theme.accent.700'),
+      800: app-store('color.theme.accent.800'),
+      900: app-store('color.theme.accent.900'),
+      contrast: (
+        50: app-store('color.theme.accent.contrast.50'),
+        100: app-store('color.theme.accent.contrast.100'),
+        200: app-store('color.theme.accent.contrast.200'),
+        300: app-store('color.theme.accent.contrast.300'),
+        400: app-store('color.theme.accent.contrast.400'),
+        500: app-store('color.theme.accent.contrast.500'),
+        600: app-store('color.theme.accent.contrast.600'),
+        700: app-store('color.theme.accent.contrast.700'),
+        800: app-store('color.theme.accent.contrast.800'),
+        900: app-store('color.theme.accent.contrast.900'),
+      ),
+    )),
+    warn: mat.define-palette(mat.$red-palette),
+  );
+}

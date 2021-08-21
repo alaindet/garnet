@@ -8,3 +8,10 @@
 <main #routerOutletRef class="app-container">
   <router-outlet></router-outlet>
 </main>
+
+<ng-container *ngIf="ui.fab$ | async as fab">
+  <app-fab
+    [icon]="fab?.icon"
+    (click)="ui.clickFab(fab.actionName)"
+  ></app-fab>
+</ng-container>

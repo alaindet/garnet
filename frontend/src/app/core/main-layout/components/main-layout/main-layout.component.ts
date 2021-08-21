@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
-import { throttleTime, map, distinctUntilChanged, filter } from 'rxjs/operators';
+import { throttleTime, map, distinctUntilChanged, filter, mergeMap, tap } from 'rxjs/operators';
 
 import { UiService } from '../../services';
 import { ScrollingDirection } from '../../types';
@@ -24,11 +24,12 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   constructor(
     public ui: UiService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
     this.observeLockedScrolling();
-    this.closeSidebarOnNavigation();
+    this.listenToRouterEvents();
   }
 
   ngAfterViewInit(): void {
@@ -43,6 +44,10 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
 
   onSidebarClose(): void {
     this.ui.isSidebarOpen = false;
+  }
+
+  onFabClick(): void {
+    
   }
 
   private observeLockedScrolling(): void {
@@ -65,9 +70,38 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
       .subscribe(scrollDir => this.ui.scrollingDirection = scrollDir);
   }
 
-  private closeSidebarOnNavigation(): void {
+  private listenToRouterEvents(): void {
+
     this.router.events
-      .pipe(filter(e => e instanceof NavigationEnd))
-      .subscribe(() => this.ui.isSidebarOpen = false);
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        tap(this.closeSidebarOnNavigation.bind(this)),
+        map(() => this.route),
+        map(route => {
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route;
+        }),
+        filter(route => route.outlet === 'primary'),
+        mergeMap(route => route.data),
+        tap(this.updateFabFromRouteData.bind(this)),
+      )
+      .subscribe();
+  }
+
+  private closeSidebarOnNavigation(): void {
+    this.ui.isSidebarOpen = false
+  }
+
+  private updateFabFromRouteData(routeData: any): void {
+
+    let fab = routeData?.fab ?? null;
+
+    if (typeof fab === 'string') {
+      fab = { actionName: fab };
+    }
+
+    this.ui.fab = fab;
   }
 }
