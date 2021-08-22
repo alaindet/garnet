@@ -6,7 +6,6 @@ use App\Core\Controller;
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
-use App\Features\Courses\Dtos\CreateCourseDto;
 use App\Features\Users\Enums\UserRole;
 use App\Features\Courses\Services\CoursesService;
 
@@ -21,21 +20,12 @@ class CoursesController extends Controller
 
     public function create(Request $req, Response $res): Response
     {
-        $authData = $req->getAuthenticationData();
-        $body = $req->getBody();
-
-        $dto = new CreateCourseDto();
-        $dto->teacherId = $authData['user_id'];
-        $dto->name = $body['name'];
-        $dto->description = !empty($body['description'])
-            ? $body['description']
-            : null;
-
-        $course = $this->coursesService->create($dto);
+        $dtoIn = $req->getValidatedData();
+        $dtoOut = $this->coursesService->create($dtoIn);
 
         $res->setBody([
             'message' => 'New course created',
-            'data' => $course,
+            'data' => $dtoOut,
         ]);
 
         return $res;
@@ -44,7 +34,7 @@ class CoursesController extends Controller
     public function getAll(Request $req, Response $res): Response
     {
         $message = '';
-        $data = null;
+        $courses = null;
         $authData = $req->getAuthenticationData();
         $userId = $authData['user_id'];
         $userRoleId = $authData['user_role_id'];
@@ -52,11 +42,11 @@ class CoursesController extends Controller
         switch ($userRoleId) {
             case UserRole::Teacher:
                 $message = "All courses of teacher #{$userId}";
-                $data = $this->coursesService->getAllByTeacherId($userId);
+                $courses = $this->coursesService->getAllByTeacherId($userId);
                 break;
             case UserRole::Student:
                 $message = "All courses of student #{$userId}";
-                $data = $this->coursesService->getAllByStudentId($userId);
+                $courses = $this->coursesService->getAllByStudentId($userId);
                 break;
             default:
                 throw new UnauthorizedHttpException('You are not authorized');
@@ -64,7 +54,49 @@ class CoursesController extends Controller
 
         $res->setBody([
             'message' => $message,
-            'data' => $data,
+            'data' => $courses,
+        ]);
+
+        return $res;
+    }
+
+    public function getById(Request $req, Response $res): Response
+    {
+        $id = $req->getUriParameter('id');
+
+        $course = $this->coursesService->findById($id);
+
+        $res->setBody([
+            'message' => "Get course #{$id} data",
+            'data' => $course,
+        ]);
+
+        return $res;
+    }
+
+    public function update(Request $req, Response $res): Response
+    {
+        $dtoIn = $req->getValidatedData();
+
+        $dtoOut = $this->coursesService->updateById($dtoIn);
+
+        $res->setBody([
+            'message' => "Course #{$dtoOut->courseId} updated",
+            'data' => $dtoOut,
+        ]);
+
+        return $res;
+    }
+
+    public function delete(Request $req, Response $res): Response
+    {
+        $id = $req->getUriParameter('id');
+
+        $dtoOut = $this->coursesService->deleteById($id);
+
+        $res->setBody([
+            'message' => "Course #{$dtoOut->courseId} deleted",
+            'data' => $dtoOut,
         ]);
 
         return $res;

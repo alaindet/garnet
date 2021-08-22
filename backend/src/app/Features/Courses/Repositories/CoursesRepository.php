@@ -51,7 +51,8 @@ class CoursesRepository extends Repository
 
     public function getAllByTeacherId(string $teacherId): array
     {
-        $sql = "SELECT * FROM courses WHERE teacher_id = :teacherid";
+        $table = self::TABLE;
+        $sql = "SELECT * FROM {$table} WHERE teacher_id = :teacherid";
         $params = [':teacherid' => $teacherId];
 
         return $this->db->select($sql, $params);
@@ -71,5 +72,55 @@ class CoursesRepository extends Repository
         $params = [':studentid' => $studentId];
 
         return $this->db->select($sql, $params);
+    }
+
+    public function findById(string $courseId): array|null
+    {
+        $table = self::TABLE;
+        $sql = "SELECT * FROM {$table} WHERE course_id = :courseid";
+        $params = [':courseid' => $courseId];
+        return $this->db->selectFirst($sql, $params);
+    }
+
+    public function findByName(string $courseName): array|null
+    {
+        $table = self::TABLE;
+        $sql = "SELECT * FROM {$table} WHERE name = :coursename";
+        $params = [':coursename' => $courseName];
+        return $this->db->selectFirst($sql, $params);
+    }
+
+    public function updateById(string $id, array $fields): int
+    {
+        $table = self::TABLE;
+
+        $updates = [
+            'updated_on = :updatedon',
+        ];
+
+        $params = [
+            ':courseid' => $id,
+            ':updatedon' => Time::getDate(),
+        ];
+
+        foreach ($fields as $field => $value) {
+            $placeholder = ":{$field}";
+            $params[$placeholder] = $value;
+            $updates[] = "{$field} = {$placeholder}";
+        }
+
+        $setClause = implode(', ', $updates);
+
+        $sql = "UPDATE {$table} SET {$setClause} WHERE course_id = :courseid";
+
+        return $this->db->execute($sql, $params);
+    }
+
+    public function deleteById(string $id): int
+    {
+        $table = self::TABLE;
+        $sql = "DELETE FROM {$table} WHERE course_id = :courseid";
+        $params = [':courseid' => $id];
+        return $this->db->execute($sql, $params);
     }
 }

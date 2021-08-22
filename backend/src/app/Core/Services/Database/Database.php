@@ -60,7 +60,7 @@ class Database
         string $sql,
         array $params = [],
         string $className = null
-    )
+    ): array|null
     {
         $result = $this->select($sql, $params, $className);
         return $result[0] ?? null;
