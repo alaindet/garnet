@@ -1,7 +1,8 @@
 export enum CoursesAction {
-  ShowCreateForm = 'show-create-form',
+  ShowCreateCourseForm = 'show-create-form',
   EditTasks = 'edit-tasks',
+  ShowEditCourseForm = 'show-edit-form',
   EditCourse = 'edit-course',
-  ShowDeleteConfirmation = 'show-delete-confirmation',
+  ShowDeleteCourse = 'show-delete-confirmation',
   ShowStudents = 'show-students',
 }

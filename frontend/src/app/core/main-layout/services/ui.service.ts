@@ -62,6 +62,16 @@ export class UiService {
     this._snackbar$.next(config);
   }
 
+  setSnackbarSuccess(message: string) {
+    const config: SnackbarConfiguration = { message, type: 'success' };
+    this._snackbar$.next(config);
+  }
+
+  setSnackbarError(message: string) {
+    const config: SnackbarConfiguration = { message, type: 'error' };
+    this._snackbar$.next(config);
+  }
+
   set fab(config: FabConfiguration | null) {
     this._fab$.next(config);
   }

@@ -3,5 +3,7 @@
 - [ ] Switch to dark theme?
 - [ ] Move theme files to separate files
 - [ ] CORS interceptor on FE
-- [ ] Add Courses CRUD
 - [ ] Add middleware and roles aliases in backend
+- [ ] Fix style of button with icon
+- [ ] Add skeleton loading
+- [ ] Delete without refetching list

@@ -1,0 +1,27 @@
+<header mat-dialog-title>
+  <h1>Delete course</h1>
+</header>
+
+<div mat-dialog-content>
+  <p>
+    Are you sure you want to delete course #{{ data.course_id }}
+    <strong>{{ data.name }}</strong>?
+  </p>
+</div>
+
+<div mat-dialog-actions>
+
+  <!-- Cancel -->
+  <button mat-button mat-dialog-close>Cancel</button>
+
+  <!-- Confirm -->
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onConfirm()"
+    [disabled]="isLoading"
+  >
+    Delete
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

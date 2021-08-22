@@ -15,6 +15,7 @@
   transform: scaleY(0);
   transform-origin: top;
   transition: 0.15s transform ease-in-out;
+  z-index: app-store('z-index.navbar');
 
   &.--sticky {
     transform: scaleY(1);

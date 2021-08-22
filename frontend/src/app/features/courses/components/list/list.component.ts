@@ -2,17 +2,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
-import { MessageService as PrimeMessageService } from 'primeng/api';
 import { CoursesService } from '../../services';
 import { Course } from '../../types';
 import { CoursesAction } from '../../actions';
+import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.component';
 
 @Component({
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  providers: [PrimeMessageService],
 })
 export class CoursesListComponent implements OnInit, OnDestroy {
 
@@ -24,9 +24,9 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   constructor(
     private coursesService: CoursesService,
-    private messageService: PrimeMessageService,
     private ui: UiService,
     private router: Router,
+    private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -41,29 +41,28 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMenuActionClicked(action: CoursesAction): void {
+  onMenuActionClicked(action: CoursesAction, courseId: number): void {
     switch (action) {
       case CoursesAction.EditTasks:
-        console.log(CoursesAction.EditTasks);
+        console.log(CoursesAction.EditTasks, courseId);
         // ...
         break;
-      case CoursesAction.EditCourse:
-        console.log(CoursesAction.EditCourse);
-        // ...
+      case CoursesAction.ShowEditCourseForm:
+        this.router.navigate(['/courses', courseId]);
         break;
-      case CoursesAction.ShowDeleteConfirmation:
-        console.log(CoursesAction.ShowDeleteConfirmation);
-        // ...
+      case CoursesAction.ShowDeleteCourse:
+        this.deleteCourse(courseId);
         break;
     }
   }
 
   onShowStudents(): void {
     console.log(CoursesAction.ShowStudents);
+    // ...
   }
 
   onFabClick(action: string): void {
-    if (action === CoursesAction.ShowCreateForm) {
+    if (action === CoursesAction.ShowCreateCourseForm) {
       this.router.navigate(['/courses/create']);
     }
   }
@@ -75,16 +74,20 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     this.coursesService.getAllCourses()
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
+        error: err => this.ui.setSnackbarError(err.error.message),
         next: courses => this.courses = courses,
-        error: err => {
-          console.error(err);
-          this.courses = null;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err.error.message,
-          });
-        },
+      });
+  }
+
+  private deleteCourse(courseId: number): void {
+    const course = this.courses?.find(c => c.course_id === courseId);
+    const config: MatDialogConfig<Course> = { data: course };
+    this.matDialog.open(ConfirmDeleteComponent, config)
+      .afterClosed()
+      .subscribe(data => {
+        if (data) {
+          this.fetchCourses();
+        }
       });
   }
 }

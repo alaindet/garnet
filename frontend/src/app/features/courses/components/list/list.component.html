@@ -9,10 +9,9 @@
     class="app-cols app-cols--gap"
   >
     <div
-      *ngFor="let course of courses; let index = index"
-      class="app-col-12 app-col-s-6 app-col-m-4 app-mt3"
+      *ngFor="let course of courses"
+      class="app-col-12 app-col-s-6 app-col-m-4 app-my3"
     >
-
       <!-- Material -->
       <mat-card class="-card">
 
@@ -23,6 +22,7 @@
           </mat-card-title>
           <mat-card-subtitle>
             Created on: {{ course.created_on | date }},
+            <br>
             Last modified: {{ course.updated_on | date }}
           </mat-card-subtitle>
 
@@ -49,21 +49,30 @@
           <mat-menu #courseCardMenu="matMenu">
             <button
               mat-menu-item
-              (click)="onMenuActionClicked(CoursesAction.EditTasks)"
+              (click)="onMenuActionClicked(
+                CoursesAction.EditTasks,
+                course.course_id
+              )"
             >
               Edit tasks
             </button>
 
             <button
               mat-menu-item
-              (click)="onMenuActionClicked(CoursesAction.EditCourse)"
+              (click)="onMenuActionClicked(
+                CoursesAction.ShowEditCourseForm,
+                course.course_id
+              )"
             >
               Edit course
             </button>
 
             <button
               mat-menu-item
-              (click)="onMenuActionClicked(CoursesAction.ShowDeleteConfirmation)"
+              (click)="onMenuActionClicked(
+                CoursesAction.ShowDeleteCourse,
+                course.course_id
+              )"
             >
               Delete course
             </button>

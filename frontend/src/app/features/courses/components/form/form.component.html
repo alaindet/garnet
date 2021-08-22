@@ -1,0 +1,71 @@
+<main class="app-container-narrow">
+
+  <div class="app-page-header">
+    <app-back-button>Back</app-back-button>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <mat-card>
+    <ng-container *ngIf="courseForm; else loadingCourseRef">
+      <mat-card-content>
+        <form
+          class="-form"
+          [formGroup]="courseForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Name -->
+          <mat-form-field appearance="fill" class="app-my2">
+            <mat-label>Name*</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="name"
+              placeholder="Course name..."
+              #firstInputRef
+            >
+            <mat-error *ngIf="name.invalid">
+              Enter a name with 5+ letters
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Description -->
+          <mat-form-field appearance="fill" class="app-my2">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [formControl]="description"
+              rows="5"
+              placeholder="Course description..."
+            ></textarea>
+            <mat-error *ngIf="description.invalid">
+              Enter a description with 5+ letters
+            </mat-error>
+          </mat-form-field>
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="isLoading"
+          (click)="onSubmit()"
+        >
+          {{ submit }}
+          <mat-icon>{{ submitIcon }}</mat-icon>
+        </button>
+
+      </mat-card-actions>
+    </ng-container>
+  </mat-card>
+</main>
+
+<ng-template #loadingCourseRef>
+  <mat-card-content>
+    Loading...
+  </mat-card-content>
+  <mat-card-actions>
+    Loading...
+  </mat-card-actions>
+</ng-template>

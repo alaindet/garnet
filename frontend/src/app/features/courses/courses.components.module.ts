@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
 
@@ -16,6 +17,7 @@ import { BackButtonComponentModule } from '@app/shared/components/back-button';
     MatMenuModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
     BackButtonComponentModule,
   ],
   exports: [
@@ -25,6 +27,7 @@ import { BackButtonComponentModule } from '@app/shared/components/back-button';
     MatMenuModule,
     MatFormFieldModule,
     MatInputModule,
+    MatDialogModule,
     BackButtonComponentModule,
   ],
 })
