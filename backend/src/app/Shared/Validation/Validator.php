@@ -23,9 +23,8 @@ use App\Shared\Validation\RuleValidators\RequiredRuleValidator;
  */
 class Validator
 {
-    public ValidationErrors $errors;
-
     private array $input = [];
+    private array $errors = [];
     private array $rules;
     private array $ruleValidators = [
         'between' => BetweenRuleValidator::class,
@@ -48,43 +47,54 @@ class Validator
     {
         $this->input = $input;
         $this->rules = $rules;
-        $this->errors = new ValidationErrors();
+    }
+
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 
     public function validate(): bool
     {
+        $this->errors = [];
+
         foreach ($this->rules as $inputKey => $ruleValidators) {
             foreach ($ruleValidators as $ruleName => $ruleParams) {
 
                 $ruleValidatorClass = $this->ruleValidators[$ruleName];
-                $errorBehavior = constant("{$ruleValidatorClass}::ERROR_BEHAVIOR");
                 $ruleValidator = new $ruleValidatorClass($this->errors);
 
                 if (!\is_array($ruleParams)) {
                     $ruleParams = [$ruleParams];
                 }
 
+                // Evaluate rule validator
                 $ruleErrors = $ruleValidator->validate(
                     $this->input,
                     $inputKey,
                     ...$ruleParams
                 );
 
+                // Add errors
                 if ($ruleErrors !== null) {
+
                     foreach ($ruleErrors as $ruleErrorKey => $ruleErrorMessage) {
-                        $key = "{$inputKey}.{$ruleErrorKey}";
-                        $this->errors->add($key, $ruleErrorMessage);
+
+                        if (!isset($this->errors[$inputKey])) {
+                            $this->errors[$inputKey] = [];
+                        }
+
+                        $this->errors[$inputKey][$ruleErrorKey] = $ruleErrorMessage;
                     }
                 }
 
                 // Stop validation?
-                $stopsOnError = RuleValidator::ERROR_BEHAVIOR_STOP;
-                if ($errorBehavior === $stopsOnError && $ruleErrors !== null) {
-                    return false;
+                if ($ruleValidator->shouldStopValidation()) {
+                    return $this->errors === [];
                 }
             }
         }
 
-        return $this->errors->isEmpty();
+        return $this->errors === [];
     }
 }

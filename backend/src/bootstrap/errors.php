@@ -27,6 +27,7 @@ set_exception_handler(
             $res->setBody([
                 'error' => [
                     'message' => $e->getMessage(),
+                    'data' => $e->getData(),
                 ],
             ]);
             ResponseEmitter::send($res);

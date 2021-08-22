@@ -6,14 +6,23 @@ abstract class RuleValidator
 {
     use RuleValidatorWithErrors;
 
-    const ERROR_BEHAVIOR_CONTINUE = 1; // Continues validation pipeline on error
-    const ERROR_BEHAVIOR_STOP = 2; // Stops validation pipeline on error
     const CONTEXT_SINGLE = 3; // Validates only a value of the group
     const CONTEXT_GROUP = 4; // Validates 2+ values of the group
 
     // Overwrite these in child classes
     const NAME = 'name-of-the-child-rule-validator';
-    const ERROR_BEHAVIOR = self::ERROR_BEHAVIOR_CONTINUE;
+
+    // If true, stops the validation after rule validator is run
+    private $stopValidation = false;
+
+    public function shouldStopValidation(?bool $stopValidation = null)
+    {
+        if ($stopValidation === null) {
+            return $this->stopValidation;
+        }
+
+        $this->stopValidation = $stopValidation;
+    }
 
     /**
      * Executes a sigle context or group context rule validator based on the

@@ -20,9 +20,6 @@ class RequiredRuleValidator extends GroupRuleValidator
 {
     const NAME = 'required';
 
-    // Stop every further validation if a required value is missing!
-    const ERROR_BEHAVIOR = self::ERROR_BEHAVIOR_STOP;
-
     protected array $errorTemplates = [
         'required' => 'Key :key is required',
     ];
@@ -31,24 +28,30 @@ class RequiredRuleValidator extends GroupRuleValidator
     {
         $required = $params[0];
 
+        $valueExists = (
+            isset($group[$key]) ||
+            (
+                isset($group[$key]['error']) &&
+                $group[$key]['error'] === UPLOAD_ERR_OK
+            )
+        );
+
+        if ($valueExists) {
+            return null;
+        }
+
+        // Value is missing, stop validation anyway!
+        $this->shouldStopValidation(true);
+
+        // Optional, so no error
         if (!$required) {
             return null;
         }
 
-        if (
-            !isset($group[$key]) ||
-            (
-                isset($group[$key]['error']) &&
-                $group[$key]['error'] !== UPLOAD_ERR_OK
-            )
-        ) {
-            return [
-                'required' => $this->getErrorMessage('required', [
-                    ':key' => $key,
-                ]),
-            ];
-        }
-
-        return null;
+        return [
+            'required' => $this->getErrorMessage('required', [
+                ':key' => $key,
+            ]),
+        ];
     }
 }

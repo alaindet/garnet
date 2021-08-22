@@ -14,7 +14,7 @@ use App\Shared\Validation\RuleValidator\SingleRuleValidator;
  *     ],
  * ])
  */
-class MaxLengthRuleValidator extends SingleRuleValidator
+class MinLengthRuleValidator extends SingleRuleValidator
 {
     const NAME = 'minLength';
 
