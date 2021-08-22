@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { isNavbarSticky } from '../functions';
-import { ScrollingDirection, FabConfiguration } from '../types';
+import { ScrollingDirection, FabConfiguration, SnackbarConfiguration } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +18,14 @@ export class UiService {
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
   private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
   private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
+  private _snackbar$ = new Subject<SnackbarConfiguration>();
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
   fab$ = this._fab$.asObservable();
   fabClicked$ = this._fabClicked$.asObservable();
+  snackbar$ = this._snackbar$.asObservable();
 
   constructor(
     private titleService: Title,
@@ -54,6 +56,10 @@ export class UiService {
 
   set scrollingDirection(scrollingDirection: ScrollingDirection) {
     this._scrollingDirection$.next(scrollingDirection);
+  }
+
+  set snackbar(config: SnackbarConfiguration) {
+    this._snackbar$.next(config);
   }
 
   set fab(config: FabConfiguration | null) {

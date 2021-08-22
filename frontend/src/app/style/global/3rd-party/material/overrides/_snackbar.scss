@@ -1,0 +1,6 @@
+@mixin app-3rdparty-material-override-snackbar()
+{
+  .mat-snack-bar-container {
+    border-radius: 1rem !important;
+  }
+}

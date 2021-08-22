@@ -26,6 +26,7 @@ class Routes
                 // Route::post('/', '@create'),
                 Route::get('/', '@getAll'),
                 Route::post('/', '@create')
+                    ->middleware(AuthorizationMiddleware::class)
                     ->middleware(CreateCourseValidationMiddleware::class),
                 // Route::get('/{id}', '@getById'),
                 // Route::patch('/{id}', '@update'),

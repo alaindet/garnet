@@ -2,3 +2,6 @@
 - [ ] Add dark theme and dark theme toggle
 - [ ] Switch to dark theme?
 - [ ] Move theme files to separate files
+- [ ] CORS interceptor on FE
+- [ ] Create course validation middleware
+- [ ] Authorization middleware

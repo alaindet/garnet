@@ -9,6 +9,7 @@
   <router-outlet></router-outlet>
 </main>
 
+<!-- FAB -->
 <ng-container *ngIf="ui.fab$ | async as fab">
   <app-fab
     [icon]="fab?.icon"

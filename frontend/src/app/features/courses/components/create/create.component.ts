@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-// import { MessageService } from 'primeng/api';
+import { finalize } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
-import { finalize } from 'rxjs/operators';
 import { CoursesService } from '../../services';
 import { CreateCourseDto } from '../../types';
 
@@ -20,19 +18,21 @@ export class CreateCourseComponent implements OnInit {
 
   constructor(
     private ui: UiService,
-    private location: Location,
     private coursesService: CoursesService,
     private router: Router,
-    // private messageService: MessageService,
   ) {}
+
+  get name(): FormControl {
+    return this.courseForm.get('name') as FormControl;
+  }
+
+  get description(): FormControl {
+    return this.courseForm.get('description') as FormControl;
+  }
 
   ngOnInit(): void {
     this.ui.title = 'Create course';
     this.initForm();
-  }
-
-  onBackClick(): void {
-    this.location.back();
   }
 
   onCreateCourse(): void {
@@ -41,34 +41,23 @@ export class CreateCourseComponent implements OnInit {
       return;
     }
 
-    const dto: CreateCourseDto = this.courseForm.value;
-
     this.isLoading = true;
+    this.courseForm.disable();
+    const dto: CreateCourseDto = this.courseForm.value;
 
     this.coursesService.createCourse(dto)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: () => {
           this.router.navigate(['/courses']);
-          console.log('New course created');
-          // this.messageService.add({
-          //   severity: 'success',
-          //   summary: 'Success',
-          //   detail: 'New course created',
-          // });
+          this.ui.snackbar = { message: 'Course created', type: 'success' };
         },
         error: err => {
           console.error(err);
-          console.log('Could not create new course');
-          // this.messageService.add({
-          //   severity: 'error',
-          //   summary: 'Error',
-          //   detail: 'Could not create new course',
-          // });
+          this.ui.snackbar = { message: 'Could not create course', type: 'error' };
+          this.courseForm.enable();
         },
       });
-
-    // ...
   }
 
   private initForm(): void {

@@ -17,14 +17,6 @@ class CoursesRepository extends Repository
         $this->db = appServiceProvider(Database::class);
     }
 
-    /*
-     class CreateCourseDto
-    {
-        public string $teacherId;
-        public string $name;
-        public ?string $description;
-    }
-     */
     public function create(CreateCourseDto $dto): array
     {
         $now = Time::getDate();
