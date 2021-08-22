@@ -5,6 +5,7 @@ namespace App\Features\Courses;
 use App\Core\Routing\Route\Route;
 use App\Core\Routing\RouteGroup;
 use App\Features\Authentication\Middleware\AuthenticationMiddleware;
+use App\Features\Authentication\Middleware\AuthorizationMiddleware;
 use App\Features\Courses\Controllers\CoursesController;
 use App\Features\Courses\Middleware\CreateCourseValidationMiddleware;
 

@@ -2,9 +2,11 @@
 
 namespace App\Features\Courses\Middleware;
 
+use App\Core\Exceptions\Http\BadRequestHttpException;
 use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
+use App\Shared\Validation\Validator;
 
 class CreateCourseValidationMiddleware extends Middleware
 {
@@ -12,7 +14,28 @@ class CreateCourseValidationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        // TODO: Validation needed...
+        $body = $req->getBody();
+
+        $validator = new Validator($body, [
+            'name' => [
+                'required' => true,
+                'minLength' => 5,
+            ],
+            'description' => [
+                'required' => false,
+                'minLength' => 5,
+            ]
+        ]);
+
+        if (!$validator->validate()) {
+            $message = 'Could not create a new course';
+            $data = [
+                'validation' => $validator->getErrors(),
+            ];
+            throw (new BadRequestHttpException($message))->setData($data);
+        }
+
+        $req->setValidatedData($body);
 
         return $res;
     }
