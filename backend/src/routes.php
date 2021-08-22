@@ -6,10 +6,10 @@ use App\Core\Middleware\CorsMiddleware;
 $routes = [
     \App\Features\Courses\Routes::register(),
     \App\Features\Authentication\Routes::register(),
-    // Add route groups here...
+    // Add route groups from feature modules here...
 ];
 
-// Add test routes in development
+// Add test routes in development only
 if (!appConfig('env.production')) {
     $routes[] = \App\Features\Tests\Routes::register();
 }
@@ -20,6 +20,6 @@ $middleware = [
 ];
 
 return (new RouteGroup)
-    ->middleware($middleware)
+    ->setMiddleware($middleware)
     ->routes(array_merge(...$routes))
     ->collect();

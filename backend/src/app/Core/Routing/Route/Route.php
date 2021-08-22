@@ -2,6 +2,7 @@
 
 namespace App\Core\Routing\Route;
 
+use App\Core\Middleware;
 use App\Core\Common\GetterSetter;
 
 class Route
@@ -53,17 +54,29 @@ class Route
         return $this->getOrSet('_handler', $handler);
     }
 
-    public function middleware($middleware = null)
+    /**
+     * Adds one single middleware class name to existing ones
+     */
+    public function middleware(string $middlewareClass = null, ?array $args = null)
     {
-        if (!isset($middleware)) {
+        if ($middlewareClass === null) {
             return $this->_middleware;
         }
 
-        if (\is_array($middleware)) {
-            $this->_middleware = array_merge($this->_middleware, $middleware);
-        } else {
-            $this->_middleware[] = $middleware;
-        }
+        $middlewareConfig = [$middlewareClass, $args ?? []];
+        $this->_middleware[] = $middlewareConfig;
+
+        return $this;
+    }
+
+    /**
+     * Resets all middleware to given argument
+     */
+    public function setMiddleware(array|string $middlewareConfigs): self
+    {
+        $this->_middleware = \is_array($middlewareConfigs)
+            ? $middlewareConfigs
+            : [$middlewareConfigs];
 
         return $this;
     }

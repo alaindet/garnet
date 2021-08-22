@@ -37,6 +37,7 @@ class Dispatcher
         // Execute before middleware
         foreach ($before as $middleware) {
             [$className, $inputs] = $middleware;
+
             $response = (new $className())->process(
                 $this->request,
                 $response,

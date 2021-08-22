@@ -2,6 +2,7 @@
 
 namespace App\Core\Routing;
 
+use App\Core\Middleware;
 use App\Core\Common\GetterSetter;
 
 class RouteGroup
@@ -24,9 +25,31 @@ class RouteGroup
         return $this->getOrSet('_handler', $handler);
     }
 
-    public function middleware(?array $middleware = null)
+    /**
+     * Adds one single middleware to existing ones
+     */
+    public function middleware(string $middlewareClass = null, ?array $args = null)
     {
-        return $this->getOrSet('_middleware', $middleware);
+        if ($middlewareClass === null) {
+            return $this->_middleware;
+        }
+
+        $middlewareConfig = [$middlewareClass, $args ?? []];
+        $this->_middleware[] = $middlewareConfig;
+
+        return $this;
+    }
+
+    /**
+     * Resets all middleware to given argument
+     */
+    public function setMiddleware(array|string $middlewareConfigs): self
+    {
+        $this->_middleware = \is_array($middlewareConfigs)
+            ? $middlewareConfigs
+            : [$middlewareConfigs];
+
+        return $this;
     }
 
     public function pathConstraints(?array $pathConstraints = null)
@@ -46,9 +69,12 @@ class RouteGroup
         foreach ($this->_routes as $route) {
             $route->path($this->_path . $route->path());
             $route->handler($this->_handler . $route->handler());
-            $route->middleware(
+
+            // Override, do not add
+            $route->setMiddleware(
                 array_merge($this->_middleware, $route->middleware())
             );
+
             $route->pathConstraints(
                 array_merge($this->_pathConstraints, $route->pathConstraints())
             );

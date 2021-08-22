@@ -3,4 +3,5 @@
 - [ ] Switch to dark theme?
 - [ ] Move theme files to separate files
 - [ ] CORS interceptor on FE
-- [ ] Authorization middleware
+- [ ] Add Courses CRUD
+- [ ] Add middleware and roles aliases in backend

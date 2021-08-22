@@ -5,9 +5,10 @@ namespace App\Features\Courses;
 use App\Core\Routing\Route\Route;
 use App\Core\Routing\RouteGroup;
 use App\Features\Authentication\Middleware\AuthenticationMiddleware;
-use App\Features\Authentication\Middleware\AuthorizationMiddleware;
+use App\Features\Authentication\Middleware\RoleAuthorizationMiddleware;
 use App\Features\Courses\Controllers\CoursesController;
 use App\Features\Courses\Middleware\CreateCourseValidationMiddleware;
+use App\Features\Users\Enums\UserRole;
 
 class Routes
 {
@@ -19,15 +20,15 @@ class Routes
                 'teacherid' => '\d+',
                 'studentId' => '\d+',
             ])
-            ->middleware([
-                AuthenticationMiddleware::class,
-            ])
+            ->middleware(AuthenticationMiddleware::class)
             ->handler(CoursesController::class)
             ->routes([
-                // Route::post('/', '@create'),
                 Route::get('/', '@getAll'),
                 Route::post('/', '@create')
-                    ->middleware(AuthorizationMiddleware::class)
+                    ->middleware(
+                        RoleAuthorizationMiddleware::class,
+                        [UserRole::Teacher]
+                    )
                     ->middleware(CreateCourseValidationMiddleware::class),
                 // Route::get('/{id}', '@getById'),
                 // Route::patch('/{id}', '@update'),
