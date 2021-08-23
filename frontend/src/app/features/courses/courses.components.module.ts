@@ -20,6 +20,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
+    SkeletonComponentModule,
   ],
   exports: [
     MatIconModule,
@@ -30,6 +31,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
+    SkeletonComponentModule,
   ],
 })
 export class CoursesComponentsModule {}

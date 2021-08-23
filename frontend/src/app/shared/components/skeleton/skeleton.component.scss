@@ -1,11 +1,11 @@
 @import 'style';
 
-$background-fallback: app-store('color.theme.accent.200');
+$background-fallback: app-store('color.theme.accent.100');
 $background-gradient: linear-gradient(
   90deg,
-  app-store('color.theme.accent.200') 0%,
-  app-store('color.theme.accent.50') 50%,
-  app-store('color.theme.accent.200') 100%
+  app-store('color.theme.accent.100') 0%,
+  scale_color(app-store('color.theme.accent.100'), $lightness: +10%) 50%,
+  app-store('color.theme.accent.100') 100%
 );
 
 :host {
@@ -14,11 +14,11 @@ $background-gradient: linear-gradient(
   background-image: $background-gradient;
   background-size: 50%;
   background-repeat: no-repeat;
-  animation: app-skeleton-loading 1.5s infinite ease-in;
+  animation: app-skeleton-loading .5s infinite linear;
   margin: .5rem;
 
   &.--circle {
-    border-radius: 100%;
+    border-radius: 100% !important;
   }
 
   &.--rounded {

@@ -87,7 +87,19 @@
 </ng-container>
 
 <ng-template #loadingRef>
-  Loading...
+  <div class="app-cols app-cols--gap">
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
+      <app-skeleton rounded height="13rem"></app-skeleton>
+    </div>
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
+      <app-skeleton rounded height="13rem"></app-skeleton>
+    </div>
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
+      <app-skeleton circle="2rem"></app-skeleton>
+      <app-skeleton circle="2rem"></app-skeleton>
+      <app-skeleton circle="2rem"></app-skeleton>
+    </div>
+  </div>
 </ng-template>
 
 <ng-template #noCoursesRef>

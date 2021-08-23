@@ -7,48 +7,34 @@ import { Component, Input, HostBinding } from '@angular/core';
 })
 export class SkeletonComponent {
 
-  @Input()
-  @HostBinding('style.width')
-  width = '100%';
-
-  @Input()
-  @HostBinding('style.height')
-  height = '1rem';
-
-  @Input()
-  set rounded(rounded: '' | boolean) {
-    const isRounded = !!rounded || rounded === '';
-    if (isRounded) {
-      this.borderRadius = '1rem';
-    }
-  }
-
+  @Input() width = '100%';
+  @Input() height = '1rem';
+  @Input() rounded: string | null = null;
   @Input() circle: string | null = null;
-
   @Input() square: string | null = null;
 
-  @HostBinding('style.border-radius')
-  borderRadius = '0';
-
-  @HostBinding('class')
-  cssClass = '';
+  @HostBinding('style')
+  cssStyle: { [rule: string]: any } = {};
 
   ngOnInit(): void {
 
     if (this.circle !== null) {
-      this.width = this.circle;
-      this.height = this.circle;
-      this.cssClass = '--circle';
+      this.cssStyle.width = this.circle;
+      this.cssStyle.height = this.circle;
+      this.cssStyle.borderRadius = '100%';
       return;
     }
 
     if (this.square) {
-      this.width = this.square;
-      this.height = this.square;
+      this.cssStyle.width = this.square;
+      this.cssStyle.height = this.square;
     }
-    
-    if (this.rounded) {
-      this.cssClass = '--rounded';
+
+    if (this.rounded || this.rounded === '') {
+      this.cssStyle.borderRadius = '1rem';
     }
+
+    this.cssStyle.width = this.width;
+    this.cssStyle.height = this.height;
   }
 }
