@@ -20,9 +20,15 @@ const routes: Routes = [
     children: [
       {
         path: 'courses',
-        canLoad: [ShouldBeLoggedGuard],
+        // TODO: Add role-based guard
         loadChildren: () => import('./features/courses/courses.module')
           .then(m => m.CoursesModule),
+      },
+      {
+        path: 'tasks',
+        // TODO: Add role-based guard
+        loadChildren: () => import('./features/tasks/tasks.module')
+          .then(m => m.TasksModule),
       },
     ],
   },

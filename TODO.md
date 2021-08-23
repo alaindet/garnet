@@ -7,3 +7,4 @@
 - [ ] Fix style of button with icon
 - [ ] Add skeleton loading
 - [ ] Delete without refetching list
+- [ ] Add role-based guard on FE
