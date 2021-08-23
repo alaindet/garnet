@@ -1,0 +1,15 @@
+@import 'style';
+
+:host {
+  display: block;
+  background-color: app-store('color.theme.accent.200');
+  // TODO...
+
+  &.--circle {
+    border-radius: 100%;
+  }
+
+  &.--rounded {
+    border-radius: 1rem;
+  }
+}

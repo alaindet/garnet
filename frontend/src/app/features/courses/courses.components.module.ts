@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
+import { SkeletonComponentModule } from '@app/shared/components/skeleton';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { BackButtonComponentModule } from '@app/shared/components/back-button';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
+    SkeletonComponentModule,
   ],
   exports: [
     MatIconModule,
@@ -29,6 +31,7 @@ import { BackButtonComponentModule } from '@app/shared/components/back-button';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
+    SkeletonComponentModule,
   ],
 })
 export class CoursesComponentsModule {}
