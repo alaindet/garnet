@@ -17,7 +17,7 @@ import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.compone
 export class CoursesListComponent implements OnInit, OnDestroy {
 
   CoursesAction = CoursesAction;
-  isLoading = false;
+  isLoading = true;
   courses: Course[] | null = null;
 
   private subs: { [sub: string]: Subscription } = {};

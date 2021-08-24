@@ -1,1 +1,10 @@
 @import 'style';
+
+.-card {
+  position: relative;
+}
+
+.-skeleton-dots {
+  display: flex;
+  align-items: center;
+}

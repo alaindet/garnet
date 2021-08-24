@@ -1,3 +1,62 @@
-<div class="app-page-header">
-  <h2>Tasks of course ""</h2>
-</div>
+<ng-container *ngIf="!isLoading; else loadingRef">
+
+  <div class="app-page-header">
+    <h2>Tasks of course "{{ course?.name }}"</h2>
+  </div>
+
+  <div
+    *ngIf="tasks?.length; else noTasksRef"
+    class="app-cols app-cols--gap"
+  >
+    <div
+      *ngFor="let task of tasks; let index = index"
+      class="app-col-12 app-col-s-6 app-col-m-4 app-my3"
+    >
+      <mat-card class="-card">
+        <mat-card-content>
+
+          <mat-card-title>
+            <h2>{{ task.name }}</h2>
+          </mat-card-title>
+
+          <p>{{ task.description }}</p>
+        </mat-card-content>
+
+        <mat-card-actions>
+
+          <button mat-flat-button color="primary" (click)="onEditTask(index)">
+            Edit
+            <mat-icon>edit</mat-icon>
+          </button>
+
+          <button mat-stroked-button (click)="onDeleteTask(index)">
+            Delete
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+
+</ng-container>
+
+<ng-template #loadingRef>
+  <div class="app-cols app-cols--gap">
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
+      <app-skeleton rounded height="13rem"></app-skeleton>
+    </div>
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
+      <app-skeleton rounded height="13rem"></app-skeleton>
+    </div>
+    <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3 -skeleton-dots">
+      <app-skeleton circle="2rem"></app-skeleton>
+      <app-skeleton circle="2rem"></app-skeleton>
+      <app-skeleton circle="2rem"></app-skeleton>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noTasksRef>
+  No tasks available
+</ng-template>
