@@ -1,5 +1,5 @@
 export interface TaskListItem {
-  taskId: string | number;
+  task_id: string | number;
   name: string;
   description: string;
 }

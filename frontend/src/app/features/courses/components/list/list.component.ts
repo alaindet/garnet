@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
+import { ConfirmDeleteDialogConfig } from '@app/shared/types';
 import { CoursesService } from '../../services';
 import { Course } from '../../types';
 import { CoursesAction } from '../../actions';
@@ -81,13 +82,37 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   private deleteCourse(courseId: string | number): void {
     const course = this.courses?.find(c => c.course_id === courseId);
-    const config: MatDialogConfig<Course> = { data: course };
+
+    if (!course) {
+      return;
+    }
+
+    const config: MatDialogConfig<ConfirmDeleteDialogConfig> = {
+      data: {
+        title: 'Delete course',
+        question: `Are you sure you want to delete course "${course.name}"?`,
+      },
+    };
+
     this.matDialog.open(ConfirmDeleteComponent, config)
       .afterClosed()
-      .subscribe(data => {
-        if (data) {
-          this.fetchCourses();
+      .subscribe(confirmed => {
+
+        if (!confirmed) {
+          return;
         }
+
+        this.isLoading = true;
+        this.coursesService.deleteCourse(course.course_id)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe({
+            error: err => this.ui.setSnackbarError(err.error.message),
+            next: () => {
+              const message = `Course "<strong>${course.name}</strong>" was deleted`;
+              this.ui.setSnackbarSuccess(message);
+              this.fetchCourses();
+            },
+          });
       });
   }
 }

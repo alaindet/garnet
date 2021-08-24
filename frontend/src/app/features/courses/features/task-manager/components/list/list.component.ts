@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { CoursesService } from '@app/features/courses/services';
 
 import { UiService } from '@app/core/main-layout/services';
 import { Course } from '@app/features/courses/types';
+import { ConfirmDeleteComponent } from '@app/features/courses/components';
 import { TaskManagerService } from '../../services';
 import { TaskListItem } from '../../types';
-import { CoursesService } from '@app/features/courses/services';
 
 @Component({
   templateUrl: './list.component.html',
@@ -28,6 +29,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private ui: UiService,
     private router: Router,
+    private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -55,13 +57,25 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const courseId = this.course?.course_id;
-    const taskId = this.tasks[index].taskId;
+    const courseId = this.courseId;
+    const taskId = this.tasks[index].task_id;
     this.router.navigate(['/courses', courseId, 'task-manager', taskId]);
   }
 
   onDeleteTask(index: number): void {
-    console.log('onDeleteTask');
+
+    if (!this.tasks?.length) {
+      return;
+    }
+
+    const task = this.tasks[index];
+    const courseId = this.courseId;
+    const config: MatDialogConfig<TaskListItem> = { data: task };
+    this.matDialog.open(ConfirmDeleteComponent, config)
+      .afterClosed()
+      .subscribe(confirmed => {
+
+      });
   }
 
   private fetchTasks(): void {

@@ -1,1 +1,72 @@
-task form
+<main class="app-container-narrow">
+
+  <div class="app-page-header">
+    <app-back-button>Back</app-back-button>
+    <h2>{{ title }}</h2>
+  </div>
+
+  <mat-card>
+    <ng-container *ngIf="taskForm; else loadingTaskRef">
+      <mat-card-content>
+        <form
+          class="-form"
+          [formGroup]="taskForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Name -->
+          <mat-form-field appearance="fill" class="app-my2">
+            <mat-label>Name*</mat-label>
+            <input
+              type="text"
+              matInput
+              [formControl]="name"
+              placeholder="Task name..."
+              #firstInputRef
+            >
+            <mat-error *ngIf="name.invalid">
+              Enter a name with 5+ letters
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Description -->
+          <mat-form-field appearance="fill" class="app-my2">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              [formControl]="description"
+              rows="5"
+              placeholder="Task description..."
+            ></textarea>
+            <mat-error *ngIf="description.invalid">
+              Enter a description with 5+ letters
+            </mat-error>
+          </mat-form-field>
+
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="isLoading"
+          (click)="onSubmit()"
+        >
+          {{ submit }}
+          <mat-icon>{{ submitIcon }}</mat-icon>
+        </button>
+
+      </mat-card-actions>
+    </ng-container>
+  </mat-card>
+</main>
+
+<ng-template #loadingTaskRef>
+  <mat-card-content>
+    <app-skeleton height="3rem" width="100%"></app-skeleton>
+    <app-skeleton height="6rem" width="100%"></app-skeleton>
+  </mat-card-content>
+  <mat-card-actions>
+    <app-skeleton height="3rem" width="5rem"></app-skeleton>
+  </mat-card-actions>
+</ng-template>

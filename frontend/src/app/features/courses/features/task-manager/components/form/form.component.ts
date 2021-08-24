@@ -28,7 +28,7 @@ export class TaskFormComponent implements OnInit {
     private taskService: TaskManagerService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
 
   get name(): FormControl {
     return this.taskForm.get('name') as FormControl;
@@ -64,14 +64,14 @@ export class TaskFormComponent implements OnInit {
     this.taskForm.disable();
     const formValue = this.taskForm.value;
 
-    let [request, onSuccess]: [any, () => void] = [null, () => { }];
+    let [request, onSuccess]: [any, () => void] = [null, () => {}];
 
-    // Editing
+    // Edit task
     if (!!this.task) {
 
       const dto: UpdateTaskRequest = {
         courseId: this.courseId,
-        taskId: this.task?.course_id,
+        taskId: this.taskId as number,
       };
 
       if (formValue?.name) dto.name = formValue.name;
@@ -79,12 +79,17 @@ export class TaskFormComponent implements OnInit {
 
       [request, onSuccess] = [this.taskService.updateTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'tasks']);
-        this.ui.setSnackbarSuccess(`Task with id ${dto.taskId} updated`);
+        this.ui.setSnackbarSuccess(`Task with id #${dto.taskId} updated`);
       }];
     }
 
+    // Create task
     else {
-      const dto: CreateTaskRequest = formValue;
+
+      const dto: CreateTaskRequest = {
+        courseId: this.courseId,
+        ...formValue,
+      };
 
       [request, onSuccess] = [this.taskService.createTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'tasks']);
@@ -123,12 +128,14 @@ export class TaskFormComponent implements OnInit {
   }
 
   private fetchExistingTask(courseId: string | number, taskId: string | number): void {
+    this.isLoading = true;
     this.taskService.getTaskById(courseId, taskId)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         error: err => this.ui.setSnackbarSuccess(err.error.message),
         next: task => {
           this.task = task;
+
           this.initForm({
             name: task.name,
             description: task?.description ?? null,
