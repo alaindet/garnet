@@ -62,12 +62,12 @@ class CoursesController extends Controller
 
     public function getById(Request $req, Response $res): Response
     {
-        $id = $req->getUriParameter('id');
+        $courseId = $req->getUriParameter('courseid');
 
-        $course = $this->coursesService->findById($id);
+        $course = $this->coursesService->findById($courseId);
 
         $res->setBody([
-            'message' => "Get course #{$id} data",
+            'message' => "Get course #{$courseId} data",
             'data' => $course,
         ]);
 
@@ -90,12 +90,12 @@ class CoursesController extends Controller
 
     public function delete(Request $req, Response $res): Response
     {
-        $id = $req->getUriParameter('id');
+        $courseId = $req->getUriParameter('courseid');
 
-        $dtoOut = $this->coursesService->deleteById($id);
+        $dtoOut = $this->coursesService->deleteById($courseId);
 
         $res->setBody([
-            'message' => "Course #{$dtoOut->courseId} deleted",
+            'message' => "Course #{$courseId} deleted",
             'data' => $dtoOut,
         ]);
 

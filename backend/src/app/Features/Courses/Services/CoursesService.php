@@ -35,9 +35,36 @@ class CoursesService
         return $dtoOut;
     }
 
+    public function getAllByTeacherId(string|int $teacherId): array
+    {
+        return $this->coursesRepo->getAllByTeacherId($teacherId);
+    }
+
+    public function getAllByStudentId(string|int $studentId): array
+    {
+        return $this->coursesRepo->getAllByStudentId($studentId);
+    }
+
+    public function findById(string|int $courseId): array
+    {
+        $course = $this->coursesRepo->findById($courseId);
+
+        if ($course === null) {
+            $message = "Course with id #{$courseId} does not exist";
+            throw new NotFoundHttpException($message);
+        }
+
+        return $course;
+    }
+
+    public function existsById(string|int $courseId): bool 
+    {
+        return $this->coursesRepo->existsById($courseId);   
+    }
+
     public function updateById(UpdateCourseDto $dtoIn): UpdatedCourseDto
     {
-        $course = $this->findById($dtoIn->id);
+        $course = $this->findById($dtoIn->courseId);
 
         $fields = [];
 
@@ -51,10 +78,10 @@ class CoursesService
             $course['description'] = $dtoIn->description;
         }
 
-        $updated = $this->coursesRepo->updateById($dtoIn->id, $fields);
+        $updated = $this->coursesRepo->updateById($dtoIn->courseId, $fields);
 
         if ($updated === 0) {
-            $message = "Could not update course with id {$dtoIn->id}";
+            $message = "Could not update course with id #{$dtoIn->courseId}";
             throw new InternalServerErrorHttpException($message);
         }
 
@@ -69,36 +96,14 @@ class CoursesService
         return $dtoOut;
     }
 
-    public function getAllByTeacherId(string $teacherId): array
-    {
-        return $this->coursesRepo->getAllByTeacherId($teacherId);
-    }
-
-    public function getAllByStudentId(string $studentId): array
-    {
-        return $this->coursesRepo->getAllByStudentId($studentId);
-    }
-
-    public function findById(string $courseId): array
-    {
-        $course = $this->coursesRepo->findById($courseId);
-
-        if ($course === null) {
-            $message = "Course with id {$courseId} does not exist";
-            throw new NotFoundHttpException($message);
-        }
-
-        return $course;
-    }
-
-    public function deleteById(string $courseId): DeletedCourseDto
+    public function deleteById(string|int $courseId): DeletedCourseDto
     {
         $course = $this->findById($courseId);
 
         $deleted = $this->coursesRepo->deleteById($courseId);
 
         if ($deleted === 0) {
-            $message = "Could not update course with id {$courseId}";
+            $message = "Could not update course with id #{$courseId}";
             throw new InternalServerErrorHttpException($message);
         }
 

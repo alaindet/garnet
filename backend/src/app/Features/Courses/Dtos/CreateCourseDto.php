@@ -4,7 +4,7 @@ namespace App\Features\Courses\Dtos;
 
 class CreateCourseDto
 {
-    public string $teacherId;
+    public string|int $teacherId;
     public string $name;
     public ?string $description;
 }

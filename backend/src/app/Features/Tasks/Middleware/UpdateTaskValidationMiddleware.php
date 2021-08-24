@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Features\Courses\Middleware;
+namespace App\Features\Tasks\Middleware;
 
 use App\Core\Exceptions\Http\BadRequestHttpException;
 use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Shared\Validation\Validator;
-use App\Features\Courses\Dtos\UpdateCourseDto;
+use App\Features\Tasks\Dtos\UpdateTaskDto;
 
-class UpdateCourseValidationMiddleware extends Middleware
+class UpdateTaskValidationMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $courseId = $req->getUriParameter('courseid');
+        $taskId = $req->getUriParameter('taskid');
         $body = $req->getBody();
 
         $validator = new Validator($body, [
@@ -37,9 +37,9 @@ class UpdateCourseValidationMiddleware extends Middleware
             throw (new BadRequestHttpException($message))->setData($data);
         }
 
-        $dto = new UpdateCourseDto();
-        $dto->courseId = $courseId;
-        $dto->name = $body['name'];
+        $dto = new UpdateTaskDto();
+        $dto->taskId = $taskId;
+        $dto->name = $body['name'] ?? null;
         $dto->description = $body['description'] ?? null;
 
         $req->setValidatedData($dto);

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Features\Courses\Dtos;
+namespace App\Features\Tasks\Dtos;
 
-class DeletedCourseDto
+class DeletedTaskDto
 {
+    public string|int $taskId;
     public string|int $courseId;
-    public string|int $teacherId;
     public string $createdOn; // Ex.: 2021-08-22 21:25:00.000
     public string $updatedOn; // Ex.: 2021-08-22 21:25:00.000
     public string $name;

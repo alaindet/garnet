@@ -49,7 +49,7 @@ class CoursesRepository extends Repository
         ];
     }
 
-    public function getAllByTeacherId(string $teacherId): array
+    public function getAllByTeacherId(string|int $teacherId): array
     {
         $table = self::TABLE;
         $sql = "SELECT * FROM {$table} WHERE teacher_id = :teacherid";
@@ -58,7 +58,7 @@ class CoursesRepository extends Repository
         return $this->db->select($sql, $params);
     }
 
-    public function getAllByStudentId(string $studentId): array
+    public function getAllByStudentId(string|int $studentId): array
     {
         $sql = ("
             SELECT
@@ -74,12 +74,20 @@ class CoursesRepository extends Repository
         return $this->db->select($sql, $params);
     }
 
-    public function findById(string $courseId): array|null
+    public function findById(string|int $courseId): array|null
     {
         $table = self::TABLE;
         $sql = "SELECT * FROM {$table} WHERE course_id = :courseid";
         $params = [':courseid' => $courseId];
         return $this->db->selectFirst($sql, $params);
+    }
+
+    public function existsById(string|int $courseId): bool
+    {
+        $table = self::TABLE;
+        $sql = "SELECT course_id FROM {$table} WHERE course_id = :courseid";
+        $params = [':courseid' => $courseId];
+        return $this->db->selectFirst($sql, $params) !== null;
     }
 
     public function findByName(string $courseName): array|null
@@ -90,7 +98,7 @@ class CoursesRepository extends Repository
         return $this->db->selectFirst($sql, $params);
     }
 
-    public function updateById(string $id, array $fields): int
+    public function updateById(string|int $courseId, array $fields): int
     {
         $table = self::TABLE;
 
@@ -99,7 +107,7 @@ class CoursesRepository extends Repository
         ];
 
         $params = [
-            ':courseid' => $id,
+            ':courseid' => $courseId,
             ':updatedon' => Time::getDate(),
         ];
 
@@ -116,11 +124,11 @@ class CoursesRepository extends Repository
         return $this->db->execute($sql, $params);
     }
 
-    public function deleteById(string $id): int
+    public function deleteById(string|int $courseId): int
     {
         $table = self::TABLE;
         $sql = "DELETE FROM {$table} WHERE course_id = :courseid";
-        $params = [':courseid' => $id];
+        $params = [':courseid' => $courseId];
         return $this->db->execute($sql, $params);
     }
 }
