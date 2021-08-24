@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { TaskManagerRoutingModule } from './task-manager.routing';
 import { TaskManagerComponentsModule } from './task-manager.components.module';
-import { TaskManagerListComponent } from './components';
+import { TaskManagerListComponent, TaskFormComponent } from './components';
 import { TaskManagerService } from './services';
 
 @NgModule({
@@ -16,6 +16,7 @@ import { TaskManagerService } from './services';
   ],
   declarations: [
     TaskManagerListComponent,
+    TaskFormComponent,
   ],
   providers: [
     TaskManagerService,

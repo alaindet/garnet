@@ -52,7 +52,7 @@ export class CourseFormComponent implements OnInit {
       this.coursesService.getOneCourse(courseId)
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
-          error: err => this.ui.setSnackbarSuccess('Could not get course data'),
+          error: err => this.ui.setSnackbarSuccess(err.error.message),
           next: course => {
             this.existingCourse = course;
             this.initForm({
@@ -85,13 +85,13 @@ export class CourseFormComponent implements OnInit {
 
     if (this.isEditing && this.existingCourse) {
 
-      const dto: UpdateCourseRequest = { id: this.existingCourse?.course_id };
+      const dto: UpdateCourseRequest = { courseId: this.existingCourse?.course_id };
       if (formValue?.name) dto.name = formValue.name;
       if (formValue?.description) dto.description = formValue.description;
 
       [request, onSuccess] = [this.coursesService.updateCourse(dto), () => {
         this.router.navigate(['/courses']);
-        this.ui.setSnackbarSuccess(`Course with id ${dto.id} updated`);
+        this.ui.setSnackbarSuccess(`Course with id ${dto.courseId} updated`);
       }];
     }
 

@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { TaskManagerListComponent } from './components';
+import { TaskManagerListComponent, TaskFormComponent } from './components';
 
 const routes: Routes = [
   {
     path: '',
     component: TaskManagerListComponent,
+  },
+  {
+    path: ':taskid',
+    component: TaskFormComponent,
   },
 ];
 

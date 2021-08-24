@@ -6,9 +6,7 @@ import { finalize } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
 import { TaskManagerService } from '../../services';
-import { Task } from '../../types';
-// import { Course, CreateCourseRequest, UpdateCourseRequest, CourseFormValue } from '../../types';
-import { TaskManagerAction } from '../../actions';
+import { Task, TaskFormValue, CreateTaskRequest, UpdateTaskRequest } from '../../types';
 
 @Component({
   templateUrl: './form.component.html',
@@ -17,12 +15,13 @@ import { TaskManagerAction } from '../../actions';
 export class TaskFormComponent implements OnInit {
 
   isLoading = false;
+  courseId!: string | number;
+  taskId?: string | number;
   title!: string;
   submit!: string;
   submitIcon!: string;
-  isEditing = false;
-  existingCourse?: Task;
-  courseForm!: FormGroup;
+  taskForm!: FormGroup;
+  task?: Task;
 
   constructor(
     private ui: UiService,
@@ -32,40 +31,78 @@ export class TaskFormComponent implements OnInit {
   ) { }
 
   get name(): FormControl {
-    return this.courseForm.get('name') as FormControl;
+    return this.taskForm.get('name') as FormControl;
   }
 
   get description(): FormControl {
-    return this.courseForm.get('description') as FormControl;
+    return this.taskForm.get('description') as FormControl;
   }
 
   ngOnInit(): void {
 
-    const action = this.route.snapshot.data.action;
-    const courseId = this.route.snapshot.params['courseid'];
-    const taskId = this.route.snapshot.params['taskid'];
+    this.courseId = this.route.snapshot.params['courseid'];
+    this.taskId = this.route.snapshot.params['taskid'];
+    const isEditing = !!this.taskId;
 
-    this.isEditing = action === TaskManagerAction.ShowEditTaskForm;
-
-    if (this.isEditing) {
-      this.fetchExistingTask();
-      // this.coursesService.getOneCourse(courseId)
-      //   .pipe(finalize(() => this.isLoading = false))
-      //   .subscribe({
-      //     error: err => this.ui.setSnackbarSuccess('Could not get course data'),
-      //     next: course => {
-      //       this.existingCourse = course;
-      //       this.initForm({
-      //         name: course.name,
-      //         description: course?.description ?? null,
-      //       });
-      //     },
-      //   });
+    if (isEditing) {
+      this.updateUiByAction(isEditing);
+      this.fetchExistingTask(this.courseId, this.taskId as number);
       return;
     }
 
-    this.updateUiByAction(this.isEditing);
+    this.updateUiByAction(isEditing);
     this.initForm();
+  }
+
+  onSubmit(): void {
+
+    if (this.taskForm.invalid || this.isLoading) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.taskForm.disable();
+    const formValue = this.taskForm.value;
+
+    let [request, onSuccess]: [any, () => void] = [null, () => { }];
+
+    // Editing
+    if (!!this.task) {
+
+      const dto: UpdateTaskRequest = {
+        courseId: this.courseId,
+        taskId: this.task?.course_id,
+      };
+
+      if (formValue?.name) dto.name = formValue.name;
+      if (formValue?.description) dto.description = formValue.description;
+
+      [request, onSuccess] = [this.taskService.updateTask(dto), () => {
+        this.router.navigate(['/courses', this.courseId, 'tasks']);
+        this.ui.setSnackbarSuccess(`Task with id ${dto.taskId} updated`);
+      }];
+    }
+
+    else {
+      const dto: CreateTaskRequest = formValue;
+
+      [request, onSuccess] = [this.taskService.createTask(dto), () => {
+        this.router.navigate(['/courses', this.courseId, 'tasks']);
+        this.ui.setSnackbarSuccess('Course created');
+      }];
+    }
+
+    request
+      .pipe(finalize(() => {
+        this.isLoading = false;
+        this.taskForm.enable();
+      }))
+      .subscribe({
+        error: (err: HttpErrorResponse) => {
+          this.ui.setSnackbarError(err.error.message);
+        },
+        next: onSuccess,
+      });
   }
 
   private updateUiByAction(isEditing: boolean): void {
@@ -85,58 +122,23 @@ export class TaskFormComponent implements OnInit {
     this.submitIcon = 'add';
   }
 
-  private fetchExistingTask(): void {
-
-  }
-
-  onSubmit(): void {
-
-    if (this.courseForm.invalid || this.isLoading) {
-      return;
-    }
-
-    this.isLoading = true;
-    this.courseForm.disable();
-    const formValue = this.courseForm.value;
-
-    let [request, onSuccess]: [any, () => void] = [null, () => { }];
-
-    if (this.isEditing && this.existingCourse) {
-
-      const dto: UpdateCourseRequest = { id: this.existingCourse?.course_id };
-      if (formValue?.name) dto.name = formValue.name;
-      if (formValue?.description) dto.description = formValue.description;
-
-      [request, onSuccess] = [this.coursesService.updateCourse(dto), () => {
-        this.router.navigate(['/courses']);
-        this.ui.setSnackbarSuccess(`Course with id ${dto.id} updated`);
-      }];
-    }
-
-    else {
-      const dto: CreateCourseRequest = formValue;
-
-      [request, onSuccess] = [this.coursesService.createCourse(dto), () => {
-        this.router.navigate(['/courses']);
-        this.ui.setSnackbarSuccess('Course created');
-      }];
-    }
-
-    request
-      .pipe(finalize(() => {
-        this.isLoading = false;
-        this.courseForm.enable();
-      }))
+  private fetchExistingTask(courseId: string | number, taskId: string | number): void {
+    this.taskService.getTaskById(courseId, taskId)
+      .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        error: (err: HttpErrorResponse) => {
-          this.ui.setSnackbarError(err.error.message);
+        error: err => this.ui.setSnackbarSuccess(err.error.message),
+        next: task => {
+          this.task = task;
+          this.initForm({
+            name: task.name,
+            description: task?.description ?? null,
+          });
         },
-        next: onSuccess,
       });
   }
 
-  private initForm(data?: CourseFormValue): void {
-    this.courseForm = new FormGroup({
+  private initForm(data?: TaskFormValue): void {
+    this.taskForm = new FormGroup({
       name: new FormControl(data?.name, [
         Validators.required,
         Validators.minLength(5)

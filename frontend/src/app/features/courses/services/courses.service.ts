@@ -44,7 +44,7 @@ export class CoursesService {
   }
 
   updateCourse(dto: UpdateCourseRequest): Observable<Course> {
-    const url = environment.apiUrl + '/courses/' + dto.id;
+    const url = environment.apiUrl + '/courses/' + dto.courseId;
     const options = this.getCorsOptions();
     return this.http.patch<GetCourseResponse>(url, dto, options)
       .pipe(map(response => response.data));
