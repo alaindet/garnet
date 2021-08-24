@@ -34,7 +34,8 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     this.ui.title = 'Tasks';
     this.courseId = this.route.snapshot.params['courseid'];
     this.fetchTasks();
-    this.subs.fab = this.ui.fabClicked$.subscribe(this.onCreateTask.bind(this));
+    this.subs.fab = this.ui.fabClicked$
+      .subscribe(this.onCreateTask.bind(this));
   }
 
   ngOnDestroy(): void {

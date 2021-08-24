@@ -17,7 +17,7 @@ import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.compone
 export class CoursesListComponent implements OnInit, OnDestroy {
 
   CoursesAction = CoursesAction;
-  isLoading = true;
+  isLoading = false;
   courses: Course[] | null = null;
 
   private subs: { [sub: string]: Subscription } = {};
@@ -41,11 +41,8 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMenuActionClicked(action: CoursesAction, courseId: number): void {
+  onMenuActionClicked(action: CoursesAction, courseId: string | number): void {
     switch (action) {
-      case CoursesAction.EditTasks:
-        this.router.navigate(['/courses', courseId, 'task-manager']);
-        break;
       case CoursesAction.ShowEditCourseForm:
         this.router.navigate(['/courses', courseId]);
         break;
@@ -53,6 +50,10 @@ export class CoursesListComponent implements OnInit, OnDestroy {
         this.deleteCourse(courseId);
         break;
     }
+  }
+
+  onEditTasks(courseId: string | number): void {
+    this.router.navigate(['/courses', courseId, 'task-manager']);
   }
 
   onShowStudents(): void {
@@ -78,7 +79,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
       });
   }
 
-  private deleteCourse(courseId: number): void {
+  private deleteCourse(courseId: string | number): void {
     const course = this.courses?.find(c => c.course_id === courseId);
     const config: MatDialogConfig<Course> = { data: course };
     this.matDialog.open(ConfirmDeleteComponent, config)

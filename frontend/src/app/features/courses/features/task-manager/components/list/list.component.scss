@@ -1,5 +1,15 @@
 @import 'style';
 
+.app-page-header {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    margin-left: 1rem;
+  }
+}
+
 .-card {
   position: relative;
 }

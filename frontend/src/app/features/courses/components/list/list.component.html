@@ -12,6 +12,7 @@
       *ngFor="let course of courses"
       class="app-col-12 app-col-s-6 app-col-m-4 app-my3"
     >
+      <!-- Material -->
       <mat-card class="-card">
 
         <mat-card-content>
@@ -33,7 +34,13 @@
         <mat-card-actions>
 
           <button mat-flat-button color="primary" (click)="onShowStudents()">
-            See Students
+            Students
+            <mat-icon>school</mat-icon>
+          </button>
+
+          <button mat-stroked-button (click)="onEditTasks(course.course_id)">
+            Tasks
+            <mat-icon>task_alt</mat-icon>
           </button>
 
           <button
@@ -46,15 +53,6 @@
           </button>
 
           <mat-menu #courseCardMenu="matMenu">
-            <button
-              mat-menu-item
-              (click)="onMenuActionClicked(
-                CoursesAction.EditTasks,
-                course.course_id
-              )"
-            >
-              Edit tasks
-            </button>
 
             <button
               mat-menu-item
