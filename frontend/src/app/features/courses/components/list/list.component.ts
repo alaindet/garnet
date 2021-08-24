@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
@@ -44,8 +44,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   onMenuActionClicked(action: CoursesAction, courseId: number): void {
     switch (action) {
       case CoursesAction.EditTasks:
-        console.log(CoursesAction.EditTasks, courseId);
-        // ...
+        this.router.navigate(['/courses', courseId, 'task-manager']);
         break;
       case CoursesAction.ShowEditCourseForm:
         this.router.navigate(['/courses', courseId]);

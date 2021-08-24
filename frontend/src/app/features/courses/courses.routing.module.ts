@@ -21,6 +21,11 @@ const routes: Routes = [
     component: CourseFormComponent,
     data: { action: CoursesAction.ShowEditCourseForm },
   },
+  {
+    path: ':courseid/task-manager',
+    loadChildren: () => import('./features/task-manager/task-manager.module')
+      .then(m => m.TaskManagerModule),
+  },
 ];
 
 @NgModule({
