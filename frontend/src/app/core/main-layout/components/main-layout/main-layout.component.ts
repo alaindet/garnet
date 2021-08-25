@@ -2,12 +2,10 @@ import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, V
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { throttleTime, map, distinctUntilChanged, filter, mergeMap, tap } from 'rxjs/operators';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
 import { environment } from '@environment/environment';
 import { UiService } from '../../services';
 import { ScrollingDirection } from '../../types';
-import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   selector: 'app-main-layout',
@@ -30,13 +28,11 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     public ui: UiService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
     this.observeLockedScrolling();
     this.listenToRouterEvents();
-    this.manageSnackBar();
   }
 
   ngAfterViewInit(): void {
@@ -102,16 +98,5 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     }
 
     this.ui.fab = fab;
-  }
-
-  private manageSnackBar(): void {
-    this.ui.snackbar$.subscribe(data => {
-      this.snackBar.openFromComponent(SnackbarComponent, {
-        duration: 3000,
-        horizontalPosition: 'right',
-        verticalPosition: 'top',
-        data,
-      });
-    });
   }
 }

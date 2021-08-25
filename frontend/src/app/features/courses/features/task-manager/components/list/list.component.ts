@@ -101,13 +101,13 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
         this.tasksService.deleteTask(dto)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe({
-            error: err => this.ui.setSnackbarError(err.error.message),
+            error: err => this.ui.setErrorToaster(err.error.message),
             next: () => {
               const message = (`
                 Task "${task.name}" was deleted
                 from course "${course?.name}"
               `);
-              this.ui.setSnackbarSuccess(message);
+              this.ui.setSuccessToaster(message);
               this.fetchTasks();
             },
           });
@@ -124,7 +124,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     ])
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        error: err => this.ui.setSnackbarError(err.error.message),
+        error: err => this.ui.setErrorToaster(err.error.message),
         next: ([course, tasks]) => {
           this.course = course;
           this.tasks = tasks;

@@ -5,7 +5,6 @@
 - [ ] CORS interceptor on FE
 - [ ] Add middleware and roles aliases in backend
 - [ ] Fix style of button with icon
-- [ ] Add skeleton loading
 - [ ] Delete without refetching list
 - [ ] Add role-based guard on FE
 - [ ] Fetch table rows on update and delete to show name field in feedback

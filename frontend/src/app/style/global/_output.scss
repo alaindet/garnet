@@ -8,7 +8,6 @@ $theme-config: app-3rdparty-material-theme-grossular();
 
 // 3rd-party overrides
 @include app-3rdparty-material-override-card();
-@include app-3rdparty-material-override-snackbar();
 // ...
 
 // Components

@@ -75,7 +75,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     this.coursesService.getAllCourses()
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        error: err => this.ui.setSnackbarError(err.error.message),
+        error: err => this.ui.setErrorToaster(err.error.message),
         next: courses => this.courses = courses,
       });
   }
@@ -106,10 +106,10 @@ export class CoursesListComponent implements OnInit, OnDestroy {
         this.coursesService.deleteCourse(course.course_id)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe({
-            error: err => this.ui.setSnackbarError(err.error.message),
+            error: err => this.ui.setErrorToaster(err.error.message),
             next: () => {
               const message = `Course "<strong>${course.name}</strong>" was deleted`;
-              this.ui.setSnackbarSuccess(message);
+              this.ui.setSuccessToaster(message);
               this.fetchCourses();
             },
           });

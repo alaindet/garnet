@@ -4,8 +4,9 @@ import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
+import { ToasterService } from '@app/shared/components/toaster';
 import { isNavbarSticky } from '../functions';
-import { ScrollingDirection, FabConfiguration, SnackbarConfiguration } from '../types';
+import { ScrollingDirection, FabConfiguration } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -18,17 +19,16 @@ export class UiService {
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
   private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
   private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
-  private _snackbar$ = new Subject<SnackbarConfiguration>();
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
   fab$ = this._fab$.asObservable();
   fabClicked$ = this._fabClicked$.asObservable();
-  snackbar$ = this._snackbar$.asObservable();
 
   constructor(
     private titleService: Title,
+    private toasterService: ToasterService,
   ) {
     this.isNavbarSticky$ = this.computeIsNavbarSticky();
   }
@@ -58,18 +58,12 @@ export class UiService {
     this._scrollingDirection$.next(scrollingDirection);
   }
 
-  set snackbar(config: SnackbarConfiguration) {
-    this._snackbar$.next(config);
+  setSuccessToaster(message: string): void {
+    this.toasterService.setSuccess(message);
   }
 
-  setSnackbarSuccess(message: string) {
-    const config: SnackbarConfiguration = { message, type: 'success' };
-    this._snackbar$.next(config);
-  }
-
-  setSnackbarError(message: string) {
-    const config: SnackbarConfiguration = { message, type: 'error' };
-    this._snackbar$.next(config);
+  setErrorToaster(message: string): void {
+    this.toasterService.setError(message);
   }
 
   set fab(config: FabConfiguration | null) {

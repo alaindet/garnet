@@ -52,7 +52,7 @@ export class CourseFormComponent implements OnInit {
       this.coursesService.getOneCourse(courseId)
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
-          error: err => this.ui.setSnackbarSuccess(err.error.message),
+          error: err => this.ui.setErrorToaster(err.error.message),
           next: course => {
             this.existingCourse = course;
             this.initForm({
@@ -91,7 +91,7 @@ export class CourseFormComponent implements OnInit {
 
       [request, onSuccess] = [this.coursesService.updateCourse(dto), () => {
         this.router.navigate(['/courses']);
-        this.ui.setSnackbarSuccess(`Course with id ${dto.courseId} updated`);
+        this.ui.setSuccessToaster(`Course with id ${dto.courseId} updated`);
       }];
     }
 
@@ -100,7 +100,7 @@ export class CourseFormComponent implements OnInit {
 
       [request, onSuccess] = [this.coursesService.createCourse(dto), () => {
         this.router.navigate(['/courses']);
-        this.ui.setSnackbarSuccess('Course created');
+        this.ui.setSuccessToaster('Course created');
       }];
     }
 
@@ -111,7 +111,7 @@ export class CourseFormComponent implements OnInit {
       }))
       .subscribe({
         error: (err: HttpErrorResponse) => {
-          this.ui.setSnackbarError(err.error.message);
+          this.ui.setErrorToaster(err.error.message);
         },
         next: onSuccess,
       });

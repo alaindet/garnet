@@ -79,7 +79,7 @@ export class TaskFormComponent implements OnInit {
 
       [request, onSuccess] = [this.taskService.updateTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'task-manager']);
-        this.ui.setSnackbarSuccess(`Task "${this.task?.name}" updated`);
+        this.ui.setSuccessToaster(`Task "${this.task?.name}" updated`);
       }];
     }
 
@@ -93,7 +93,7 @@ export class TaskFormComponent implements OnInit {
 
       [request, onSuccess] = [this.taskService.createTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'task-manager']);
-        this.ui.setSnackbarSuccess('Task created');
+        this.ui.setSuccessToaster('Task created');
       }];
     }
 
@@ -104,7 +104,7 @@ export class TaskFormComponent implements OnInit {
       }))
       .subscribe({
         error: (err: HttpErrorResponse) => {
-          this.ui.setSnackbarError(err.error.message);
+          this.ui.setErrorToaster(err.error.message);
         },
         next: onSuccess,
       });
@@ -132,7 +132,7 @@ export class TaskFormComponent implements OnInit {
     this.taskService.getTaskById(courseId, taskId)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        error: err => this.ui.setSnackbarSuccess(err.error.message),
+        error: err => this.ui.setSuccessToaster(err.error.message),
         next: task => {
           this.task = task;
 
