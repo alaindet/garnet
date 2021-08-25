@@ -12,7 +12,7 @@ import { ScrollingDirection, FabConfiguration, SnackbarConfiguration } from '../
 })
 export class UiService {
 
-  private _title$ = new BehaviorSubject<string>('Garnet App');
+  private _title$ = new BehaviorSubject<string>(environment.appName);
   private _isDummyNavbarVisible$ = new BehaviorSubject<boolean>(true);
   private _scrollingDirection$ = new BehaviorSubject<ScrollingDirection | null>(null);
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);

@@ -151,6 +151,7 @@ export class TaskFormComponent implements OnInit {
         Validators.minLength(5)
       ]),
       description: new FormControl(data?.description, [
+        Validators.required,
         Validators.minLength(5)
       ]),
     });

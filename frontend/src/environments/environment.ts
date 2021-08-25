@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   appName: 'Garnet',
+  appSlug: 'garnet',
   apiUrl: 'http://localhost:8080',
 };
 

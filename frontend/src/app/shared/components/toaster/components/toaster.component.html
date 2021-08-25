@@ -1,0 +1,9 @@
+<div
+  *ngIf="toaster.toaster$ | async as toaster"
+  class="-toaster"
+  [class.--type-success]="toaster.type === 'success'"
+  [class.--type-error]="toaster.type === 'error'"
+>
+  <span class="-message" [innerHtml]="toaster.message"></span>
+  <button class="-dismiss" (click)="onDismiss()">&times;</button>
+</div>

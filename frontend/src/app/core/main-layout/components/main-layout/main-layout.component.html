@@ -1,4 +1,6 @@
-<app-navbar></app-navbar>
+<app-navbar
+  [title]="appName"
+></app-navbar>
 
 <app-sidebar
   [open]="!!(ui.isSidebarOpen$ | async)"

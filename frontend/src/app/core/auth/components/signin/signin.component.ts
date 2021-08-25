@@ -2,20 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { MessageService as PrimeMessageService } from 'primeng/api';
+import { Title } from '@angular/platform-browser';
 
+import { environment } from '@environment/environment';
+import { ToasterService } from '@app/shared/components/toaster';
 import { AuthenticationService } from '../../services';
 import { SignInDto } from '../../types';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.scss'],
-  providers: [PrimeMessageService],
 })
 export class SignInComponent implements OnInit {
 
   isLoading = false;
+  title = environment.appName;
 
   signInForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -25,12 +26,12 @@ export class SignInComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private router: Router,
-    private messageService: PrimeMessageService,
     private titleService: Title,
+    private toaster: ToasterService,
   ) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Garnet || Sign In');
+    this.titleService.setTitle(`${this.title} || Sign In`);
   }
 
   onSubmit(): void {
@@ -47,16 +48,7 @@ export class SignInComponent implements OnInit {
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         next: () => this.router.navigate(['/courses']),
-        error: err => {
-          console.error(err);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Wrong email and/or password',
-          });
-        },
+        error: err => this.toaster.setError('Wrong email and/or password'),
       });
-
-    // ...
   }
 }

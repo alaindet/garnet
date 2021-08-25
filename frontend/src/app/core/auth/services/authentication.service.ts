@@ -3,8 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { parseJwt } from '@app/shared/utils';
 import { environment } from '@environment/environment';
+import { parseJwt } from '@app/shared/utils';
 import { SignInDto, SignInResponse, StoredUserInfo } from '../types';
 import { Response } from '@app/shared/types';
 
@@ -13,7 +13,7 @@ import { Response } from '@app/shared/types';
 })
 export class AuthenticationService {
 
-  USER_KEY = 'garnet.user';
+  USER_KEY = `${environment.appSlug}.user`;
 
   constructor(
     private http: HttpClient,

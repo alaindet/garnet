@@ -2,10 +2,11 @@ import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, V
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { fromEvent, Subscription } from 'rxjs';
 import { throttleTime, map, distinctUntilChanged, filter, mergeMap, tap } from 'rxjs/operators';
-import { MatSnackBar, MatSnackBarRef, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 
+import { environment } from '@environment/environment';
 import { UiService } from '../../services';
-import { ScrollingDirection, SnackbarConfiguration } from '../../types';
+import { ScrollingDirection } from '../../types';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
@@ -21,7 +22,8 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   @HostBinding('class.--locked-scrolling')
   lockedScrolling = false;
 
-  private snackBarRef?: MatSnackBarRef<SnackbarComponent>;
+  appName = environment.appName;
+
   private subs: { [sub: string]: Subscription } = {};
 
   constructor(
@@ -103,9 +105,8 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private manageSnackBar(): void {
-
     this.ui.snackbar$.subscribe(data => {
-      this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
+      this.snackBar.openFromComponent(SnackbarComponent, {
         duration: 3000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
