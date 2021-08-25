@@ -8,8 +8,4 @@
 - [ ] Delete without refetching list
 - [ ] Add role-based guard on FE
 - [ ] Fetch table rows on update and delete to show name field in feedback
-- [ ] Pass course data into task manager, then fetch it if missing?
 - [ ] JSON output in camelCase
-- [ ] Fix snackbar overflowing
-- [ ] Fix navbar not hiding
-- [ ] Remove snackbar, use toaster instead

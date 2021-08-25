@@ -28,6 +28,7 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     public ui: UiService,
     private router: Router,
     private route: ActivatedRoute,
+    private host: ElementRef,
   ) {}
 
   ngOnInit(): void {
@@ -55,13 +56,14 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   private observeScrollingDirection(): void {
-    let lastScrollY = window.scrollY;
-    this.subs.scrollingDirection = fromEvent(window, 'scroll')
+    let lastScrollY = this.host.nativeElement.scrollTop;
+    this.subs.scrollingDirection = fromEvent(this.host.nativeElement, 'scroll')
       .pipe(
         throttleTime(1000 / 5), // 5 FPS
         map(() => {
-          const isScrollingDown = (window.scrollY - lastScrollY) > 0;
-          lastScrollY = window.scrollY;
+          const scrolled = this.host.nativeElement.scrollTop;
+          const isScrollingDown = (scrolled - lastScrollY) > 0;
+          lastScrollY = scrolled;
           return isScrollingDown ? ScrollingDirection.Down : ScrollingDirection.Up;
         }),
         distinctUntilChanged(),
