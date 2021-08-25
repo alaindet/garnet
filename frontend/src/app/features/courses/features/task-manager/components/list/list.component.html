@@ -20,6 +20,12 @@
             <h2>{{ task.name }}</h2>
           </mat-card-title>
 
+          <mat-card-subtitle>
+            Created on: {{ task.created_on | date }},
+            <br>
+            Last modified: {{ task.updated_on | date }}
+          </mat-card-subtitle>
+
           <p>{{ task.description }}</p>
         </mat-card-content>
 

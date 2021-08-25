@@ -1,4 +1,4 @@
 import { SuccessResponse } from '@app/core/types';
-import { TaskListItem } from './task-list-item';
+import { Task } from './task';
 
-export type GetTasksResponse = SuccessResponse<TaskListItem[]>;
+export type GetTasksResponse = SuccessResponse<Task[]>;

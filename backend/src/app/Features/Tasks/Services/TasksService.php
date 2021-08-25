@@ -46,14 +46,7 @@ class TasksService
             );
         }
 
-        return array_map(
-            fn($row) => [
-                'task_id' => $row['task_id'],
-                'name' => $row['name'],
-                'description' => $row['description'],
-            ],
-            $this->tasksRepo->getAllByCourseId($courseId)
-        );
+        return $this->tasksRepo->getAllByCourseId($courseId);
     }
 
     public function findById(string|int $taskId): array

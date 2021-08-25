@@ -10,7 +10,7 @@ import { ConfirmDeleteDialogConfig } from '@app/shared/types';
 import { CoursesService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
 import { TaskManagerService } from '../../services';
-import { TaskListItem } from '../../types';
+import { Task } from '../../types';
 
 @Component({
   templateUrl: './list.component.html',
@@ -20,7 +20,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
 
   courseId!: number | string;
   course?: Course;
-  tasks?: TaskListItem[];
+  tasks?: Task[];
   isLoading = true;
 
   private subs: { [sub: string]: Subscription } = {};

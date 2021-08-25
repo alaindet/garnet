@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { AuthenticationService } from '@app/core/auth/services';
-import { TaskListItem, GetTasksResponse, GetTaskResponse, Task, CreateTaskRequest, UpdateTaskRequest, DeleteTaskRequest } from '../types';
+import { GetTasksResponse, GetTaskResponse, Task, CreateTaskRequest, UpdateTaskRequest, DeleteTaskRequest } from '../types';
 
 @Injectable()
 export class TaskManagerService {
@@ -15,7 +15,7 @@ export class TaskManagerService {
     private authService: AuthenticationService,
   ) {}
 
-  getTasksByCourseId(courseId: string | number): Observable<TaskListItem[]> {
+  getTasksByCourseId(courseId: string | number): Observable<Task[]> {
     const url = `${environment.apiUrl}/courses/${courseId}/tasks`;
     const options = this.getCorsOptions();
     return this.http.get<GetTasksResponse>(url, options)
