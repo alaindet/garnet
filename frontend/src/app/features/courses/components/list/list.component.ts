@@ -5,11 +5,11 @@ import { finalize } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
+import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
 import { ConfirmDeleteDialogConfig } from '@app/shared/types';
 import { CoursesService } from '../../services';
 import { Course } from '../../types';
 import { CoursesAction } from '../../actions';
-import { ConfirmDeleteComponent } from '../confirm-delete/confirm-delete.component';
 
 @Component({
   templateUrl: './list.component.html',

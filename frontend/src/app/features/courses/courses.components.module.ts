@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { ConfirmDeleteComponentModule } from '@app/shared/components/confirm-delete';
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
 import { SkeletonComponentModule } from '@app/shared/components/skeleton';
 
@@ -21,6 +22,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatDialogModule,
     BackButtonComponentModule,
     SkeletonComponentModule,
+    ConfirmDeleteComponentModule,
   ],
   exports: [
     MatIconModule,
@@ -32,6 +34,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatDialogModule,
     BackButtonComponentModule,
     SkeletonComponentModule,
+    ConfirmDeleteComponentModule,
   ],
 })
 export class CoursesComponentsModule {}

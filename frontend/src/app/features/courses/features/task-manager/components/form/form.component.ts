@@ -78,7 +78,7 @@ export class TaskFormComponent implements OnInit {
       if (formValue?.description) dto.description = formValue.description;
 
       [request, onSuccess] = [this.taskService.updateTask(dto), () => {
-        this.router.navigate(['/courses', this.courseId, 'tasks']);
+        this.router.navigate(['/courses', this.courseId, 'task-manager']);
         this.ui.setSnackbarSuccess(`Task with id #${dto.taskId} updated`);
       }];
     }
@@ -92,7 +92,7 @@ export class TaskFormComponent implements OnInit {
       };
 
       [request, onSuccess] = [this.taskService.createTask(dto), () => {
-        this.router.navigate(['/courses', this.courseId, 'tasks']);
+        this.router.navigate(['/courses', this.courseId, 'task-manager']);
         this.ui.setSnackbarSuccess('Course created');
       }];
     }

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-back-button',
@@ -9,11 +10,21 @@ import { Location } from '@angular/common';
 })
 export class BackButtonComponent {
 
+  @Input() to?: string | string[];
+
   constructor(
     private location: Location,
+    private router: Router,
   ) {}
 
   onBackClick(): void {
-    this.location.back();
+
+    if (!this.to) {
+      this.location.back();
+      return;
+    }
+
+    const urlSegments = Array.isArray(this.to) ? this.to : [this.to];
+    this.router.navigate(urlSegments);
   }
 }

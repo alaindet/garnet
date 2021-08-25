@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { CoursesService } from '@app/features/courses/services';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
+import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
+import { ConfirmDeleteDialogConfig } from '@app/shared/types';
+import { CoursesService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
-import { ConfirmDeleteComponent } from '@app/features/courses/components';
 import { TaskManagerService } from '../../services';
 import { TaskListItem } from '../../types';
 
@@ -69,12 +71,46 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     }
 
     const task = this.tasks[index];
-    const courseId = this.courseId;
-    const config: MatDialogConfig<TaskListItem> = { data: task };
+    const course = this.course;
+
+    const config: MatDialogConfig<ConfirmDeleteDialogConfig> = {
+      data: {
+        title: 'Delete task',
+        question: (`
+          Are you sure you want to delete \
+          task "${task.name}" from course "${course?.name}"?
+        `),
+      },
+    };
+
     this.matDialog.open(ConfirmDeleteComponent, config)
       .afterClosed()
       .subscribe(confirmed => {
 
+        if (!confirmed) {
+          return;
+        }
+
+        this.isLoading = true;
+
+        const dto = {
+          courseId: this.courseId,
+          taskId: task.task_id,
+        };
+
+        this.tasksService.deleteTask(dto)
+          .pipe(finalize(() => this.isLoading = false))
+          .subscribe({
+            error: err => this.ui.setSnackbarError(err.error.message),
+            next: () => {
+              const message = (`
+                Task "${task.name}" was deleted
+                from course "${course?.name}"
+              `);
+              this.ui.setSnackbarSuccess(message);
+              this.fetchTasks();
+            },
+          });
       });
   }
 
