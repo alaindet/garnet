@@ -79,7 +79,7 @@ export class TaskFormComponent implements OnInit {
 
       [request, onSuccess] = [this.taskService.updateTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'task-manager']);
-        this.ui.setSnackbarSuccess(`Task with id #${dto.taskId} updated`);
+        this.ui.setSnackbarSuccess(`Task "${this.task?.name}" updated`);
       }];
     }
 
@@ -93,7 +93,7 @@ export class TaskFormComponent implements OnInit {
 
       [request, onSuccess] = [this.taskService.createTask(dto), () => {
         this.router.navigate(['/courses', this.courseId, 'task-manager']);
-        this.ui.setSnackbarSuccess('Course created');
+        this.ui.setSnackbarSuccess('Task created');
       }];
     }
 

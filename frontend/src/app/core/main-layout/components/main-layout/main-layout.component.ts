@@ -106,14 +106,11 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
 
     this.ui.snackbar$.subscribe(data => {
       this.snackBarRef = this.snackBar.openFromComponent(SnackbarComponent, {
-        // duration: 3000,
-        duration: 120_000,
+        duration: 3000,
         horizontalPosition: 'right',
         verticalPosition: 'top',
         data,
       });
     });
-
-    this.ui.setSnackbarSuccess('This is a very unnecessarily long text I will be showing somewhere on the page');
   }
 }

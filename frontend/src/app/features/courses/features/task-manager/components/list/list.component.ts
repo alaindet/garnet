@@ -50,7 +50,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
 
   onCreateTask(): void {
     const courseId = this.course?.course_id;
-    this.router.navigate(['/courses', courseId, 'task-manager/create']);
+    this.router.navigate(['/courses', courseId, 'task-manager', 'create']);
   }
 
   onEditTask(index: number): void {

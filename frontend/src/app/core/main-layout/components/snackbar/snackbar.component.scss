@@ -5,6 +5,7 @@
   // This is needed to override the default Material style for snackbar
   position: absolute;
   inset: 0;
+  transform: 0.15s all ease-out;
 
   border-radius: 0.5rem;
   padding: 0.33rem 0.5rem;
@@ -31,7 +32,7 @@
   font-size: 1.6rem;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.15s background-color ease-out;  
+  transition: 0.15s background-color ease-out;
   color: inherit;
 
   &:hover,
