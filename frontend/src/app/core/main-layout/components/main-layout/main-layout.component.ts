@@ -7,6 +7,9 @@ import { environment } from '@environment/environment';
 import { UiService } from '../../services';
 import { ScrollingDirection } from '../../types';
 
+// TODO
+import jwt_decode from 'jwt-decode';
+
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -34,6 +37,20 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit(): void {
     this.observeLockedScrolling();
     this.listenToRouterEvents();
+
+    // TODO
+    try {
+      const userInfoRaw = localStorage.getItem('garnet.user');
+      if (userInfoRaw === null) {
+        return;
+      }
+      const userInfo = JSON.parse(userInfoRaw);
+      const token = userInfo.jwt;
+      const decoded = jwt_decode(token);
+      console.log('JWT decoded', decoded);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   ngAfterViewInit(): void {

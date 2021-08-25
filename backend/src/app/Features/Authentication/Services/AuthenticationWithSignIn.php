@@ -78,18 +78,19 @@ trait AuthenticationWithSignIn
         $expiresInClaim = $toDate;
         $notBeforeClaim = $fromDate;
 
+        // Standard claims
         $claims = [
-
-            // Standard
             'iss' => $issuerClaim,
             'sub' => $subjectClaim,
             'exp' => $expiresInClaim,
             'nbf' => $notBeforeClaim,
             'iat' => $issuedAtClaim,
-
-            // Custom
-            'app.role' => $user['user_role_id'],
         ];
+
+        // Custom claim for user role
+        $appSlug = appConfig('app.slug');
+        $roleClaimName = "{$appSlug}.role";
+        $claims[$roleClaimName] = $user['user_role_id'];
 
         $jwtSecret = $config->get('security.jwt.secret');
         $jwt = JWT::encode($claims, $jwtSecret);

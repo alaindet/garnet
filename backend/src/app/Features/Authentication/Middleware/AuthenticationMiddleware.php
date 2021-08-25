@@ -30,11 +30,13 @@ class AuthenticationMiddleware extends Middleware
                 $this->throwUnauthorized('Your session has expired');
             }
 
-            $appRole = 'app.role';
+            // Custom claim for user role
+            $appSlug = appConfig('app.slug');
+            $roleClaim = "{$appSlug}.role";
 
             $req->setAuthenticationData([
                 'user_id' => $decoded->sub,
-                'user_role_id' => $decoded->$appRole,
+                'user_role_id' => $decoded->$roleClaim,
             ]);
 
             return $res;
