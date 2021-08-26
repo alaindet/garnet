@@ -9,4 +9,4 @@
 - [ ] Add role-based guard on FE
 - [ ] Fetch table rows on update and delete to show name field in feedback
 - [ ] JSON output in camelCase
-- [ ] Decode JWT!
+- [ ] Fix toaster under navbar

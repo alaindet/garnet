@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
 
 import { environment } from '@environment/environment';
 import { parseJwt } from '@app/shared/utils';
-import { SignInDto, SignInResponse, StoredUserInfo } from '../types';
+import { SignInDto, SignInResponse, StoredUserInfo, JwtDecodedInfo } from '../types';
 import { Response } from '@app/shared/types';
 
 @Injectable({
@@ -63,6 +64,23 @@ export class AuthenticationService {
     const userInfo = JSON.parse(userItem) as StoredUserInfo;
 
     return userInfo?.jwt ?? null;
+  }
+
+  getDecodedToken(): JwtDecodedInfo | null {
+    try {
+      const userInfoRaw = localStorage.getItem(this.USER_KEY);
+
+      if (userInfoRaw === null) {
+        return null;
+      }
+
+      const userInfo = JSON.parse(userInfoRaw);
+      const token = userInfo.jwt;
+      return jwt_decode(token);
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
   }
 
   private isTokenExpired(jwt: string): boolean {

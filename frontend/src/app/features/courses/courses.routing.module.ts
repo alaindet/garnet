@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ShouldHaveTeacherRoleGuard } from '@app/core/auth';
 import { CoursesListComponent } from './components/list/list.component';
 import { CourseFormComponent } from './components/form/form.component';
 import { CoursesAction } from './actions';
@@ -23,6 +24,7 @@ const routes: Routes = [
   },
   {
     path: ':courseid/task-manager',
+    canLoad: [ShouldHaveTeacherRoleGuard],
     loadChildren: () => import('./features/task-manager/task-manager.module')
       .then(m => m.TaskManagerModule),
   },
