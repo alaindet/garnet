@@ -3,14 +3,14 @@ import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, CanLoad, Rout
 import { ToasterService } from '@app/shared/components/toaster';
 
 import { environment } from '@environment/environment';
-import { AuthenticationService } from '../services';
+import { AuthorizationService } from '../services';
 import { UserRole } from '../types';
 
 @Injectable()
 export class ShouldHaveTeacherRoleGuard implements CanActivate, CanLoad {
 
   constructor(
-    private authService: AuthenticationService,
+    private authorizationService: AuthorizationService,
     private toaster: ToasterService,
   ) { }
 
@@ -24,14 +24,8 @@ export class ShouldHaveTeacherRoleGuard implements CanActivate, CanLoad {
 
   private checkTeacherRole(): boolean {
 
-    const decodedToken = this.authService.getDecodedToken();
+    return this.authorizationService.hasRole(UserRole.Teacher);
 
-    if (decodedToken === null) {
-      return false;
-    }
-
-    const roleClaim = `${environment.appSlug}.role`;
-    const role = decodedToken[roleClaim];
 
     if (![UserRole.Teacher, UserRole.Admin].includes(role)) {
       this.toaster.setError('You must have the "teacher" role to access');
