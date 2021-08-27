@@ -20,6 +20,10 @@ export class JwtService {
     return localStorage.getItem(this.USER_KEY);
   }
 
+  clear(): void {
+    localStorage.removeItem(this.USER_KEY);
+  }
+
   decode(): JwtDecodedInfo | null {
     try {
       const jwt = this.fetch();
@@ -34,7 +38,7 @@ export class JwtService {
     }
   }
 
-  isExpired(prefetchedInfo: JwtDecodedInfo | null = null): boolean {
+  hasExpired(prefetchedInfo: JwtDecodedInfo | null = null): boolean {
 
     const info = prefetchedInfo ?? this.decode();
 

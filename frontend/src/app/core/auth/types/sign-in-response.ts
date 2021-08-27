@@ -1,6 +1,3 @@
-export interface SignInResponse {
-  message: string;
-  data: {
-    jwt: string;
-  };
-}
+import { Response } from '@app/shared/types';
+
+export type SignInResponse = Response<{ jwt: string }>;

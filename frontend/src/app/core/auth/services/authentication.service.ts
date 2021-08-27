@@ -2,101 +2,32 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import jwt_decode from 'jwt-decode';
 
 import { environment } from '@environment/environment';
-import { parseJwt, asNumber } from '@app/shared/utils';
-import { SignInDto, SignInResponse, StoredUserInfo, JwtDecodedInfo } from '../types';
-import { Response } from '@app/shared/types';
+import { SignInDto, SignInResponse } from '../types';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
 
-  USER_KEY = `${environment.appSlug}.user`;
-
   constructor(
     private http: HttpClient,
+    private jwtService: JwtService,
   ) {}
 
-  signIn(dto: SignInDto): Observable<Response<SignInResponse>> {
-    const url = environment.apiUrl + '/auth/signin';
-    return this.http.post<Response<SignInResponse>>(url, dto)
-      .pipe(tap(res => {
-        localStorage.setItem(this.USER_KEY, JSON.stringify(res.data));
-      }));
+  signIn(dto: SignInDto): Observable<SignInResponse> {
+    const url = `${environment.apiUrl}/auth/signin`;
+    return this.http.post<SignInResponse>(url, dto)
+      .pipe(tap(res => this.jwtService.store(res.data.jwt)));
   }
 
   signOut(): void {
-    localStorage.removeItem(this.USER_KEY);
+    this.jwtService.clear();
   }
 
   isSignedIn(): boolean {
-
-    const userItem = localStorage.getItem(this.USER_KEY);
-
-    if (userItem === null) {
-      return false;
-    }
-
-    const userInfo = JSON.parse(userItem) as StoredUserInfo;
-
-    if (!userInfo?.jwt) {
-      return false;
-    }
-
-    if (this.isTokenExpired(userInfo.jwt)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  getToken(): string | null {
-
-    const userItem = localStorage.getItem(this.USER_KEY);
-
-    if (userItem === null) {
-      return null;
-    }
-
-    const userInfo = JSON.parse(userItem) as StoredUserInfo;
-
-    return userInfo?.jwt ?? null;
-  }
-
-  getDecodedToken(): JwtDecodedInfo | null {
-    try {
-      const userInfoRaw = localStorage.getItem(this.USER_KEY);
-
-      if (userInfoRaw === null) {
-        return null;
-      }
-
-      const userInfo = JSON.parse(userInfoRaw);
-      const token = userInfo.jwt;
-      return jwt_decode(token);
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  }
-
-  getUserRole(): number | null {
-    const decodedToken = this.getDecodedToken();
-
-    if (decodedToken === null) {
-      return null;
-    }
-
-    const roleClaim = `${environment.appSlug}.role`;
-    return asNumber(decodedToken[roleClaim]);
-  }
-
-  private isTokenExpired(jwt: string): boolean {
-    const expiration = parseInt(parseJwt(jwt).exp) * 1000;
-    const now = Date.now();
-    return now >= expiration;
+    return this.jwtService.hasExpired();
   }
 }
