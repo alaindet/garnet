@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CoursesRoutingModule } from './courses.routing.module';
 import { CoursesComponentsModule } from './courses.components.module';
-import { CoursesListComponent, CourseFormComponent } from './components';
+import { CoursesListComponent, CourseFormComponent, CoursesListItemActionsComponent } from './components';
 import { CoursesService } from './services';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { CoursesService } from './services';
   declarations: [
     CoursesListComponent,
     CourseFormComponent,
+    CoursesListItemActionsComponent,
   ],
   providers: [
     CoursesService,

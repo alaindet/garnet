@@ -1,0 +1,61 @@
+<ng-container
+  [ngTemplateOutlet]="
+    userRole === UserRole.Teacher
+      ? teacherActionsRef
+      : studentActionsRef
+  "
+></ng-container>
+
+<!-- Template: teacher actions -->
+<ng-template #teacherActionsRef>
+  <button mat-flat-button color="primary" (click)="showStudents.emit()">
+    Students
+    <mat-icon>school</mat-icon>
+  </button>
+
+  <button mat-stroked-button (click)="editTasks.emit()">
+    Tasks
+    <mat-icon>task_alt</mat-icon>
+  </button>
+
+  <button
+    class="-floating-menu-handle"
+    mat-icon-button
+    color="accent"
+    [matMenuTriggerFor]="courseCardMenuRef"
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+
+  <mat-menu #courseCardMenuRef="matMenu">
+    <button mat-menu-item (click)="editCourse.emit()">
+      Edit course
+    </button>
+    <button mat-menu-item (click)="deleteCourse.emit()">
+      Delete course
+    </button>
+  </mat-menu>
+</ng-template>
+
+<!-- Template: student actions -->
+<ng-template #studentActionsRef>
+  <button mat-flat-button color="primary" (click)="showBoard.emit()">
+    Go to Board
+    <mat-icon>view_week</mat-icon>
+  </button>
+
+  <button
+    class="-floating-menu-handle"
+    mat-icon-button
+    color="accent"
+    [matMenuTriggerFor]="courseCardMenuRef"
+  >
+    <mat-icon>more_horiz</mat-icon>
+  </button>
+
+  <mat-menu #courseCardMenuRef="matMenu">
+    <button mat-menu-item (click)="leaveCourse.emit()">
+      Leave course
+    </button>
+  </mat-menu>
+</ng-template>

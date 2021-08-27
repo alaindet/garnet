@@ -33,7 +33,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ui.title = 'Courses';
     this.fetchCourses();
-    this.subs.fab = this.ui.fabClicked$.subscribe(this.onFabClick.bind(this));
+    this.subs.fab = this.ui.fabClicked$.subscribe(this.onCreateCourse.bind(this));
   }
 
   ngOnDestroy(): void {
@@ -42,45 +42,31 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMenuActionClicked(action: CoursesAction, courseId: string | number): void {
-    switch (action) {
-      case CoursesAction.ShowEditCourseForm:
-        this.router.navigate(['/courses', courseId]);
-        break;
-      case CoursesAction.ShowDeleteCourse:
-        this.deleteCourse(courseId);
-        break;
-    }
+  onShowStudents(courseId: string | number): void {
+    console.log('onShowStudents', courseId);
+    // ...
+  }
+
+  onShowBoard(courseId: string | number): void {
+    console.log('onShowBoard', courseId);
+    // ...
   }
 
   onEditTasks(courseId: string | number): void {
     this.router.navigate(['/courses', courseId, 'task-manager']);
   }
 
-  onShowStudents(): void {
-    console.log(CoursesAction.ShowStudents);
-    // ...
+  onEditCourse(courseId: string | number): void {
+    this.router.navigate(['/courses', courseId]);
   }
 
-  onFabClick(action: string): void {
+  onCreateCourse(action: string): void {
     if (action === CoursesAction.ShowCreateCourseForm) {
       this.router.navigate(['/courses/create']);
     }
   }
 
-  private fetchCourses(): void {
-
-    this.isLoading = true;
-
-    this.coursesService.getAllCourses()
-      .pipe(finalize(() => this.isLoading = false))
-      .subscribe({
-        error: err => this.ui.setErrorToaster(err.error.message),
-        next: courses => this.courses = courses,
-      });
-  }
-
-  private deleteCourse(courseId: string | number): void {
+  onDeleteCourse(courseId: string | number): void {
     const course = this.courses?.find(c => c.course_id === courseId);
 
     if (!course) {
@@ -113,6 +99,18 @@ export class CoursesListComponent implements OnInit, OnDestroy {
               this.fetchCourses();
             },
           });
+      });
+  }
+
+  private fetchCourses(): void {
+
+    this.isLoading = true;
+
+    this.coursesService.getAllCourses()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.message),
+        next: courses => this.courses = courses,
       });
   }
 }

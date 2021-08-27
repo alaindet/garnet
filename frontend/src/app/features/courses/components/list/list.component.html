@@ -33,49 +33,14 @@
         </mat-card-content>
 
         <mat-card-actions>
-
-          <button mat-flat-button color="primary" (click)="onShowStudents()">
-            Students
-            <mat-icon>school</mat-icon>
-          </button>
-
-          <button mat-stroked-button (click)="onEditTasks(course.course_id)">
-            Tasks
-            <mat-icon>task_alt</mat-icon>
-          </button>
-
-          <button
-            class="-floating-menu-handle"
-            mat-icon-button
-            color="accent"
-            [matMenuTriggerFor]="courseCardMenu"
-          >
-            <mat-icon>more_horiz</mat-icon>
-          </button>
-
-          <mat-menu #courseCardMenu="matMenu">
-
-            <button
-              mat-menu-item
-              (click)="onMenuActionClicked(
-                CoursesAction.ShowEditCourseForm,
-                course.course_id
-              )"
-            >
-              Edit course
-            </button>
-
-            <button
-              mat-menu-item
-              (click)="onMenuActionClicked(
-                CoursesAction.ShowDeleteCourse,
-                course.course_id
-              )"
-            >
-              Delete course
-            </button>
-          </mat-menu>
-
+          <app-list-item-actions
+            [userRole]="2"
+            (showStudents)="onShowStudents(course.course_id)"
+            (showBoard)="onShowBoard(course.course_id)"
+            (editTasks)="onEditTasks(course.course_id)"
+            (editCourse)="onEditCourse(course.course_id)"
+            (deleteCourse)="onDeleteCourse(course.course_id)"
+          ></app-list-item-actions>
         </mat-card-actions>
 
       </mat-card>

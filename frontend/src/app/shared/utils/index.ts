@@ -1,1 +1,1 @@
-export * from './parse-jwt';
+export * from './as-number';
