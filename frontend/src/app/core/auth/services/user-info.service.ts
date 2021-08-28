@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
 import { UserRole } from '../types';
+import { JwtService } from './jwt.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserInfoService {
 
-  private _userId$ = new BehaviorSubject<string | number | null>(null);
-  private _userRole$ = new BehaviorSubject<UserRole | null>(null);
+  private _id$ = new BehaviorSubject<string | number | null>(null);
+  private _role$ = new BehaviorSubject<UserRole | null>(null);
 
-  userId$ = this._userId$.asObservable();
-  userRole$ = this._userRole$.asObservable();
+  id$ = this._id$.asObservable();
+  role$ = this._role$.asObservable();
+
+  set id(id: string | number | null) {
+    this._id$.next(id);
+  }
+
+  set role(role: UserRole | null) {
+    this._role$.next(role);
+  }
 }

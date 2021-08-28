@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
 import { SignInComponent } from './components/signin/signin.component';
 import { SignOutComponent } from './components/signout/signout.component';
-import { AuthenticationService } from './services';
 import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard } from './guards';
 
 const routes: Routes = [
@@ -42,9 +41,6 @@ const routes: Routes = [
   declarations: [
     SignInComponent,
     SignOutComponent,
-  ],
-  providers: [
-    AuthenticationService,
   ],
 })
 export class AuthModule {}

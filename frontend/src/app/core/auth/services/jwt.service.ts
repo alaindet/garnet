@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 
 import { environment } from '@environment/environment';
+import { LocalStorageService } from '@app/core/services';
 import { asNumber } from '@app/shared/utils';
 import { JwtDecodedInfo } from '../types';
 
@@ -10,45 +11,50 @@ import { JwtDecodedInfo } from '../types';
 })
 export class JwtService {
 
-  USER_KEY = `${environment.appSlug}.user`;
+  private storageKey = `${environment.appSlug}.jwt`;
 
-  store(jwt: string): void {
-    localStorage.setItem(this.USER_KEY, jwt);
-  }
-
-  fetch(): string | null {
-    return localStorage.getItem(this.USER_KEY);
+  constructor(private localStorageService: LocalStorageService) {
+    this.localStorageService.register(this.storageKey, this.jwtParser);
   }
 
   clear(): void {
-    localStorage.removeItem(this.USER_KEY);
+    this.localStorageService.clearItem(this.storageKey);
   }
 
-  decode(): JwtDecodedInfo | null {
+  private jwtParser(jwt: string | null): JwtDecodedInfo | null {
     try {
-      const jwt = this.fetch();
-
-      if (jwt === null) {
-        return null;
-      }
-
-      return jwt_decode(jwt);
+      return (jwt !== null) ? jwt_decode(jwt) : null;
     } catch (error) {
       return null;
     }
   }
 
-  hasExpired(prefetchedInfo: JwtDecodedInfo | null = null): boolean {
 
-    const info = prefetchedInfo ?? this.decode();
+  // decode(): JwtDecodedInfo | null {
+  //   try {
+  //     const jwt = this.fetch();
 
-    if (info === null) {
-      return true;
-    }
+  //     if (jwt === null) {
+  //       return null;
+  //     }
 
-    const expiration = asNumber(info.exp) * 1000;
-    const now = Date.now();
+  //     return jwt_decode(jwt);
+  //   } catch (error) {
+  //     return null;
+  //   }
+  // }
 
-    return now >= expiration;
-  }
+  // hasExpired(prefetchedInfo: JwtDecodedInfo | null = null): boolean {
+
+  //   const info = prefetchedInfo ?? this.decode();
+
+  //   if (info === null) {
+  //     return true;
+  //   }
+
+  //   const expiration = asNumber(info.exp) * 1000;
+  //   const now = Date.now();
+
+  //   return now >= expiration;
+  // }
 }

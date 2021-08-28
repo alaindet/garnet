@@ -20,7 +20,9 @@ export class AuthenticationService {
   signIn(dto: SignInDto): Observable<SignInResponse> {
     const url = `${environment.apiUrl}/auth/signin`;
     return this.http.post<SignInResponse>(url, dto)
-      .pipe(tap(res => this.jwtService.store(res.data.jwt)));
+      .pipe(tap(res => {
+        this.jwtService.store(res.data.jwt);
+      }));
   }
 
   signOut(): void {
