@@ -25,13 +25,13 @@ export class LocalStorageService implements OnDestroy {
     this.writeOperations$.complete();
   }
 
-  register<T = any>(key: string, parser: LocalStorageItemParser<T>) {
+  register<T = any>(key: string, parser: LocalStorageItemParser<T>): void {
     const rawValue = localStorage.getItem(key);
     const parsedValue = parser(rawValue); 
     this.data[key] = { rawValue, parsedValue, parser };
   }
 
-  fetchItem<T = any>(key: string): T {
+  fetchItem<T = any>(key: string): T | null {
     return this.data[key].parsedValue;
   }
 
