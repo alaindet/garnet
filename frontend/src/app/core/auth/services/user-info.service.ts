@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { UserRole } from '../types';
-import { JwtService } from './jwt.service';
+import { environment } from '@environment/environment';
+import { JwtDecodedInfo, UserRole } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +14,12 @@ export class UserInfoService {
 
   id$ = this._id$.asObservable();
   role$ = this._role$.asObservable();
+
+  updateOrInit(info: JwtDecodedInfo): void {
+    this._id$.next(info.sub);
+    const userRoleKey = `${environment.appSlug}.role`;
+    this._role$.next(info[userRoleKey]);
+  }
 
   set id(id: string | number | null) {
     this._id$.next(id);
