@@ -18,21 +18,29 @@ export class JwtService {
     private localStorageService: LocalStorageService,
     private userInfo: UserInfoService,
   ) {
+    this.updateUserInfo();
     this.localStorageService.register(this.storageKey, this.parseJwt);
-    this.userInfo.updateOrInit();
+  }
+
+  fetch(): JwtDecodedInfo | null {
+    return this.localStorageService.fetchItem(this.storageKey);
   }
 
   store(jwt: string): void {
+    const decodedJwt = this.parseJwt(jwt);
     this.localStorageService.storeItem(this.storageKey, jwt);
+    this.updateUserInfo(decodedJwt);
   }
 
   clear(): void {
     this.localStorageService.clearItem(this.storageKey);
+    this.resetUserInfo();
   }
 
   hasExpired(): boolean {
 
-    const info = this.localStorageService.fetchItem<JwtDecodedInfo>(this.storageKey);
+    const key = this.storageKey;
+    const info = this.localStorageService.fetchItem<JwtDecodedInfo>(key);
 
     if (info === null) {
       return true;
@@ -44,11 +52,22 @@ export class JwtService {
     return now >= expiration;
   }
 
-  parseJwt(jwt: string | null): JwtDecodedInfo | null {
+  private parseJwt(jwt: string | null): JwtDecodedInfo | null {
     try {
       return (jwt !== null) ? jwt_decode(jwt) : null;
     } catch (error) {
       return null;
     }
+  }
+
+  private updateUserInfo(decodedJwt: JwtDecodedInfo | null = null): void {
+    decodedJwt = decodedJwt ?? this.fetch();
+    if (decodedJwt) {
+      this.userInfo.update(decodedJwt);
+    }
+  }
+
+  private resetUserInfo(): void {
+    this.userInfo.reset();
   }
 }

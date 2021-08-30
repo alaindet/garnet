@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { environment } from '@environment/environment';
-import { asNumber } from '@app/shared/utils';
-import { JwtService } from './jwt.service';
 import { UserRole } from '../types';
+import { UserInfoService } from './user-info.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,32 +11,20 @@ import { UserRole } from '../types';
 export class AuthorizationService {
 
   constructor(
-    private jwtService: JwtService,
+    private userInfo: UserInfoService,
   ) {}
 
-  hasRole(role: UserRole | UserRole[]): boolean {
+  hasRole(role: UserRole | UserRole[]): Observable<boolean> {
+    return this.userInfo.roleId$.pipe(map(userRole => {
 
-    const currentRole = this.getUserRole();
+      if (userRole === null) {
+        return false;
+      }
 
-    if (currentRole === null) {
-      return false;
-    }
+      return (Array.isArray(role))
+        ? role.includes(userRole)
+        : role === userRole;
 
-    if (Array.isArray(role)) {
-      return role.includes(this.getUserRole());
-    }
-
-    return role === this.getUserRole();
-  }
-
-  getUserRole(): number | null {
-    const userInfo = this.jwtService.decode();
-
-    if (userInfo === null) {
-      return null;
-    }
-
-    const roleClaim = `${environment.appSlug}.role`;
-    return asNumber(userInfo[roleClaim]);
+    }));
   }
 }

@@ -9,23 +9,28 @@ import { JwtDecodedInfo, UserRole } from '../types';
 })
 export class UserInfoService {
 
-  private _id$ = new BehaviorSubject<string | number | null>(null);
-  private _role$ = new BehaviorSubject<UserRole | null>(null);
+  private _userId$ = new BehaviorSubject<string | number | null>(null);
+  private _roleId$ = new BehaviorSubject<UserRole | null>(null);
 
-  id$ = this._id$.asObservable();
-  role$ = this._role$.asObservable();
+  userId$ = this._userId$.asObservable();
+  roleId$ = this._roleId$.asObservable();
 
-  updateOrInit(info: JwtDecodedInfo): void {
-    this._id$.next(info.sub);
+  update(info: JwtDecodedInfo): void {
     const userRoleKey = `${environment.appSlug}.role`;
-    this._role$.next(info[userRoleKey]);
+    this._userId$.next(info.sub);
+    this._roleId$.next(info[userRoleKey]);
   }
 
-  set id(id: string | number | null) {
-    this._id$.next(id);
+  reset(): void {
+    this._userId$.next(null);
+    this._roleId$.next(null);
   }
 
-  set role(role: UserRole | null) {
-    this._role$.next(role);
+  set userId(id: string | number | null) {
+    this._userId$.next(id);
+  }
+
+  set roleId(role: UserRole | null) {
+    this._roleId$.next(role);
   }
 }
