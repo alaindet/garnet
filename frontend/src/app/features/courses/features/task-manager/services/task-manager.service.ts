@@ -62,7 +62,7 @@ export class TaskManagerService {
 
   // TODO: Move to interceptor
   private getCorsOptions(): { headers: HttpHeaders } {
-    const jwt = this.jwtService.fetch();
+    const jwt = this.jwtService.fetchRaw();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${jwt}`);
     return { headers };
   }

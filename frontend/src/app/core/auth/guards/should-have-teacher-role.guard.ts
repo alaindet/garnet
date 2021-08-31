@@ -24,9 +24,6 @@ export class ShouldHaveTeacherRoleGuard implements CanActivate, CanLoad {
   }
 
   private checkTeacherRole(): Observable<boolean> {
-    return this.authorizationService.hasRole([
-      UserRole.Admin,
-      UserRole.Teacher,
-    ]);
+    return this.authorizationService.hasRole([UserRole.Admin, UserRole.Teacher]);
   }
 }

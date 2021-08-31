@@ -104,7 +104,7 @@ export class TaskFormComponent implements OnInit {
       }))
       .subscribe({
         error: (err: HttpErrorResponse) => {
-          this.ui.setErrorToaster(err.error.message);
+          this.ui.setErrorToaster(err.error.error.message);
         },
         next: onSuccess,
       });

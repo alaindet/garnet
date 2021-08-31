@@ -78,7 +78,8 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
         title: 'Delete task',
         question: (`
           Are you sure you want to delete \
-          task "${task.name}" from course "${course?.name}"?
+          task <strong>${task.name}</strong> \
+          from course <strong>${course?.name}</strong>?
         `),
       },
     };
@@ -101,7 +102,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
         this.tasksService.deleteTask(dto)
           .pipe(finalize(() => this.isLoading = false))
           .subscribe({
-            error: err => this.ui.setErrorToaster(err.error.message),
+            error: err => this.ui.setErrorToaster(err.error.error.message),
             next: () => {
               const message = (`
                 Task "${task.name}" was deleted
@@ -124,7 +125,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     ])
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
-        error: err => this.ui.setErrorToaster(err.error.message),
+        error: err => this.ui.setErrorToaster(err.error.error.message),
         next: ([course, tasks]) => {
           this.course = course;
           this.tasks = tasks;

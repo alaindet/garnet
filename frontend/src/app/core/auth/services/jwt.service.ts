@@ -18,17 +18,19 @@ export class JwtService {
     private localStorageService: LocalStorageService,
     private userInfo: UserInfoService,
   ) {
-    this.updateUserInfo();
     this.localStorageService.register(this.storageKey, this.parseJwt);
+    this.updateUserInfo();
   }
 
   fetch(): JwtDecodedInfo | null {
     return this.localStorageService.fetchItem(this.storageKey);
   }
 
-  store(jwt: string): void {
-    console.log('storing JWT', jwt);
+  fetchRaw(): string | null {
+    return this.localStorageService.fetchRawItem(this.storageKey);
+  }
 
+  store(jwt: string): void {
     const decodedJwt = this.parseJwt(jwt);
     this.localStorageService.storeItem(this.storageKey, jwt);
     this.updateUserInfo(decodedJwt);
