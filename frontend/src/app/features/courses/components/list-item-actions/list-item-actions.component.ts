@@ -17,6 +17,7 @@ export class CoursesListItemActionsComponent {
   @Output() editTasks = new EventEmitter<number | string>();
   @Output() editCourse = new EventEmitter<number | string>();
   @Output() deleteCourse = new EventEmitter<number | string>();
+  @Output() leaveCourse = new EventEmitter<number | string>();
 
   UserRole = UserRole;
 }

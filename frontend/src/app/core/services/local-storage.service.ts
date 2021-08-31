@@ -36,7 +36,7 @@ export class LocalStorageService implements OnDestroy {
   }
 
   fetchItem<T = any>(key: string): T | null {
-    return this.data[key].parsedValue;
+    return this.data[key]?.parsedValue ?? null;
   }
 
   fetchRawItem(key: string): string | null {

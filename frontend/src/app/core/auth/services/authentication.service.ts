@@ -20,7 +20,7 @@ export class AuthenticationService {
   signIn(dto: SignInDto): Observable<SignInResponse> {
     const url = `${environment.apiUrl}/auth/signin`;
     return this.http.post<SignInResponse>(url, dto)
-      .pipe(tap(this.onSignIn));
+      .pipe(tap(this.onSignIn.bind(this)));
   }
 
   signOut(): void {
@@ -28,7 +28,7 @@ export class AuthenticationService {
   }
 
   isSignedIn(): boolean {
-    return this.jwtService.hasExpired();
+    return !this.jwtService.hasExpired();
   }
 
   private onSignIn(res: SignInResponse): void {

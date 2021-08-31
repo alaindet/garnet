@@ -4,15 +4,22 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
-import { AuthenticationService } from '@app/core/auth/services';
-import { GetTasksResponse, GetTaskResponse, Task, CreateTaskRequest, UpdateTaskRequest, DeleteTaskRequest } from '../types';
+import { JwtService } from '@app/core/auth/services/jwt.service';
+import {
+  GetTasksResponse,
+  GetTaskResponse,
+  Task,
+  CreateTaskRequest,
+  UpdateTaskRequest,
+  DeleteTaskRequest,
+} from '../types';
 
 @Injectable()
 export class TaskManagerService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthenticationService,
+    private jwtService: JwtService,
   ) {}
 
   getTasksByCourseId(courseId: string | number): Observable<Task[]> {
@@ -55,7 +62,7 @@ export class TaskManagerService {
 
   // TODO: Move to interceptor
   private getCorsOptions(): { headers: HttpHeaders } {
-    const jwt = this.authService.getToken();
+    const jwt = this.jwtService.fetch();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${jwt}`);
     return { headers };
   }

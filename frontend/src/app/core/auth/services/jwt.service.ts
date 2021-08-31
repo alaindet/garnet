@@ -27,6 +27,8 @@ export class JwtService {
   }
 
   store(jwt: string): void {
+    console.log('storing JWT', jwt);
+
     const decodedJwt = this.parseJwt(jwt);
     this.localStorageService.storeItem(this.storageKey, jwt);
     this.updateUserInfo(decodedJwt);
