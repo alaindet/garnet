@@ -34,12 +34,14 @@
 
         <mat-card-actions>
           <app-list-item-actions
-            [userRole]="2"
+            *ngIf="userInfo.roleId$ | async as userRole"
+            [userRole]="userRole"
             (showStudents)="onShowStudents(course.course_id)"
             (showBoard)="onShowBoard(course.course_id)"
             (editTasks)="onEditTasks(course.course_id)"
             (editCourse)="onEditCourse(course.course_id)"
             (deleteCourse)="onDeleteCourse(course.course_id)"
+            (leaveCourse)="onLeaveCourse(course.course_id)"
           ></app-list-item-actions>
         </mat-card-actions>
 

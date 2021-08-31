@@ -62,7 +62,7 @@ export class LocalStorageService implements OnDestroy {
       .subscribe(operation => {
 
         if (!operation.hasOwnProperty('value')) {
-          localStorage.clearItem(operation.key);
+          localStorage.removeItem(operation.key);
           return;
         }
 

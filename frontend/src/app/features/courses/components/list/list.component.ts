@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
+import { UserInfoService } from '@app/core/auth/services/user-info.service';
 import { UiService } from '@app/core/main-layout/services';
 import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
 import { ConfirmDeleteDialogConfig } from '@app/shared/types';
@@ -24,6 +25,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   private subs: { [sub: string]: Subscription } = {};
 
   constructor(
+    public userInfo: UserInfoService,
     private coursesService: CoursesService,
     private ui: UiService,
     private router: Router,
@@ -47,9 +49,13 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     // ...
   }
 
-  onShowBoard(courseId: string | number): void {
-    console.log('onShowBoard', courseId);
+  onLeaveCourse(courseId: string | number): void {
+    console.log('onLeaveCourse', courseId);
     // ...
+  }
+
+  onShowBoard(courseId: string | number): void {
+    this.router.navigate(['/courses', courseId, 'board']);
   }
 
   onEditTasks(courseId: string | number): void {

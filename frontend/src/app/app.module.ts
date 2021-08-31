@@ -7,7 +7,7 @@ import { AuthModule } from '@app/core/auth';
 import { ToasterComponentModule } from '@app/shared/components/toaster';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard, ShouldHaveTeacherRoleGuard } from '@app/core/auth';
+import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard, ShouldHaveTeacherRoleGuard, ShouldHaveStudentRoleGuard } from '@app/core/auth';
 import { MainLayoutComponentModule } from '@app/core/main-layout';
 
 @NgModule({
@@ -27,6 +27,7 @@ import { MainLayoutComponentModule } from '@app/core/main-layout';
     ShouldBeLoggedGuard,
     ShouldNotBeLoggedGuard,
     ShouldHaveTeacherRoleGuard,
+    ShouldHaveStudentRoleGuard,
   ],
   bootstrap: [AppComponent],
 })

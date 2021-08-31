@@ -9,4 +9,5 @@
 - [ ] Add role-based guard on FE
 - [ ] Fetch table rows on update and delete to show name field in feedback
 - [ ] JSON output in camelCase
-- [ ] Fix toaster under navbar
+- [ ] Move task-manager feature up one level
+- [ ] Hide FAB on course page for students
