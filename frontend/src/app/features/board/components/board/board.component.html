@@ -1,1 +1,78 @@
-<p>board</p>
+<div class="-board-columns">
+
+  <!-- To Do -->
+  <div class="-board-column">
+    <h2>To Do</h2>
+    <mat-card
+      cdkDropList
+      id="todo"
+      #todoList="cdkDropList"
+      [cdkDropListData]="tasks.todo"
+      [cdkDropListConnectedTo]="[doneList, inProgressList]"
+      (cdkDropListDropped)="onDropTask($event)"
+      class="-column-tasks"
+    >
+      <p class="-empty-label" *ngIf="!tasks.todo.length">Empty list</p>
+      <div *ngFor="let task of tasks.todo" cdkDrag class="-task">
+        {{ task.name }}
+      </div>
+      <!-- <app-task
+        *ngFor="let task of todo"
+        [task]="task"
+        cdkDrag
+        (edit)="editTask('todo', $event)"
+      ></app-task> -->
+    </mat-card>
+  </div>
+
+  <!-- In progress -->
+  <div class="-board-column">
+    <h2>In progress</h2>
+    <mat-card
+      cdkDropList
+      id="inProgress"
+      #inProgressList="cdkDropList"
+      [cdkDropListData]="tasks.inProgress"
+      [cdkDropListConnectedTo]="[todoList, doneList]"
+      (cdkDropListDropped)="onDropTask($event)"
+      class="-column-tasks"
+    >
+      <p class="-empty-label" *ngIf="!tasks.inProgress.length">Empty list</p>
+      <div *ngFor="let task of tasks.inProgress" cdkDrag class="-task">
+        {{ task.name }}
+      </div>
+      <!-- <app-task
+        (edit)="editTask('inProgress', $event)"
+        *ngFor="let task of inProgress"
+        cdkDrag
+        [task]="task"
+      >
+      </app-task> -->
+    </mat-card>
+  </div>
+
+  <!-- Done -->
+  <div class="-board-column">
+    <h2>Done</h2>
+    <mat-card
+      cdkDropList
+      id="done"
+      #doneList="cdkDropList"
+      [cdkDropListData]="tasks.done"
+      [cdkDropListConnectedTo]="[todoList, inProgressList]"
+      (cdkDropListDropped)="onDropTask($event)"
+      class="-column-tasks"
+    >
+      <p class="-empty-label" *ngIf="!tasks.done.length">Empty list</p>
+      <div *ngFor="let task of tasks.done" cdkDrag class="-task">
+        {{ task.name }}
+      </div>
+      <!-- <app-task
+        (edit)="editTask('done', $event)"
+        *ngFor="let task of done"
+        cdkDrag
+        [task]="task"
+      ></app-task> -->
+    </mat-card>
+  </div>
+</div>

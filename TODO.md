@@ -11,3 +11,4 @@
 - [ ] JSON output in camelCase
 - [ ] Move task-manager feature up one level
 - [ ] Hide FAB on course page for students
+- [ ] Add global loader

@@ -1,1 +1,39 @@
 @import 'style';
+
+$column-width: 400px;
+
+.-board-columns {
+  display: flex;
+  justify-content: space-around;
+}
+
+.-board-column {
+  width: $column-width;
+  margin: 0 25px 25px 0;
+}
+
+.-column-tasks {
+  border: solid 1px #ccc;
+  min-height: 60px;
+  border-radius: 4px;
+}
+
+.-task {
+  margin-bottom: 30px;
+}
+
+.-empty-label {
+  font-size: 2em;
+  padding-top: 10px;
+  text-align: center;
+  opacity: 0.2;
+}
+
+// TODO: Angular Material override --------------------------------------------
+.cdk-drag-animating {
+  transition: transform 250ms;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
