@@ -1,46 +1,96 @@
 @import 'style';
 
-$column-width: 400px;
-
 .-board-columns {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  margin-top: 2rem;
+  overflow-x: auto;
 }
 
 .-board-column {
-  width: $column-width;
+  width: 400px;
+  max-width: 80vw;
   border-left: 1px solid app-store('color.theme.accent.200');
   border-right: 1px solid app-store('color.theme.accent.200');
-  padding: 1.5rem;
+  padding: 1rem;
 
-  &.--first { border-left: 0 }
-  &.--last { border-right: 0 }
-}
+  &.--first {
+    border-left: 0;
+  }
 
-.-column-tasks {
-  min-height: 60px;
+  &.--last {
+    border-right: 0;
+  }
 
-  > * {
-    margin: 1rem 0;
+  &-title {
+    text-align: center;
+  }
+
+  &-tasks {
+    min-height: 60px;
+    position: relative;
+
+    > * {
+      margin: 1rem 0;
+    }
   }
 }
 
-.-task {
-  margin-bottom: 30px;
-}
-
-.-empty-label {
+.-no-tasks {
+  position: absolute;
   font-size: 2em;
-  padding-top: 10px;
   text-align: center;
   opacity: 0.2;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: 0.15s opacity ease-out;
 }
 
-// TODO: Angular Material override --------------------------------------------
+.-task {
+  margin-bottom: 2rem;
+}
+
+// ----------------------------------------------------------------------------
+//
+// https://material.angular.io/cdk/drag-drop/overview#styling
+//
+// .cdk-drop-list
+//     Corresponds to the cdkDropList container
+// .cdk-drag
+//     Corresponds to a cdkDrag instance
+// .cdk-drag-disabled
+//     Class that is added to a disabled cdkDrag
+// .cdk-drag-handle
+//     Class that is added to the host element of the cdkDragHandle directive
+// .cdk-drag-preview
+//     This is the element that will be rendered next to the user's cursor as
+//     they're dragging an item in a sortable list. By default the element looks
+//     exactly like the element that is being dragged
+// .cdk-drag-placeholder
+//     This is element that will be shown instead of the real element as it's
+//     being dragged inside a cdkDropList. By default this will look exactly like
+//     the element that is being sorted
+// .cdk-drop-list-dragging
+//    A class that is added to cdkDropList while the user is dragging an item
+// .cdk-drop-list-disabled
+//    A class that is added to cdkDropList when it is disabled
+// .cdk-drop-list-receiving
+//     A class that is added to cdkDropList when it can receive an item that is
+//     being dragged inside a connected drop list
+//
+// ----------------------------------------------------------------------------
+
 .cdk-drag-animating {
   transition: transform 250ms;
 }
 
 .cdk-drag-placeholder {
-  opacity: 0;
+  opacity: 0.5;
+}
+
+.cdk-drop-list-dragging {
+  .-no-tasks {
+    opacity: 0;
+  }
 }

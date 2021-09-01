@@ -6,16 +6,16 @@
 
   <!-- To Do -->
   <div class="-board-column --first">
-    <h2>To Do</h2>
+    <h2 class="-board-column-title">To Do</h2>
     <div
       id="todo-list"
       cdkDropList
       [cdkDropListData]="boardState[TaskState.ToDo]"
       [cdkDropListConnectedTo]="['done-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
-      class="-column-tasks"
+      class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.ToDo].length" class="-empty-label">
+      <p *ngIf="!boardState[TaskState.ToDo].length" class="-no-tasks">
         No tasks
       </p>
 
@@ -30,16 +30,16 @@
 
   <!-- In progress -->
   <div class="-board-column">
-    <h2>In progress</h2>
+    <h2 class="-board-column-title">In progress</h2>
     <div
       id="in-progress-list"
       cdkDropList
       [cdkDropListData]="boardState[TaskState.InProgress]"
       [cdkDropListConnectedTo]="['todo-list', 'done-list']"
       (cdkDropListDropped)="onDropTask($event)"
-      class="-column-tasks"
+      class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.InProgress].length" class="-empty-label">
+      <p *ngIf="!boardState[TaskState.InProgress].length" class="-no-tasks">
         No tasks
       </p>
 
@@ -54,16 +54,16 @@
 
   <!-- Done -->
   <div class="-board-column --last">
-    <h2>Done</h2>
+    <h2 class="-board-column-title">Done</h2>
     <div
       id="done-list"
       cdkDropList
       [cdkDropListData]="boardState[TaskState.Done]"
       [cdkDropListConnectedTo]="['todo-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
-      class="-column-tasks"
+      class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.Done].length" class="-empty-label">
+      <p *ngIf="!boardState[TaskState.Done].length" class="-no-tasks">
         No tasks
       </p>
 
