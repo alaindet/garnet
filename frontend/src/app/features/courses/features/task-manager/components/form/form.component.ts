@@ -5,8 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
+import { Task } from '@app/shared/types';
 import { TaskManagerService } from '../../services';
-import { Task, TaskFormValue, CreateTaskRequest, UpdateTaskRequest } from '../../types';
+import { TaskFormValue, CreateTaskRequest, UpdateTaskRequest } from '../../types';
 
 @Component({
   templateUrl: './form.component.html',

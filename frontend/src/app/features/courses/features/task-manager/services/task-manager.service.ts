@@ -5,10 +5,10 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { JwtService } from '@app/core/auth/services/jwt.service';
+import { Task } from '@app/shared/types';
 import {
   GetTasksResponse,
   GetTaskResponse,
-  Task,
   CreateTaskRequest,
   UpdateTaskRequest,
   DeleteTaskRequest,

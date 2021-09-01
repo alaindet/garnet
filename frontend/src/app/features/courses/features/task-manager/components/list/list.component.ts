@@ -6,11 +6,10 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
 import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
-import { ConfirmDeleteDialogConfig } from '@app/shared/types';
+import { ConfirmDeleteDialogConfig, Task } from '@app/shared/types';
 import { CoursesService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
 import { TaskManagerService } from '../../services';
-import { Task } from '../../types';
 
 @Component({
   templateUrl: './list.component.html',

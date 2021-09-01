@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BoardRoutingModule } from './board.routing.module';
 import { BoardComponentsModule } from './board.components.module';
-import { BoardComponent } from './components';
+import { BoardComponent, TaskComponent } from './components';
 
 @NgModule({
   imports: [
@@ -13,6 +13,7 @@ import { BoardComponent } from './components';
   ],
   declarations: [
     BoardComponent,
+    TaskComponent,
   ],
   providers: [
     // ...

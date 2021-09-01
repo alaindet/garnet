@@ -1,4 +1,4 @@
-import { DateTimeString } from '@app/shared/types';
+import { DateTimeString } from './datetime-string';
 
 export interface Task {
   task_id: number | string;
