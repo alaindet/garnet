@@ -9,13 +9,20 @@ $column-width: 400px;
 
 .-board-column {
   width: $column-width;
-  margin: 0 25px 25px 0;
+  border-left: 1px solid app-store('color.theme.accent.200');
+  border-right: 1px solid app-store('color.theme.accent.200');
+  padding: 1.5rem;
+
+  &.--first { border-left: 0 }
+  &.--last { border-right: 0 }
 }
 
 .-column-tasks {
-  border: solid 1px #ccc;
   min-height: 60px;
-  border-radius: 4px;
+
+  > * {
+    margin: 1rem 0;
+  }
 }
 
 .-task {

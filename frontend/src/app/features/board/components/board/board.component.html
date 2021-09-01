@@ -5,75 +5,74 @@
 <div class="-board-columns">
 
   <!-- To Do -->
-  <div class="-board-column">
+  <div class="-board-column --first">
     <h2>To Do</h2>
-    <mat-card
+    <div
+      id="todo-list"
       cdkDropList
-      id="todo"
-      #todoList="cdkDropList"
       [cdkDropListData]="boardState[TaskState.ToDo]"
-      [cdkDropListConnectedTo]="[doneList, inProgressList]"
+      [cdkDropListConnectedTo]="['done-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-column-tasks"
     >
-      <ng-container
-        [ngTemplateOutletContext]="{ tasks: boardState[TaskState.ToDo] }"
-        [ngTemplateOutlet]="boardState[TaskState.ToDo].length
-          ? tasksRef
-          : noTasksRef"
-      ></ng-container>
-    </mat-card>
+      <p *ngIf="!boardState[TaskState.ToDo].length" class="-empty-label">
+        No tasks
+      </p>
+
+      <app-task
+        *ngFor="let task of boardState[TaskState.ToDo]"
+        [task]="task"
+        cdkDrag
+      ></app-task>
+
+    </div>
   </div>
 
   <!-- In progress -->
   <div class="-board-column">
     <h2>In progress</h2>
-    <mat-card
+    <div
+      id="in-progress-list"
       cdkDropList
-      id="inProgress"
-      #inProgressList="cdkDropList"
       [cdkDropListData]="boardState[TaskState.InProgress]"
-      [cdkDropListConnectedTo]="[todoList, doneList]"
+      [cdkDropListConnectedTo]="['todo-list', 'done-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-column-tasks"
     >
-      <ng-container
-        [ngTemplateOutletContext]="{ tasks: boardState[TaskState.InProgress] }"
-        [ngTemplateOutlet]="boardState[TaskState.InProgress].length
-          ? tasksRef
-          : noTasksRef"
-      ></ng-container>
-    </mat-card>
+      <p *ngIf="!boardState[TaskState.InProgress].length" class="-empty-label">
+        No tasks
+      </p>
+
+      <app-task
+        *ngFor="let task of boardState[TaskState.InProgress]"
+        [task]="task"
+        cdkDrag
+      ></app-task>
+
+    </div>
   </div>
 
   <!-- Done -->
-  <div class="-board-column">
+  <div class="-board-column --last">
     <h2>Done</h2>
-    <mat-card
+    <div
+      id="done-list"
       cdkDropList
-      id="done"
-      #doneList="cdkDropList"
       [cdkDropListData]="boardState[TaskState.Done]"
-      [cdkDropListConnectedTo]="[todoList, inProgressList]"
+      [cdkDropListConnectedTo]="['todo-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-column-tasks"
     >
-      <ng-container
-        [ngTemplateOutletContext]="{ tasks: boardState[TaskState.Done] }"
-        [ngTemplateOutlet]="boardState[TaskState.Done].length
-          ? tasksRef
-          : noTasksRef"
-      ></ng-container>
-    </mat-card>
+      <p *ngIf="!boardState[TaskState.Done].length" class="-empty-label">
+        No tasks
+      </p>
+
+      <app-task
+        *ngFor="let task of boardState[TaskState.Done]"
+        [task]="task"
+        cdkDrag
+      ></app-task>
+
+    </div>
   </div>
 </div>
-
-<!-- Template: tasks -->
-<ng-template #tasksRef let-tasks="tasks">
-  <app-task *ngFor="let task of tasks" [task]="task" cdkDrag></app-task>
-</ng-template>
-
-<!-- Template: no tasks -->
-<ng-template #noTasksRef>
-  <p class="-empty-label">No tasks</p>
-</ng-template>
