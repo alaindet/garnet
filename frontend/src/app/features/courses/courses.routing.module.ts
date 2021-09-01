@@ -18,14 +18,9 @@ const routes: Routes = [
     data: { action: CoursesAction.ShowCreateCourseForm },
   },
   {
-    path: ':courseid',
-    component: CourseFormComponent,
-    data: { action: CoursesAction.ShowEditCourseForm },
-  },
-  {
     path: ':courseid/task-manager',
     canLoad: [ShouldHaveTeacherRoleGuard],
-    loadChildren: () => import('./features/task-manager/task-manager.module')
+    loadChildren: () => import('../task-manager/task-manager.module')
       .then(m => m.TaskManagerModule),
   },
   {
@@ -33,6 +28,11 @@ const routes: Routes = [
     canLoad: [ShouldHaveStudentRoleGuard],
     loadChildren: () => import('../board/board.module')
       .then(m => m.BoardModule),
+  },
+  {
+    path: ':courseid',
+    component: CourseFormComponent,
+    data: { action: CoursesAction.ShowEditCourseForm },
   },
 ];
 

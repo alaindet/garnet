@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BoardRoutingModule } from './board.routing.module';
 import { BoardComponentsModule } from './board.components.module';
 import { BoardComponent, TaskComponent } from './components';
+import { TasksService } from './services';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { BoardComponent, TaskComponent } from './components';
     TaskComponent,
   ],
   providers: [
-    // ...
+    TasksService,
   ],
 })
 export class BoardModule {}
