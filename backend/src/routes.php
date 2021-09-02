@@ -7,6 +7,7 @@ $routes = [
     \App\Features\Authentication\Routes::register(),
     \App\Features\Courses\Routes::register(),
     \App\Features\Tasks\Routes::register(),
+    \App\Features\Board\Routes::register(),
     // Add route groups from feature modules here...
 ];
 

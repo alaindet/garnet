@@ -5,8 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { JwtService } from '@app/core/auth/services/jwt.service';
-import { Task } from '@app/shared/types';
-import { GetTasksResponse } from '../../task-manager/types'; // TODO
+import { BoardTask, GetBoardTasksResponse } from '../types';
 
 @Injectable()
 export class TasksService {
@@ -16,10 +15,10 @@ export class TasksService {
     private jwtService: JwtService,
   ) {}
 
-  getTasksByCourseId(courseId: string | number): Observable<Task[]> {
-    const url = `${environment.apiUrl}/courses/${courseId}/tasks`;
+  getTasksByCourseId(courseId: string | number): Observable<BoardTask[]> {
+    const url = `${environment.apiUrl}/courses/${courseId}/board`;
     const options = this.getCorsOptions();
-    return this.http.get<GetTasksResponse>(url, options)
+    return this.http.get<GetBoardTasksResponse>(url, options)
       .pipe(map(response => response.data))
   }
 

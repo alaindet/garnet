@@ -53,7 +53,11 @@ class Database
             ? $query->fetchAll(PDO::FETCH_CLASS, $className)
             : $query->fetchAll();
 
-        return ($result === false) ? [] : $result;
+        if ($result === false) {
+            return [];
+        }
+
+        return $result;
     }
 
     public function selectFirst(

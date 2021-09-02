@@ -78,7 +78,10 @@ export class BoardComponent implements OnInit {
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
         next: tasks => {
-          console.log('tasks', tasks);
+          // for (const task of tasks) {
+          //   const taskState = task.taskStateId;
+          //   this.boardState[task.taskId]
+          // }
         },
       });
   }

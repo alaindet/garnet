@@ -2,11 +2,13 @@
 
 namespace App\Features\Tasks\Repositories;
 
+use App\Core\Exceptions\Database\DatabaseException;
 use App\Core\Repository;
 use App\Core\Services\Database\Database;
 use App\Features\Tasks\Dtos\CreateTaskDto;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
 use App\Shared\Utils\Time;
+use App\Features\Board\Dtos\UpdateTaskState;
 
 class TasksRepository extends Repository
 {
@@ -118,6 +120,25 @@ class TasksRepository extends Repository
         $sql = "UPDATE {$table} SET {$setClause} WHERE task_id = :taskid";
 
         return $this->db->execute($sql, $params);
+    }
+
+    public function updateStateByIdAndUserId(UpdateTaskState $dto): bool
+    {
+        $sql = "
+            UPDATE task_user
+            SET task_state_id = :taskstateid
+            WHERE task_id = :taskid AND user_id = :userid
+        ";
+
+        $params = [
+            ':taskstateid' => $dto->taskStateId,
+            ':taskid' => $dto->taskId,
+            ':userid' => $dto->userId,
+        ];
+
+        $rowCount = $this->db->execute($sql, $params);
+
+        return true;
     }
 
     public function deleteById(string|int $taskId): int

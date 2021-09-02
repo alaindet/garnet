@@ -2,12 +2,11 @@
 
 namespace App\Features\Board\Services;
 
-use App\Core\Exceptions\Http\InternalServerErrorHttpException;
-use App\Core\Exceptions\Http\NotFoundHttpException;
 use App\Features\Board\Models\BoardTask;
 use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
 use App\Features\Board\Dtos\GetBoardTasksResponse;
+use App\Features\Board\Dtos\UpdateTaskState;
 
 class BoardService
 {
@@ -28,18 +27,20 @@ class BoardService
 
         foreach ($data as $item) {
             $task = new BoardTask();
-            // public string|int $taskId;
-            // public string|int $taskStateId;
-            // public string $createdOn;
-            // public string $updatedOn;
-            // public string $name;
-            // public string $description;
-            // ...
+            $task->taskId = $item['task_id'];
+            $task->taskStateId = $item['task_state_id'];
+            $task->createdOn = $item['created_on'];
+            $task->updatedOn = $item['updated_on'];
+            $task->name = $item['name'];
+            $task->description = $item['description'];
+            $parsedData[] = $task;
         }
 
+        return new GetBoardTasksResponse(...$parsedData);
+    }
 
-        $dtoOut = new GetBoardTasksResponse(...$parsedData);
-
-        return $dtoOut;
+    public function updateTaskState(UpdateTaskState $dto): bool
+    {
+        return $this->tasksRepo->updateStateByIdAndUserId($dto);
     }
 }

@@ -6,9 +6,19 @@ trait RequestWithUriParameters
 {
     protected array $uriParameters = [];
 
-    public function getUriParameters(): array
+    public function getUriParameters(array|null $keys = null): array
     {
-        return $this->uriParameters;
+        if (!isset($keys)) {
+            return $this->uriParameters;
+        }
+
+        $data = [];
+
+        foreach ($keys as $key) {
+            $data[] = $this->uriParameters[$key];
+        }
+
+        return $data;
     }
 
     public function getUriParameter(string $name)

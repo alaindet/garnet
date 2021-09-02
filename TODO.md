@@ -11,6 +11,7 @@
 - [ ] JSON output in camelCase
 - [ ] Move task-manager feature up one level
 - [ ] Hide FAB on course page for students
-- [ ] Add global loader
+- [ ] Add global loader on FE
 - [ ] Unify API services on FE
 - [ ] Remove dto from repositories
+- [ ] Add classes to PDO

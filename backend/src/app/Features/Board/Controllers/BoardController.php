@@ -7,6 +7,7 @@ use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Features\Board\Services\BoardService;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
+use App\Features\Board\Dtos\UpdateTaskState;
 
 class BoardController extends Controller
 {
@@ -19,9 +20,19 @@ class BoardController extends Controller
 
     public function getTasksByBoard(Request $req, Response $res): Response
     {
+        $authData = $req->getAuthenticationData();
+        $userId = $authData['user_id'];
+        $courseId = $req->getUriParameter('courseid');
+
+        $dto = new GetBoardTasksRequest();
+        $dto->courseId = $courseId;
+        $dto->userId = $userId;
+
+        $tasksCollection = $this->boardService->getTasksByBoard($dto);
+
         $res->setBody([
-            'message' => 'getTasksByBoard',
-            'data' => null,
+            'message' => "All tasks of user #{$userId} from course #{$courseId}",
+            'data' => $tasksCollection->tasks,
         ]);
 
         return $res;
@@ -29,8 +40,22 @@ class BoardController extends Controller
 
     public function updateTaskState(Request $req, Response $res): Response
     {
+        $auth = $req->getAuthenticationData();
+        $body = $req->getValidatedData();
+
+        $userId = $auth['user_id'];
+        $taskId = $req->getUriParameter('taskid');
+        $taskStateId = $body['taskStateId'];
+
+        $dto = new UpdateTaskState();
+        $dto->userId = $userId;
+        $dto->taskId = $taskId;
+        $dto->taskStateId = $taskStateId;
+
+        $this->boardService->updateTaskState($dto);
+
         $res->setBody([
-            'message' => 'getTasksByBoard',
+            'message' => "Task #{$taskId} of user #{$userId} updated to state #{$taskStateId}",
             'data' => null,
         ]);
 
