@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { Task } from '@app/shared/types';
+import { BoardTask } from '../../types';
 
 @Component({
   selector: 'app-task',
@@ -9,5 +9,5 @@ import { Task } from '@app/shared/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskComponent {
-  @Input() task!: Task;
+  @Input() task!: BoardTask;
 }

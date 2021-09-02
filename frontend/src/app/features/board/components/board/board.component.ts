@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { Task } from '@app/shared/types';
 import { UiService } from '@app/core/main-layout/services';
 import { TasksService } from '../../services';
+import { BoardTask } from '../../types';
 
 export enum TaskState {
   ToDo = 1,
@@ -20,9 +20,9 @@ export const TASK_STATE = {
 };
 
 export interface BoardState {
-  [TaskState.ToDo]: Task[];
-  [TaskState.InProgress]: Task[];
-  [TaskState.Done]: Task[];
+  [TaskState.ToDo]: BoardTask[];
+  [TaskState.InProgress]: BoardTask[];
+  [TaskState.Done]: BoardTask[];
 }
 
 @Component({
@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
     this.fetchTasks();
   }
 
-  onDropTask(event: CdkDragDrop<Task[]>): void {
+  onDropTask(event: CdkDragDrop<BoardTask[]>): void {
 
     // Ignore movements inside the same list
     if (
@@ -73,15 +73,16 @@ export class BoardComponent implements OnInit {
 
   private fetchTasks(): void {
     this.isLoading = true;
-    this.tasksService.getTasksByCourseId(this.courseId)
+    const userId = 1;
+    this.tasksService.getBoardTasksByUserId(this.courseId, userId)
       .pipe(finalize(() => this.isLoading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
         next: tasks => {
-          // for (const task of tasks) {
-          //   const taskState = task.taskStateId;
-          //   this.boardState[task.taskId]
-          // }
+          for (const task of tasks) {
+            const taskState = +task.taskStateId as TaskState;
+            this.boardState[taskState].push(task);
+          }
         },
       });
   }

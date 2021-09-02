@@ -5,6 +5,8 @@
   justify-content: center;
   margin-top: 2rem;
   overflow-x: auto;
+  height: 100%;
+  border: 1px dashed blue;
 }
 
 .-board-column {
@@ -28,13 +30,19 @@
 
   &-tasks {
     min-height: 60px;
+    max-height: 100%;
+    overflow-y: auto;
     position: relative;
+    border: 1px dashed red;
+    padding-bottom: 60px;
 
     > * {
       margin: 1rem 0;
     }
   }
 }
+
+@include app-hide-scrollbar('.-board-column-tasks');
 
 .-no-tasks {
   position: absolute;

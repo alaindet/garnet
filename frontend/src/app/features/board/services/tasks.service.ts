@@ -15,7 +15,10 @@ export class TasksService {
     private jwtService: JwtService,
   ) {}
 
-  getTasksByCourseId(courseId: string | number): Observable<BoardTask[]> {
+  getBoardTasksByUserId(
+    courseId: string | number,
+    userId: string | number,
+  ): Observable<BoardTask[]> {
     const url = `${environment.apiUrl}/courses/${courseId}/board`;
     const options = this.getCorsOptions();
     return this.http.get<GetBoardTasksResponse>(url, options)

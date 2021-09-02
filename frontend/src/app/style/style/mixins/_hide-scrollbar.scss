@@ -1,0 +1,13 @@
+@mixin app-hide-scrollbar($selector)
+{
+  // Hide scrollbar for Chrome, Safari and Opera
+  #{$selector}::-webkit-scrollbar {
+    display: none;
+  }
+
+  // Hide scrollbar for IE, Edge and Firefox
+  #{$selector} {
+    -ms-overflow-style: none;  // IE and Edge
+    scrollbar-width: none;  // Firefox
+  }
+}

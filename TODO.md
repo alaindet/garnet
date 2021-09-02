@@ -15,3 +15,4 @@
 - [ ] Unify API services on FE
 - [ ] Remove dto from repositories
 - [ ] Add classes to PDO
+- [ ] Add truncatation to board task cards with "show more" feature
