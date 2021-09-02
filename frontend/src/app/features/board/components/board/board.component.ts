@@ -7,25 +7,6 @@ import { Task } from '@app/shared/types';
 import { UiService } from '@app/core/main-layout/services';
 import { TasksService } from '../../services';
 
-// const MOCK_TASKS: Task[] = [
-//   {
-//     task_id: 1,
-//     course_id: 1,
-//     created_on: '2021-09-01 10:00',
-//     updated_on: '2021-09-01 10:00',
-//     name: 'First Step',
-//     description: 'Perform the first step',
-//   },
-//   {
-//     task_id: 2,
-//     course_id: 1,
-//     created_on: '2021-09-01 10:00',
-//     updated_on: '2021-09-01 10:00',
-//     name: 'Second Step',
-//     description: 'Perform the second step',
-//   },
-// ];
-
 export enum TaskState {
   ToDo = 1,
   InProgress = 2,

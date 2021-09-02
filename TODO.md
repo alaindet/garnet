@@ -13,3 +13,4 @@
 - [ ] Hide FAB on course page for students
 - [ ] Add global loader
 - [ ] Unify API services on FE
+- [ ] Remove dto from repositories

@@ -5,6 +5,7 @@ namespace App\Features\Tasks\Repositories;
 use App\Core\Repository;
 use App\Core\Services\Database\Database;
 use App\Features\Tasks\Dtos\CreateTaskDto;
+use App\Features\Board\Dtos\GetBoardTasksRequest;
 use App\Shared\Utils\Time;
 
 class TasksRepository extends Repository
@@ -22,6 +23,34 @@ class TasksRepository extends Repository
         $table = self::TABLE;
         $sql = "SELECT * FROM {$table} WHERE course_id = :courseid";
         $params = [ ':courseid' => $courseId ];
+        return $this->db->select($sql, $params);
+    }
+
+    public function getAllByCourseIdAndUserId(GetBoardTasksRequest $dto): array {
+
+        $table = self::TABLE;
+
+        $sql = "
+            SELECT
+                t.task_id,
+                tu.task_state_id,
+                t.created_on,
+                t.updated_on,
+                t.name,
+                t.description
+            FROM
+                task_user AS tu
+                INNER JOIN {$table} AS t ON tu.task_id = t.task_id
+            WHERE
+                tu.user_id = :userid AND
+                t.course_id = :courseid
+        ";
+
+        $params = [
+            ':userid' => $dto->userId,
+            ':courseid' => $dto->courseId,
+        ];
+
         return $this->db->select($sql, $params);
     }
 
