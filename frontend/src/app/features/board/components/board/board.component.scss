@@ -1,5 +1,9 @@
 @import 'style';
 
+$desktop-width: 250px;
+$mobile-width: 66vw;
+$bottom-margin: 150px;
+
 :host {
   display: block;
   height: 100%;
@@ -9,19 +13,23 @@
 
 .-board-columns {
   max-width: 100vw;
-  overflow-x: scroll;
+  overflow-x: auto;
   display: flex;
-  justify-content: center;
   margin-top: 2rem;
-  height: 100%;
-  border: 1px solid red;
+  height: calc(100% - #{$bottom-margin});
+
+  @include app-from-tablet-up() {
+    justify-content: center;
+  }
 }
 
 .-board-column {
   border-left: 1px solid app-store('color.theme.accent.200');
   border-right: 1px solid app-store('color.theme.accent.200');
   padding: 1rem;
-  width: fit-content;
+  min-width: calc(#{$desktop-width} + 2rem);
+  width: calc(#{$desktop-width} + 2rem);
+  max-width: calc(#{$mobile-width} + 2rem);
 
   &.--first {
     border-left: 0;
@@ -36,8 +44,8 @@
   }
 
   &-tasks {
-    height: 80%;
-    max-height: 80%;
+    height: 90%;
+    max-height: 90%;
     overflow-y: auto;
     position: relative;
     padding-bottom: 60px;
@@ -48,22 +56,21 @@
   }
 }
 
+.-title-counter {
+  margin-left: 0.5rem;
+  font-size: 0.8em;
+  color: app-store('color.theme.accent.500');
+}
+
 @include app-hide-scrollbar('.-board-column-tasks');
 
 .-no-tasks {
-  width: 250px;
-  max-width: 66vw;
-  background-color: transparent;
-  box-shadow: none;
-  border: 1px solid red;
   position: absolute;
+  width: $desktop-width;
+  max-width: $mobile-width;
   font-size: 2em;
   text-align: center;
-  opacity: 0.2;
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: 0.15s opacity ease-out;
+  opacity: 0.5;
 }
 
 .-task {
@@ -84,12 +91,12 @@
 //     Class that is added to the host element of the cdkDragHandle directive
 // .cdk-drag-preview
 //     This is the element that will be rendered next to the user's cursor as
-//     they're dragging an item in a sortable list. By default the element looks
-//     exactly like the element that is being dragged
+//     they're dragging an item in a sortable list. By default the element
+//     looks exactly like the element that is being dragged
 // .cdk-drag-placeholder
 //     This is element that will be shown instead of the real element as it's
-//     being dragged inside a cdkDropList. By default this will look exactly like
-//     the element that is being sorted
+//     being dragged inside a cdkDropList. By default this will look exactly
+//     like the element that is being sorted
 // .cdk-drop-list-dragging
 //    A class that is added to cdkDropList while the user is dragging an item
 // .cdk-drop-list-disabled

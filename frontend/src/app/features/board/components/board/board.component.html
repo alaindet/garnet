@@ -6,17 +6,23 @@
 
   <!-- To Do -->
   <div class="-board-column --first">
-    <h2 class="-board-column-title">To Do</h2>
+    <h2 class="-board-column-title">
+      To Do
+      <span class="-title-counter">
+        ({{ boardState[TaskState.ToDo].length }})
+      </span>
+    </h2>
     <div
       id="todo-list"
       cdkDropList
+      cdkDropListSortingDisabled
       [cdkDropListData]="boardState[TaskState.ToDo]"
       [cdkDropListConnectedTo]="['done-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
 
-      <mat-card *ngIf="!boardState[TaskState.ToDo].length" class="-no-tasks">
+      <mat-card class="-no-tasks">
         <mat-card-content>
           No tasks
         </mat-card-content>
@@ -33,16 +39,22 @@
 
   <!-- In progress -->
   <div class="-board-column">
-    <h2 class="-board-column-title">In progress</h2>
+    <h2 class="-board-column-title">
+      In progress
+      <span class="-title-counter">
+        ({{ boardState[TaskState.InProgress].length }})
+      </span>
+    </h2>
     <div
       id="in-progress-list"
       cdkDropList
+      cdkDropListSortingDisabled
       [cdkDropListData]="boardState[TaskState.InProgress]"
       [cdkDropListConnectedTo]="['todo-list', 'done-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <mat-card *ngIf="!boardState[TaskState.InProgress].length" class="-no-tasks">
+      <mat-card class="-no-tasks">
         <mat-card-content>
           No tasks
         </mat-card-content>
@@ -59,16 +71,22 @@
 
   <!-- Done -->
   <div class="-board-column --last">
-    <h2 class="-board-column-title">Done</h2>
+    <h2 class="-board-column-title">
+      Done
+      <span class="-title-counter">
+        ({{ boardState[TaskState.Done].length }})
+      </span>
+    </h2>
     <div
       id="done-list"
       cdkDropList
+      cdkDropListSortingDisabled
       [cdkDropListData]="boardState[TaskState.Done]"
       [cdkDropListConnectedTo]="['todo-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <mat-card *ngIf="!boardState[TaskState.Done].length" class="-no-tasks">
+      <mat-card class="-no-tasks">
         <mat-card-content>
           No tasks
         </mat-card-content>
