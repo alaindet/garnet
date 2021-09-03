@@ -15,9 +15,12 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.ToDo].length" class="-no-tasks">
-        No tasks
-      </p>
+
+      <mat-card *ngIf="!boardState[TaskState.ToDo].length" class="-no-tasks">
+        <mat-card-content>
+          No tasks
+        </mat-card-content>
+      </mat-card>
 
       <app-task
         *ngFor="let task of boardState[TaskState.ToDo]"
@@ -39,9 +42,11 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.InProgress].length" class="-no-tasks">
-        No tasks
-      </p>
+      <mat-card *ngIf="!boardState[TaskState.InProgress].length" class="-no-tasks">
+        <mat-card-content>
+          No tasks
+        </mat-card-content>
+      </mat-card>
 
       <app-task
         *ngFor="let task of boardState[TaskState.InProgress]"
@@ -63,9 +68,11 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <p *ngIf="!boardState[TaskState.Done].length" class="-no-tasks">
-        No tasks
-      </p>
+      <mat-card *ngIf="!boardState[TaskState.Done].length" class="-no-tasks">
+        <mat-card-content>
+          No tasks
+        </mat-card-content>
+      </mat-card>
 
       <app-task
         *ngFor="let task of boardState[TaskState.Done]"

@@ -1,6 +1,9 @@
 @import 'style';
 
 :host {
+  width: 250px;
+  max-width: 66vw;
+
   display: block;
   border-radius: 1rem;
   cursor: pointer;

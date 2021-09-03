@@ -33,6 +33,11 @@
         padding-right: $gutter;
       }
     }
+
+    &.--viewport-height {
+      $navbar: app-store('size.height.navbar');
+      height: calc(100vh - #{$navbar});
+    }
   }
 
   // With little content in the center
