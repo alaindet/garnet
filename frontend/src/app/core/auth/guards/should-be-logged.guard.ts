@@ -21,8 +21,6 @@ export class ShouldBeLoggedGuard implements CanActivate, CanLoad {
 
   private checkAuthentication(): boolean {
 
-    console.log('checkAuthentication');
-
     if (!this.authService.isSignedIn()) {
       this.router.navigate(['/auth/sign-in']);
       return false;
