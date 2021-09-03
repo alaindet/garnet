@@ -16,3 +16,4 @@
 - [ ] Remove dto from repositories
 - [ ] Add classes to PDO
 - [ ] Add truncatation to board task cards with "show more" feature
+- [ ] Follow card drag on mobile

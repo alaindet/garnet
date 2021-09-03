@@ -28,11 +28,19 @@
         </mat-card-content>
       </mat-card>
 
-      <app-task
+      <mat-card
         *ngFor="let task of boardState[TaskState.ToDo]"
-        [task]="task"
+        class="-task"
         cdkDrag
-      ></app-task>
+      >
+        <button class="-task-handle" cdkDragHandle>
+          <mat-icon>drag_indicator</mat-icon>
+        </button>
+        <mat-card-content>
+          <h3 class="-task-name">{{ task.name }}</h3>
+          <p class="-task-description">{{ task.description }}</p>
+        </mat-card-content>
+      </mat-card>
 
     </div>
   </div>
@@ -60,11 +68,19 @@
         </mat-card-content>
       </mat-card>
 
-      <app-task
+      <mat-card
         *ngFor="let task of boardState[TaskState.InProgress]"
-        [task]="task"
+        class="-task"
         cdkDrag
-      ></app-task>
+      >
+        <button class="-task-handle" cdkDragHandle>
+          <mat-icon>drag_indicator</mat-icon>
+        </button>
+        <mat-card-content>
+          <h3 class="-task-name">{{ task.name }}</h3>
+          <p class="-task-description">{{ task.description }}</p>
+        </mat-card-content>
+      </mat-card>
 
     </div>
   </div>
@@ -92,11 +108,19 @@
         </mat-card-content>
       </mat-card>
 
-      <app-task
+      <mat-card
         *ngFor="let task of boardState[TaskState.Done]"
-        [task]="task"
+        class="-task"
         cdkDrag
-      ></app-task>
+      >
+        <button class="-task-handle" cdkDragHandle>
+          <mat-icon>drag_indicator</mat-icon>
+        </button>
+        <mat-card-content>
+          <h3 class="-task-name">{{ task.name }}</h3>
+          <p class="-task-description">{{ task.description }}</p>
+        </mat-card-content>
+      </mat-card>
 
     </div>
   </div>

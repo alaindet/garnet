@@ -74,7 +74,44 @@ $bottom-margin: 150px;
 }
 
 .-task {
-  margin-bottom: 2rem;
+  padding: 1rem !important;
+  width: 250px;
+  max-width: 66vw;
+  display: block;
+  border-radius: 1rem;
+  position: relative;
+}
+
+.-task-handle {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  text-align: right;
+  align-items: flex-start;
+  width: 33%;
+  height: 80%;
+  border: 0;
+  padding: 0.5rem;
+  background-color: transparent;
+  cursor: grab;
+  color: app-store('color.theme.accent.400');
+
+  .mat-icon {
+    width: 1rem;
+    height: 1rem;
+    font-size: 1rem;
+  }
+}
+
+.-task-name {
+  margin-bottom: 0.25rem;
+}
+
+.-task-description {
+  color: app-store('color.theme.accent.500');
 }
 
 // ----------------------------------------------------------------------------
@@ -106,6 +143,11 @@ $bottom-margin: 150px;
 //     being dragged inside a connected drop list
 //
 // ----------------------------------------------------------------------------
+
+.cdk-drag-preview {
+  cursor: grab;
+  border: 1px solid app-store('color.theme.accent.600');
+}
 
 .cdk-drag-animating {
   transition: transform 250ms;
