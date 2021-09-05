@@ -11,6 +11,7 @@ import { ConfirmDeleteDialogConfig } from '@app/shared/types';
 import { CoursesService } from '../../services';
 import { Course } from '../../types';
 import { CoursesAction } from '../../actions';
+import { UserRole } from '@app/core/auth/types';
 
 @Component({
   templateUrl: './list.component.html',
@@ -35,7 +36,13 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ui.title = 'Courses';
     this.fetchCourses();
-    this.subs.fab = this.ui.fabClicked$.subscribe(this.onCreateCourse.bind(this));
+    this.userInfo.roleId$.subscribe(roleId => {
+      if (roleId && [UserRole.Admin, UserRole.Teacher].includes(roleId)) {
+        this.ui.fab = { actionName: 'show-create-form', icon: 'add' };
+        this.subs.fab = this.ui.fabClicked$
+          .subscribe(this.onCreateCourse.bind(this));
+      }
+    });
   }
 
   ngOnDestroy(): void {

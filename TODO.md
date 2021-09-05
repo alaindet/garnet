@@ -15,5 +15,8 @@
 - [ ] Unify API services on FE
 - [ ] Remove dto from repositories
 - [ ] Add classes to PDO
-- [ ] Add truncatation to board task cards with "show more" feature
-- [ ] Follow card drag on mobile
+- [ ] Remove FAB from routing
+- [ ] Remove setTimeout from FAB
+- [ ] Use auth service for FAB
+- [ ] Add "back" to board
+- [ ] Add BE services to board

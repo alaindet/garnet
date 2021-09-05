@@ -1,35 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { CdkDragDrop, transferArrayItem } from '@angular/cdk/drag-drop';
+import { animationFrameScheduler, Subscription } from 'rxjs';
+import { finalize, throttleTime } from 'rxjs/operators';
+import { CdkDragDrop, CdkDragStart, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { UiService } from '@app/core/main-layout/services';
+import { followDraggedItem } from '@app/shared/utils';
 import { TasksService } from '../../services';
-import { BoardTask } from '../../types';
-
-export enum TaskState {
-  ToDo = 1,
-  InProgress = 2,
-  Done = 3,
-}
-
-export const TASK_STATE = {
-  [TaskState.ToDo]: 'To Do',
-  [TaskState.InProgress]: 'In Progress',
-  [TaskState.Done]: 'Done',
-};
-
-export interface BoardState {
-  [TaskState.ToDo]: BoardTask[];
-  [TaskState.InProgress]: BoardTask[];
-  [TaskState.Done]: BoardTask[];
-}
+import { BoardTask, BoardState, TaskState } from '../../types';
 
 @Component({
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit {
+
+  @ViewChild('boardColumnsRef', { static: true })
+  boardColumnsRef!: ElementRef;
 
   isLoading = true;
   courseId!: string | number;
@@ -85,5 +72,25 @@ export class BoardComponent implements OnInit {
           }
         },
       });
+  }
+
+  private dragSub?: Subscription;
+
+  onDragStart(event: CdkDragStart<HTMLElement>): void {
+
+    this.dragSub?.unsubscribe();
+
+    const board = this.boardColumnsRef.nativeElement;
+    const windowWidth = window.innerWidth;
+    const leftThreshold = 0.15 * windowWidth;
+    const rightThreshold = 0.90 * windowWidth;
+
+    this.dragSub = event.source.moved
+      .pipe(throttleTime(0, animationFrameScheduler))
+      .subscribe(followDraggedItem(board, leftThreshold, rightThreshold));
+  }
+
+  onDragStop(event: CdkDragDrop<any>): void {
+    this.dragSub?.unsubscribe();
   }
 }

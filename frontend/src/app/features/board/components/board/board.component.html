@@ -2,7 +2,7 @@
   <h2>_COURSE_NAME_ - Board</h2>
 </div>
 
-<div class="-board-columns">
+<div #boardColumnsRef class="-board-columns">
 
   <!-- To Do -->
   <div class="-board-column --first">
@@ -21,17 +21,15 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-
-      <mat-card class="-no-tasks">
-        <mat-card-content>
-          No tasks
-        </mat-card-content>
-      </mat-card>
+      <!-- No tasks -->
+      <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
         *ngFor="let task of boardState[TaskState.ToDo]"
         class="-task"
         cdkDrag
+        (cdkDragStarted)="onDragStart($event)"
+        (cdkDragDropped)="onDragStop($event)"
       >
         <button class="-task-handle" cdkDragHandle>
           <mat-icon>drag_indicator</mat-icon>
@@ -62,16 +60,15 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <mat-card class="-no-tasks">
-        <mat-card-content>
-          No tasks
-        </mat-card-content>
-      </mat-card>
+      <!-- No tasks -->
+      <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
         *ngFor="let task of boardState[TaskState.InProgress]"
         class="-task"
         cdkDrag
+        (cdkDragStarted)="onDragStart($event)"
+        (cdkDragDropped)="onDragStop($event)"
       >
         <button class="-task-handle" cdkDragHandle>
           <mat-icon>drag_indicator</mat-icon>
@@ -102,16 +99,15 @@
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
     >
-      <mat-card class="-no-tasks">
-        <mat-card-content>
-          No tasks
-        </mat-card-content>
-      </mat-card>
+      <!-- No tasks -->
+      <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
         *ngFor="let task of boardState[TaskState.Done]"
         class="-task"
         cdkDrag
+        (cdkDragStarted)="onDragStart($event)"
+        (cdkDragDropped)="onDragStop($event)"
       >
         <button class="-task-handle" cdkDragHandle>
           <mat-icon>drag_indicator</mat-icon>
@@ -125,3 +121,12 @@
     </div>
   </div>
 </div>
+
+<!-- Template: no tasks -->
+<ng-template #noTasksRef>
+  <mat-card class="-no-tasks">
+    <mat-card-content>
+      No tasks
+    </mat-card-content>
+  </mat-card>
+</ng-template>

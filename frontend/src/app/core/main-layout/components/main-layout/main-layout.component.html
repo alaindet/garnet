@@ -12,7 +12,7 @@
 </main>
 
 <!-- FAB -->
-<ng-container *ngIf="ui.fab$ | async as fab">
+<ng-container *ngIf="fab">
   <app-fab
     [icon]="fab?.icon"
     (click)="ui.clickFab(fab.actionName)"

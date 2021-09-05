@@ -5,7 +5,7 @@ import { throttleTime, map, distinctUntilChanged, filter, mergeMap, tap } from '
 
 import { environment } from '@environment/environment';
 import { UiService } from '../../services';
-import { ScrollingDirection } from '../../types';
+import { FabConfiguration, ScrollingDirection } from '../../types';
 
 @Component({
   selector: 'app-main-layout',
@@ -21,6 +21,7 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   lockedScrolling = false;
 
   appName = environment.appName;
+  fab?: FabConfiguration | null;
 
   private subs: { [sub: string]: Subscription } = {};
 
@@ -34,6 +35,10 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit(): void {
     this.observeLockedScrolling();
     this.listenToRouterEvents();
+    setTimeout(
+      () => this.ui.fab$.subscribe(config => this.fab = config),
+      1000
+    );
   }
 
   ngAfterViewInit(): void {
@@ -86,19 +91,19 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
         }),
         filter(route => route.outlet === 'primary'),
         mergeMap(route => route.data),
-        tap(this.updateFabFromRouteData.bind(this)),
+        // tap(this.updateFabFromRouteData.bind(this)),
       )
       .subscribe();
   }
 
-  private updateFabFromRouteData(routeData: any): void {
+  // private updateFabFromRouteData(routeData: any): void {
 
-    let fab = routeData?.fab ?? null;
+  //   let fab = routeData?.fab ?? null;
 
-    if (typeof fab === 'string') {
-      fab = { actionName: fab };
-    }
+  //   if (typeof fab === 'string') {
+  //     fab = { actionName: fab };
+  //   }
 
-    this.ui.fab = fab;
-  }
+  //   this.ui.fab = fab;
+  // }
 }

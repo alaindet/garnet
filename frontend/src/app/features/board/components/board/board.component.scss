@@ -83,6 +83,7 @@ $bottom-margin: 150px;
 }
 
 .-task-handle {
+  border: 1px solid red;
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
@@ -146,7 +147,7 @@ $bottom-margin: 150px;
 
 .cdk-drag-preview {
   cursor: grab;
-  border: 1px solid app-store('color.theme.accent.600');
+  border: 2px solid app-store('color.theme.primary.500');
 }
 
 .cdk-drag-animating {
