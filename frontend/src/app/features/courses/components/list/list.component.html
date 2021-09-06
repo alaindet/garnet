@@ -6,7 +6,7 @@
 <ng-container *ngIf="!(ui.loading$ | async); else loadingRef">
   <div
     *ngIf="courses?.length; else noCoursesRef"
-    class="app-cols"
+    class="app-cols app-cols--gap"
   >
     <div
       *ngFor="let course of courses"
