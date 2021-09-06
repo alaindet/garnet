@@ -16,7 +16,7 @@
       id="todo-list"
       cdkDropList
       cdkDropListSortingDisabled
-      [cdkDropListData]="boardState[TaskState.ToDo]"
+      [cdkDropListData]="TaskState.ToDo"
       [cdkDropListConnectedTo]="['done-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
@@ -25,9 +25,10 @@
       <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
-        *ngFor="let task of boardState[TaskState.ToDo]"
+        *ngFor="let task of boardState[TaskState.ToDo]; let i = index"
         class="-task"
         cdkDrag
+        [cdkDragData]="[TaskState.ToDo, i]"
         (cdkDragStarted)="onDragStart($event)"
         (cdkDragDropped)="onDragStop($event)"
       >
@@ -55,7 +56,7 @@
       id="in-progress-list"
       cdkDropList
       cdkDropListSortingDisabled
-      [cdkDropListData]="boardState[TaskState.InProgress]"
+      [cdkDropListData]="TaskState.InProgress"
       [cdkDropListConnectedTo]="['todo-list', 'done-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
@@ -64,9 +65,10 @@
       <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
-        *ngFor="let task of boardState[TaskState.InProgress]"
+        *ngFor="let task of boardState[TaskState.InProgress]; let i = index"
         class="-task"
         cdkDrag
+        [cdkDragData]="[TaskState.ToDo, i]"
         (cdkDragStarted)="onDragStart($event)"
         (cdkDragDropped)="onDragStop($event)"
       >
@@ -94,7 +96,7 @@
       id="done-list"
       cdkDropList
       cdkDropListSortingDisabled
-      [cdkDropListData]="boardState[TaskState.Done]"
+      [cdkDropListData]="TaskState.Done"
       [cdkDropListConnectedTo]="['todo-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
       class="-board-column-tasks"
@@ -103,9 +105,10 @@
       <ng-container [ngTemplateOutlet]="noTasksRef"></ng-container>
 
       <mat-card
-        *ngFor="let task of boardState[TaskState.Done]"
+        *ngFor="let task of boardState[TaskState.Done]; let i = index"
         class="-task"
         cdkDrag
+        [cdkDragData]="[TaskState.ToDo, i]"
         (cdkDragStarted)="onDragStart($event)"
         (cdkDragDropped)="onDragStop($event)"
       >

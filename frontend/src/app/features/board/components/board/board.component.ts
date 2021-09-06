@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { animationFrameScheduler, Subscription } from 'rxjs';
-import { finalize, throttleTime } from 'rxjs/operators';
+import { finalize, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop, CdkDragStart, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { UiService } from '@app/core/main-layout/services';
@@ -38,20 +38,26 @@ export class BoardComponent implements OnInit {
     this.fetchTasks();
   }
 
-  onDropTask(event: CdkDragDrop<BoardTask[]>): void {
+  onDropTask(event: CdkDragDrop<TaskState>): void {
 
-    // Ignore movements inside the same list
-    if (
-      event.previousContainer === event.container ||
-      !event.container.data ||
-      !event.previousContainer.data
-    ) {
-      return;
-    }
+    const fromContainerIndex = event.previousContainer.data;
+    const fromContainer = this.boardState[fromContainerIndex];
+    const toContainerIndex = event.container.data;
+    const toContainer = this.boardState[toContainerIndex];
+    const fromContainerItemIndex = event.previousIndex;
+    const item = fromContainer[fromContainerItemIndex];
+
+    this.ui.loading = true;
+    this.tasksService.updateTaskStateById(this.courseId, item.taskId, toContainerIndex)
+      .pipe(tap(() => this.ui.loading = false))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.error.message),
+        next: () => console.log('task state updated'),
+      });
 
     transferArrayItem(
-      event.previousContainer.data,
-      event.container.data,
+      this.boardState[event.previousContainer.data],
+      this.boardState[event.container.data],
       event.previousIndex,
       event.currentIndex
     );
@@ -60,7 +66,7 @@ export class BoardComponent implements OnInit {
   private fetchTasks(): void {
     this.ui.loading = true;
     const userId = 1;
-    this.tasksService.getBoardTasksByUserId(this.courseId, userId)
+    this.tasksService.getBoardTasks(this.courseId)
       .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),

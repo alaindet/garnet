@@ -15,19 +15,24 @@ export class TasksService {
     private jwtService: JwtService,
   ) {}
 
-  getBoardTasksByUserId(
-    courseId: string | number,
-    userId: string | number,
-  ): Observable<BoardTask[]> {
+  getBoardTasks(courseId: string | number): Observable<BoardTask[]> {
     const url = `${environment.apiUrl}/courses/${courseId}/board`;
     const options = this.getCorsOptions();
     return this.http.get<GetBoardTasksResponse>(url, options)
       .pipe(map(response => response.data))
   }
 
-  updateTaskStatusById(taskId: string | number, taskStatus: any): Observable<any> {
-    // ...
-    return of(null);
+  updateTaskStateById(
+    courseId: string | number,
+    taskId: string | number,
+    taskStateId: any,
+  ): Observable<any> {
+    const baseUrl = environment.apiUrl;
+    const url = `${baseUrl}/courses/${courseId}/board/tasks/${taskId}`
+    const body = { taskStateId };
+    const options = this.getCorsOptions();
+    return this.http.put<any>(url, body, options)
+      .pipe(map(response => response.data));
   }
 
   // TODO: Move to interceptor
