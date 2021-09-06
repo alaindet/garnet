@@ -1,0 +1,13 @@
+@mixin app-3rdparty-material-override-progress-bar()
+{
+  mat-progress-bar.app-override-progress-bar {
+
+    .mat-progress-bar-background {
+      display: none;
+    }
+
+    .mat-progress-bar-buffer {
+      background-color: rgba(0,0,0,0.1) !important;
+    }
+  }
+}

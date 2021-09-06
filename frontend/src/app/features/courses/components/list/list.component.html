@@ -3,10 +3,10 @@
 </div>
 
 <!-- Courses list -->
-<ng-container *ngIf="!isLoading; else loadingRef">
+<ng-container *ngIf="!(ui.loading$ | async); else loadingRef">
   <div
     *ngIf="courses?.length; else noCoursesRef"
-    class="app-cols app-cols--gap"
+    class="app-cols"
   >
     <div
       *ngFor="let course of courses"

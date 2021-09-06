@@ -18,7 +18,6 @@ export class BoardComponent implements OnInit {
   @ViewChild('boardColumnsRef', { static: true })
   boardColumnsRef!: ElementRef;
 
-  isLoading = true;
   courseId!: string | number;
   TaskState = TaskState;
   boardState: BoardState = {
@@ -59,10 +58,10 @@ export class BoardComponent implements OnInit {
   }
 
   private fetchTasks(): void {
-    this.isLoading = true;
+    this.ui.loading = true;
     const userId = 1;
     this.tasksService.getBoardTasksByUserId(this.courseId, userId)
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
         next: tasks => {

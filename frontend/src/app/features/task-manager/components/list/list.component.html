@@ -7,7 +7,7 @@
 
   <div
     *ngIf="tasks?.length; else noTasksRef"
-    class="app-cols app-cols--gap"
+    class="app-cols"
   >
     <div
       *ngFor="let task of tasks; let index = index"
@@ -49,7 +49,7 @@
 </ng-container>
 
 <ng-template #loadingRef>
-  <div class="app-cols app-cols--gap">
+  <div class="app-cols">
     <div class="app-col-12 app-col-s-6 app-col-m-4 app-my3">
       <app-skeleton rounded height="13rem"></app-skeleton>
     </div>

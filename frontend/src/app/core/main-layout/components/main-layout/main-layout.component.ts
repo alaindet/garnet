@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
-import { fromEvent, Subscription } from 'rxjs';
+import { combineLatest, fromEvent, Observable, Subscription } from 'rxjs';
 import { throttleTime, map, distinctUntilChanged, filter, mergeMap, tap } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
@@ -21,7 +21,8 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   lockedScrolling = false;
 
   appName = environment.appName;
-  fab?: FabConfiguration | null;
+  fab$!: Observable<FabConfiguration | null>;
+  loading$!: Observable<boolean>;
 
   private subs: { [sub: string]: Subscription } = {};
 
@@ -30,15 +31,13 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private host: ElementRef,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.observeLockedScrolling();
-    this.listenToRouterEvents();
-    setTimeout(
-      () => this.ui.fab$.subscribe(config => this.fab = config),
-      1000
-    );
+    this.observeRouterEvents();
+    this.observeUiUpdates();
   }
 
   ngAfterViewInit(): void {
@@ -51,8 +50,11 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     }
   }
 
-  onSidebarClose(): void {
-    this.ui.isSidebarOpen = false;
+  private observeUiUpdates(): void {
+    this.fab$ = this.ui.fab$;
+    this.loading$ = this.ui.loading$;
+    this.subs.uiUpdate = combineLatest([this.fab$, this.loading$])
+      .subscribe(() => this.cdr.detectChanges());
   }
 
   private observeLockedScrolling(): void {
@@ -76,34 +78,12 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
       .subscribe(scrollDir => this.ui.scrollingDirection = scrollDir);
   }
 
-  private listenToRouterEvents(): void {
-
+  private observeRouterEvents(): void {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
-        tap(this.onSidebarClose.bind(this)),
-        map(() => this.route),
-        map(route => {
-          while (route.firstChild) {
-            route = route.firstChild;
-          }
-          return route;
-        }),
-        filter(route => route.outlet === 'primary'),
-        mergeMap(route => route.data),
-        // tap(this.updateFabFromRouteData.bind(this)),
+        tap(() => this.ui.isSidebarOpen = false),
       )
       .subscribe();
   }
-
-  // private updateFabFromRouteData(routeData: any): void {
-
-  //   let fab = routeData?.fab ?? null;
-
-  //   if (typeof fab === 'string') {
-  //     fab = { actionName: fab };
-  //   }
-
-  //   this.ui.fab = fab;
-  // }
 }

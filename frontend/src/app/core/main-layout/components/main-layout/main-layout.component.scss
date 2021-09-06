@@ -5,3 +5,11 @@
   max-height: 100vh;
   overflow-y: auto;
 }
+
+.-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: app-store('z-index.progress-bar');
+}

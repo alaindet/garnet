@@ -19,12 +19,14 @@ export class UiService {
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
   private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
   private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
+  private _loading$ = new BehaviorSubject<boolean>(false);
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
   fab$ = this._fab$.asObservable();
   fabClicked$ = this._fabClicked$.asObservable();
+  loading$ = this._loading$.asObservable();
 
   constructor(
     private titleService: Title,
@@ -68,6 +70,10 @@ export class UiService {
 
   set fab(config: FabConfiguration | null) {
     this._fab$.next(config);
+  }
+
+  set loading(loading: boolean) {
+    this._loading$.next(loading);
   }
 
   private computeIsNavbarSticky(): any {

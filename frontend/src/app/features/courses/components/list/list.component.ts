@@ -20,15 +20,14 @@ import { UserRole } from '@app/core/auth/types';
 export class CoursesListComponent implements OnInit, OnDestroy {
 
   CoursesAction = CoursesAction;
-  isLoading = false;
   courses: Course[] | null = null;
 
   private subs: { [sub: string]: Subscription } = {};
 
   constructor(
     public userInfo: UserInfoService,
+    public ui: UiService,
     private coursesService: CoursesService,
-    private ui: UiService,
     private router: Router,
     private matDialog: MatDialog,
   ) {}
@@ -36,16 +35,13 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.ui.title = 'Courses';
     this.fetchCourses();
-    this.userInfo.roleId$.subscribe(roleId => {
-      if (roleId && [UserRole.Admin, UserRole.Teacher].includes(roleId)) {
-        this.ui.fab = { actionName: 'show-create-form', icon: 'add' };
-        this.subs.fab = this.ui.fabClicked$
-          .subscribe(this.onCreateCourse.bind(this));
-      }
-    });
+    this.manageFab();
   }
 
   ngOnDestroy(): void {
+
+    this.ui.fab = null;
+
     for (const sub of Object.values(this.subs)) {
       sub.unsubscribe();
     }
@@ -101,9 +97,9 @@ export class CoursesListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.isLoading = true;
+        this.ui.loading = true;
         this.coursesService.deleteCourse(course.course_id)
-          .pipe(finalize(() => this.isLoading = false))
+          .pipe(finalize(() => this.ui.loading = false))
           .subscribe({
             error: err => this.ui.setErrorToaster(err.error.error.message),
             next: () => {
@@ -117,13 +113,25 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   private fetchCourses(): void {
 
-    this.isLoading = true;
-
+    this.ui.loading = true;
     this.coursesService.getAllCourses()
-      .pipe(finalize(() => this.isLoading = false))
+      .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
         next: courses => this.courses = courses,
       });
+  }
+
+  private manageFab(): void {
+    this.userInfo.roleId$.subscribe(roleId => {
+      if (roleId && [UserRole.Admin, UserRole.Teacher].includes(roleId)) {
+        this.ui.fab = {
+          actionName: CoursesAction.ShowCreateCourseForm,
+          icon: 'add',
+        };
+        this.subs.fab = this.ui.fabClicked$
+          .subscribe(this.onCreateCourse.bind(this));
+      }
+    });
   }
 }

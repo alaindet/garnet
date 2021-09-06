@@ -2,9 +2,16 @@
   [title]="appName"
 ></app-navbar>
 
+<mat-progress-bar
+  *ngIf="loading$ | async"
+  mode="indeterminate"
+  color="accent"
+  class="app-override-progress-bar -progress-bar"
+></mat-progress-bar>
+
 <app-sidebar
   [open]="!!(ui.isSidebarOpen$ | async)"
-  (dismissed)="onSidebarClose()"
+  (dismissed)="ui.isSidebarOpen = false"
 ></app-sidebar>
 
 <main #routerOutletRef class="app-container --viewport-height">
@@ -12,7 +19,7 @@
 </main>
 
 <!-- FAB -->
-<ng-container *ngIf="fab">
+<ng-container *ngIf="fab$ | async as fab">
   <app-fab
     [icon]="fab?.icon"
     (click)="ui.clickFab(fab.actionName)"

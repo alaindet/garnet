@@ -10,6 +10,7 @@ import { ConfirmDeleteDialogConfig, Task } from '@app/shared/types';
 import { CoursesService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
 import { TaskManagerService } from '../../services';
+import { TaskManagerAction } from '../../actions';
 
 @Component({
   templateUrl: './list.component.html',
@@ -37,11 +38,22 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
     this.ui.title = 'Tasks';
     this.courseId = this.route.snapshot.params['courseid'];
     this.fetchTasks();
+    this.manageFab();
+  }
+
+  private manageFab(): void {
+    this.ui.fab = {
+      actionName: TaskManagerAction.ShowCreateTaskForm,
+      icon: 'add',
+    };
     this.subs.fab = this.ui.fabClicked$
       .subscribe(this.onCreateTask.bind(this));
   }
 
   ngOnDestroy(): void {
+
+    this.ui.fab = null;
+
     for (const sub of Object.values(this.subs)) {
       sub.unsubscribe();
     }
