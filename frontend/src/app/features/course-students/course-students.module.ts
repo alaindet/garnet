@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CourseStudentsRoutingModule } from './course-students.routing';
 import { CourseStudentsComponentsModule } from './course-students.components.module';
+import { CourseStudentsComponent } from './components';
 
 @NgModule({
   imports: [
@@ -13,10 +14,10 @@ import { CourseStudentsComponentsModule } from './course-students.components.mod
     CourseStudentsComponentsModule,
   ],
   declarations: [
-    // ...
+    CourseStudentsComponent,
   ],
   providers: [
     // ...
   ],
 })
-export class CourseProgressModule {}
+export class CourseStudentsModule {}

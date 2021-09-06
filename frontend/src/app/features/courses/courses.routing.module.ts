@@ -27,6 +27,12 @@ const routes: Routes = [
       .then(m => m.BoardModule),
   },
   {
+    path: ':courseid/students',
+    canLoad: [ShouldHaveTeacherRoleGuard],
+    loadChildren: () => import('../course-students/course-students.module')
+      .then(m => m.CourseStudentsModule),
+  },
+  {
     path: ':courseid',
     component: CourseFormComponent,
   },

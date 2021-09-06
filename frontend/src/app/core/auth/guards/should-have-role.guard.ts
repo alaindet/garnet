@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, CanLoad, Route, UrlSegment } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, CanLoad, Route, UrlSegment, Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
+import { UiService } from '@app/core/main-layout/services';
 import { AuthorizationService } from '../services';
 import { UserRole } from '../types';
 
@@ -12,6 +14,8 @@ export class ShouldHaveRoleGuard implements CanActivate, CanLoad {
 
   constructor(
     private authorizationService: AuthorizationService,
+    private ui: UiService,
+    private router: Router,
   ) {}
 
   canActivate(
@@ -28,6 +32,12 @@ export class ShouldHaveRoleGuard implements CanActivate, CanLoad {
   private checkRequiredRoles(
     requiredRoles: UserRole | UserRole[],
   ): Observable<boolean> {
-    return this.authorizationService.hasRole(requiredRoles);
+    return this.authorizationService.hasRole(requiredRoles)
+      .pipe(tap(hasRole => {
+        if (!hasRole) {
+          this.ui.setErrorToaster('You are not authorized');
+          this.router.navigate(['/']);
+        }
+      }));
   }
 }
