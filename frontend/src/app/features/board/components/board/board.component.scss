@@ -11,6 +11,16 @@ $bottom-margin: 150px;
   overflow-y: hidden;
 }
 
+.app-page-header {
+  display: flex;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+    margin-left: 1rem;
+  }
+}
+
 .-board-columns {
   max-width: 100vw;
   overflow-x: auto;

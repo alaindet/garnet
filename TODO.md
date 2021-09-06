@@ -20,3 +20,5 @@
 - [ ] Use auth service for FAB
 - [ ] Add "back" to board
 - [ ] Add BE services to board
+- [ ] Add loading stack for global loader
+- [ ] Add gap between columns

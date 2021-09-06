@@ -3,20 +3,23 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { DragDropModule as CdkDragDropModule } from '@angular/cdk/drag-drop';
 
-import { SkeletonComponentModule } from '@app/shared/components/skeleton';
+import { SkeletonModule } from '@app/shared/components/skeleton';
+import { BackButtonComponentModule } from '@app/shared/components/back-button';
 
 @NgModule({
   imports: [
     MatCardModule,
     MatIconModule,
     CdkDragDropModule,
-    SkeletonComponentModule,
+    SkeletonModule,
+    BackButtonComponentModule,
   ],
   exports: [
     MatCardModule,
     MatIconModule,
     CdkDragDropModule,
-    SkeletonComponentModule,
+    SkeletonModule,
+    BackButtonComponentModule,
   ],
 })
 export class BoardComponentsModule {}

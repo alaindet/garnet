@@ -5,6 +5,8 @@ import { finalize, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop, CdkDragStart, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { UiService } from '@app/core/main-layout/services';
+import { CoursesService } from '@app/features/courses/services';
+import { Course } from '@app/features/courses/types';
 import { followDraggedItem } from '@app/shared/utils';
 import { TasksService } from '../../services';
 import { BoardTask, BoardState, TaskState } from '../../types';
@@ -19,6 +21,7 @@ export class BoardComponent implements OnInit {
   boardColumnsRef!: ElementRef;
 
   courseId!: string | number;
+  course!: Course;
   TaskState = TaskState;
   boardState: BoardState = {
     [TaskState.ToDo]: [],
@@ -27,33 +30,25 @@ export class BoardComponent implements OnInit {
   };
 
   constructor(
-    private ui: UiService,
+    public ui: UiService,
     private route: ActivatedRoute,
     private tasksService: TasksService,
+    private coursesService: CoursesService,
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
-    this.ui.title = '_COURSE_NAME_ - Board'; // TODO
+    // this.ui.title = '_COURSE_NAME_ - Board'; // TODO
+    this.fetchCourse();
     this.fetchTasks();
   }
 
   onDropTask(event: CdkDragDrop<TaskState>): void {
 
-    const fromContainerIndex = event.previousContainer.data;
-    const fromContainer = this.boardState[fromContainerIndex];
-    const toContainerIndex = event.container.data;
-    const toContainer = this.boardState[toContainerIndex];
-    const fromContainerItemIndex = event.previousIndex;
-    const item = fromContainer[fromContainerItemIndex];
-
-    this.ui.loading = true;
-    this.tasksService.updateTaskStateById(this.courseId, item.taskId, toContainerIndex)
-      .pipe(tap(() => this.ui.loading = false))
-      .subscribe({
-        error: err => this.ui.setErrorToaster(err.error.error.message),
-        next: () => console.log('task state updated'),
-      });
+    const fromState = event.previousContainer.data;
+    const fromContainer = this.boardState[fromState];
+    const toState = event.container.data;
+    const item = fromContainer[event.previousIndex];
 
     transferArrayItem(
       this.boardState[event.previousContainer.data],
@@ -61,11 +56,49 @@ export class BoardComponent implements OnInit {
       event.previousIndex,
       event.currentIndex
     );
+
+    this.sortTasks();
+
+    // Do not sync sorting on the backend
+    if (event.previousContainer === event.container) {
+      return;
+    }
+
+    this.ui.loading = true;
+
+    this.tasksService.updateTaskStateById(this.courseId, item.taskId, toState)
+      .pipe(tap(() => this.ui.loading = false))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.error.message),
+        next: () => {},
+      });
+  }
+
+  private fetchCourse(): void {
+
+    this.ui.loading = true;
+
+    this.coursesService.getOneCourse(this.courseId)
+      .pipe(tap(() => this.ui.loading = false))
+      .subscribe(course => {
+        this.course = course;
+        this.ui.title = `${course.name} - Board`;
+      });
+  }
+
+  private sortTasks(): void {
+    for (const taskState in this.boardState) {
+      this.boardState[+taskState as TaskState]
+        .sort((a: BoardTask, b: BoardTask) => {
+          const aa = a.taskId;
+          const bb = b.taskId;
+          return (aa === bb) ? 0 : (aa > bb ? 1 : -1);
+        });
+    }
   }
 
   private fetchTasks(): void {
     this.ui.loading = true;
-    const userId = 1;
     this.tasksService.getBoardTasks(this.courseId)
       .pipe(finalize(() => this.ui.loading = false))
       .subscribe({

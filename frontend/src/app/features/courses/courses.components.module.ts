@@ -9,7 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { ConfirmDeleteComponentModule } from '@app/shared/components/confirm-delete';
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
-import { SkeletonComponentModule } from '@app/shared/components/skeleton';
+import { SkeletonModule } from '@app/shared/components/skeleton';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
-    SkeletonComponentModule,
+    SkeletonModule,
     ConfirmDeleteComponentModule,
   ],
   exports: [
@@ -33,7 +33,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatInputModule,
     MatDialogModule,
     BackButtonComponentModule,
-    SkeletonComponentModule,
+    SkeletonModule,
     ConfirmDeleteComponentModule,
   ],
 })

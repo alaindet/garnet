@@ -1,9 +1,10 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton',
-  styleUrls: ['./skeleton.component.scss'],
   template: '',
+  styleUrls: ['./skeleton.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkeletonComponent {
 

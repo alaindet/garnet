@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { BackButtonComponentModule } from '@app/shared/components/back-button';
-import { SkeletonComponentModule } from '@app/shared/components/skeleton';
+import { SkeletonModule } from '@app/shared/components/skeleton';
 
 @NgModule({
   imports: [
@@ -15,7 +15,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    SkeletonComponentModule,
+    SkeletonModule,
   ],
   exports: [
     MatCardModule,
@@ -24,7 +24,7 @@ import { SkeletonComponentModule } from '@app/shared/components/skeleton';
     MatFormFieldModule,
     MatInputModule,
     BackButtonComponentModule,
-    SkeletonComponentModule,
+    SkeletonModule,
   ],
 })
 export class TaskManagerComponentsModule {}

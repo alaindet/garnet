@@ -1,5 +1,6 @@
 <div class="app-page-header">
-  <h2>_COURSE_NAME_ - Board</h2>
+  <app-back-button>Back</app-back-button>
+  <h2>{{ ui.title$ | async }}</h2>
 </div>
 
 <div #boardColumnsRef class="-board-columns">
@@ -15,7 +16,6 @@
     <div
       id="todo-list"
       cdkDropList
-      cdkDropListSortingDisabled
       [cdkDropListData]="TaskState.ToDo"
       [cdkDropListConnectedTo]="['done-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"
@@ -55,7 +55,6 @@
     <div
       id="in-progress-list"
       cdkDropList
-      cdkDropListSortingDisabled
       [cdkDropListData]="TaskState.InProgress"
       [cdkDropListConnectedTo]="['todo-list', 'done-list']"
       (cdkDropListDropped)="onDropTask($event)"
@@ -95,7 +94,6 @@
     <div
       id="done-list"
       cdkDropList
-      cdkDropListSortingDisabled
       [cdkDropListData]="TaskState.Done"
       [cdkDropListConnectedTo]="['todo-list', 'in-progress-list']"
       (cdkDropListDropped)="onDropTask($event)"

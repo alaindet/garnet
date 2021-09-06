@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SkeletonComponent } from './skeleton.component';
+import { SkeletonDotsComponent } from './skeleton-dots/skeleton-dots.component'
 
 @NgModule({
   imports: [
@@ -8,9 +9,11 @@ import { SkeletonComponent } from './skeleton.component';
   ],
   declarations: [
     SkeletonComponent,
+    SkeletonDotsComponent,
   ],
   exports: [
     SkeletonComponent,
+    SkeletonDotsComponent,
   ],
 })
-export class SkeletonComponentModule {}
+export class SkeletonModule {}
