@@ -8,4 +8,4 @@ import { NgModule } from '@angular/core';
     // ...
   ],
 })
-export class CourseStudentsComponentsModule {}
+export class ProgressComponentsModule {}

@@ -38,7 +38,6 @@ export class BoardComponent implements OnInit {
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
-    // this.ui.title = '_COURSE_NAME_ - Board'; // TODO
     this.fetchCourse();
     this.fetchTasks();
   }

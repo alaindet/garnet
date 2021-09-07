@@ -16,7 +16,7 @@ export class TasksService {
   ) {}
 
   getBoardTasks(courseId: string | number): Observable<BoardTask[]> {
-    const url = `${environment.apiUrl}/courses/${courseId}/board`;
+    const url = `${environment.apiUrl}/board/${courseId}`;
     const options = this.getCorsOptions();
     return this.http.get<GetBoardTasksResponse>(url, options)
       .pipe(map(response => response.data))
@@ -28,7 +28,7 @@ export class TasksService {
     taskStateId: any,
   ): Observable<any> {
     const baseUrl = environment.apiUrl;
-    const url = `${baseUrl}/courses/${courseId}/board/tasks/${taskId}`
+    const url = `${baseUrl}/board/${courseId}/tasks/${taskId}`
     const body = { taskStateId };
     const options = this.getCorsOptions();
     return this.http.put<any>(url, body, options)

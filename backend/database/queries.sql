@@ -96,7 +96,7 @@ Get progress of every student on course #1
 SELECT
 tu.task_id,
 tu.user_id,
-tu.state_id
+tu.task_state_id
 FROM
 tasks AS t
 JOIN task_user AS tu ON tu.task_id = t.task_id

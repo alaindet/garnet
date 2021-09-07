@@ -23,35 +23,35 @@ export class CoursesService {
   ) {}
 
   getAllCourses(): Observable<Course[]> {
-    const url = environment.apiUrl + '/courses';
+    const url = `${environment.apiUrl}/courses`;
     const options = this.getCorsOptions();
     return this.http.get<GetCoursesResponse>(url, options)
-      .pipe(map(response => response.data))
+      .pipe(map(response => response.data));
   }
 
   getOneCourse(id: string | number): Observable<Course> {
-    const url = environment.apiUrl + '/courses/' + id;
+    const url = `${environment.apiUrl}/courses/${id}`;
     const options = this.getCorsOptions();
     return this.http.get<GetCourseResponse>(url, options)
-      .pipe(map(response => response.data))
+      .pipe(map(response => response.data));
   }
 
   createCourse(dto: CreateCourseRequest): Observable<Course> {
-    const url = environment.apiUrl + '/courses';
+    const url = `${environment.apiUrl}/courses`;
     const options = this.getCorsOptions();
     return this.http.post<CreateCourseResponse>(url, dto, options)
       .pipe(map(response => response.data));
   }
 
   updateCourse(dto: UpdateCourseRequest): Observable<Course> {
-    const url = environment.apiUrl + '/courses/' + dto.courseId;
+    const url = `${environment.apiUrl}/courses/${dto.courseId}`;
     const options = this.getCorsOptions();
     return this.http.patch<GetCourseResponse>(url, dto, options)
       .pipe(map(response => response.data));
   }
 
   deleteCourse(courseId: number | string): Observable<Course> {
-    const url = environment.apiUrl + '/courses/' + courseId;
+    const url = `${environment.apiUrl}/courses/${courseId}`;
     const options = this.getCorsOptions();
     return this.http.delete<GetCourseResponse>(url, options)
       .pipe(map(response => response.data));

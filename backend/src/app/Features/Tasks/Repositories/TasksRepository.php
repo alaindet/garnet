@@ -2,36 +2,34 @@
 
 namespace App\Features\Tasks\Repositories;
 
-use App\Core\Exceptions\Database\DatabaseException;
 use App\Core\Repository;
 use App\Core\Services\Database\Database;
-use App\Features\Tasks\Dtos\CreateTaskDto;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
-use App\Shared\Utils\Time;
+use App\Features\Tasks\Dtos\CreateTaskDto;
 use App\Features\Board\Dtos\UpdateTaskState;
+use App\Shared\Utils\Time;
 
 class TasksRepository extends Repository
 {
     const TABLE = 'tasks';
+    protected string $table;
     protected Database $db;
 
     public function __construct()
     {
+        $this->table = self::TABLE;
         $this->db = appServiceProvider(Database::class);
     }
 
     public function getAllByCourseId(string|int $courseId): array
     {
-        $table = self::TABLE;
-        $sql = "SELECT * FROM {$table} WHERE course_id = :courseid";
+        $sql = "SELECT * FROM {$this->table} WHERE course_id = :courseid";
         $params = [ ':courseid' => $courseId ];
         return $this->db->select($sql, $params);
     }
 
-    public function getAllByCourseIdAndUserId(GetBoardTasksRequest $dto): array {
-
-        $table = self::TABLE;
-
+    public function getAllByCourseIdAndUserId(GetBoardTasksRequest $dto): array
+    {
         $sql = "
             SELECT
                 t.task_id,
@@ -42,7 +40,7 @@ class TasksRepository extends Repository
                 t.description
             FROM
                 task_user AS tu
-                INNER JOIN {$table} AS t ON tu.task_id = t.task_id
+                INNER JOIN {$this->table} AS t ON tu.task_id = t.task_id
             WHERE
                 tu.user_id = :userid AND
                 t.course_id = :courseid
@@ -56,17 +54,23 @@ class TasksRepository extends Repository
         return $this->db->select($sql, $params);
     }
 
+    public function findById(string|int $taskId): array|null
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE task_id = :taskid";
+        $params = [':taskid' => $taskId];
+        return $this->db->selectFirst($sql, $params);
+    }
+
     public function create(CreateTaskDto $dto): array
     {
         $now = Time::getDate();
-        $table = self::TABLE;
 
         $sql = "
-            INSERT INTO {$table}
-                (course_id, created_on, updated_on, name, description)
-            VALUE
-                (:courseid, :createdon, :updatedon, :name, :description)
-        ";
+          INSERT INTO {$this->table}
+              (course_id, created_on, updated_on, name, description)
+          VALUE
+              (:courseid, :createdon, :updatedon, :name, :description)
+      ";
 
         $params = [
             ':courseid' => $dto->courseId,
@@ -88,18 +92,8 @@ class TasksRepository extends Repository
         ];
     }
 
-    public function findById(string|int $taskId): array|null
-    {
-        $table = self::TABLE;
-        $sql = "SELECT * FROM {$table} WHERE task_id = :taskid";
-        $params = [':taskid' => $taskId];
-        return $this->db->selectFirst($sql, $params);
-    }
-
     public function updateById(string|int $taskId, array $fields): int
     {
-        $table = self::TABLE;
-
         $updates = [
             'updated_on = :updatedon',
         ];
@@ -117,7 +111,7 @@ class TasksRepository extends Repository
 
         $setClause = implode(', ', $updates);
 
-        $sql = "UPDATE {$table} SET {$setClause} WHERE task_id = :taskid";
+        $sql = "UPDATE {$this->table} SET {$setClause} WHERE task_id = :taskid";
 
         return $this->db->execute($sql, $params);
     }
@@ -136,15 +130,14 @@ class TasksRepository extends Repository
             ':userid' => $dto->userId,
         ];
 
-        $rowCount = $this->db->execute($sql, $params);
+        $this->db->execute($sql, $params);
 
         return true;
     }
 
     public function deleteById(string|int $taskId): int
     {
-        $table = self::TABLE;
-        $sql = "DELETE FROM {$table} WHERE task_id = :taskid";
+        $sql = "DELETE FROM {$this->table} WHERE task_id = :taskid";
         $params = [':taskid' => $taskId];
         return $this->db->execute($sql, $params);
     }

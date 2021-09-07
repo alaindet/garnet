@@ -29,8 +29,8 @@ const routes: Routes = [
   {
     path: ':courseid/students',
     canLoad: [ShouldHaveTeacherRoleGuard],
-    loadChildren: () => import('../course-students/course-students.module')
-      .then(m => m.CourseStudentsModule),
+    loadChildren: () => import('../progress/progress.module')
+      .then(m => m.ProgressModule),
   },
   {
     path: ':courseid',

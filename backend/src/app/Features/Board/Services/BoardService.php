@@ -7,6 +7,7 @@ use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
 use App\Features\Board\Dtos\GetBoardTasksResponse;
 use App\Features\Board\Dtos\UpdateTaskState;
+use App\Features\Courses\Repositories\CoursesRepository;
 
 class BoardService
 {
@@ -42,5 +43,12 @@ class BoardService
     public function updateTaskState(UpdateTaskState $dto): bool
     {
         return $this->tasksRepo->updateStateByIdAndUserId($dto);
+    }
+
+    public function getCourseProgress(string | int $courseId): array
+    {
+        $courseRepo = new CoursesRepository();
+
+        return $courseRepo->getProgress($courseId);
     }
 }
