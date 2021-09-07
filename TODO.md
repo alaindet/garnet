@@ -18,3 +18,4 @@
 - [ ] Remove setTimeout from FAB
 - [ ] Use auth service for FAB
 - [ ] Add loading stack for global loader
+- [ ] Add API versioning
