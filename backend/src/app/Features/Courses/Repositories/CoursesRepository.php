@@ -131,23 +131,4 @@ class CoursesRepository extends Repository
         $params = [':courseid' => $courseId];
         return $this->db->execute($sql, $params);
     }
-
-    public function getProgress(string | int $courseId): array
-    {
-        $sql = "
-            SELECT
-                tu.task_id,
-                tu.user_id,
-                tu.task_state_id
-            FROM
-                tasks AS t
-                JOIN task_user AS tu ON tu.task_id = t.task_id
-            WHERE
-                t.course_id = :courseid
-            ORDER BY
-                t.task_id ASC
-        ";
-        $params = [':courseid' => $courseId];
-        return $this->db->select($sql, $params);
-    }
 }

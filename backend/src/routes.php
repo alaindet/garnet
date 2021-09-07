@@ -22,6 +22,7 @@ $middleware = [
 ];
 
 return (new RouteGroup)
+    ->path('/v1.0')
     ->setMiddleware($middleware)
     ->routes(array_merge(...$routes))
     ->collect();

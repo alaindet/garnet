@@ -62,13 +62,25 @@ class BoardController extends Controller
         return $res;
     }
 
-    public function getStudentsProgress(Request $req, Response $res): Response
+    public function getProgressByStudent(Request $req, Response $res): Response
     {
         $courseId = $req->getUriParameter('courseid');
 
         $res->setBody([
-            'message' => "Progress of students from course #{$courseId}",
-            'data' => $this->boardService->getCourseProgress($courseId),
+            'message' => "Progress of course #{$courseId} by student",
+            'data' => $this->boardService->getProgressByStudent($courseId),
+        ]);
+
+        return $res;
+    }
+
+    public function getProgressByTask(Request $req, Response $res): Response
+    {
+        $courseId = $req->getUriParameter('courseid');
+
+        $res->setBody([
+            'message' => "Progress of course #{$courseId} by task",
+            'data' => $this->boardService->getProgressByTask($courseId),
         ]);
 
         return $res;

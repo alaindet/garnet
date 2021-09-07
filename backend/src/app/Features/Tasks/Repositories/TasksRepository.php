@@ -11,6 +11,8 @@ use App\Shared\Utils\Time;
 
 class TasksRepository extends Repository
 {
+    use TasksRepositoryWithProgress;
+
     const TABLE = 'tasks';
     protected string $table;
     protected Database $db;

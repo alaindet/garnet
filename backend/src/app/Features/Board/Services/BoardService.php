@@ -45,10 +45,13 @@ class BoardService
         return $this->tasksRepo->updateStateByIdAndUserId($dto);
     }
 
-    public function getCourseProgress(string | int $courseId): array
+    public function getProgressByStudent(string | int $courseId): array
     {
-        $courseRepo = new CoursesRepository();
+        return $this->tasksRepo->getProgressByStudent($courseId);
+    }
 
-        return $courseRepo->getProgress($courseId);
+    public function getProgressByTask(string | int $courseId): array
+    {
+        return $this->tasksRepo->getProgressByTask($courseId);
     }
 }

@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   appName: 'Garnet',
   appSlug: 'garnet',
-  apiUrl: 'http://192.168.1.5:8080',
+  apiUrl: 'http://192.168.1.5:8080/v1.0',
 };
 
 /*

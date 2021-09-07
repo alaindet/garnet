@@ -26,7 +26,9 @@ class Routes
                 Route::get('/', '@getTasksByBoard'),
                 Route::put('/tasks/{taskid}', '@updateTaskState')
                     ->middleware(UpdateTaskStateValidationMiddleware::class),
-                Route::get('/progress', '@getStudentsProgress')
+                Route::get('/progress/by-student', '@getProgressByStudent')
+                    ->middleware($role, [$teacher]),
+                Route::get('/progress/by-task', '@getProgressByTask')
                     ->middleware($role, [$teacher]),
             ])
             ->collect();

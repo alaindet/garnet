@@ -129,3 +129,46 @@ t.task_id ASC
 ) AS sub
 GROUP BY
 sub.task_id
+
+-- Progress on course #1 by student
+SELECT
+u.user_id,
+u.first_name,
+u.last_name,
+SUM(CASE WHEN task_state_id = 1 then 1 ELSE 0 END) AS to_do,
+SUM(CASE WHEN task_state_id = 2 then 1 ELSE 0 END) AS in_progress,
+SUM(CASE WHEN task_state_id = 3 then 1 ELSE 0 END) AS done
+FROM tasks AS t
+INNER JOIN task_user AS tu ON t.task_id = tu.task_id
+INNER JOIN users AS u ON tu.user_id = u.user_id
+WHERE t.course_id = 1
+GROUP BY tu.user_id
+ORDER BY tu.user_id ASC
+
+-- Progress on course #1 by task
+SELECT
+t.task_id,
+t.name,
+t.description,
+SUM(CASE WHEN task_state_id = 1 then 1 ELSE 0 END) AS to_do,
+SUM(CASE WHEN task_state_id = 2 then 1 ELSE 0 END) AS in_progress,
+SUM(CASE WHEN task_state_id = 3 then 1 ELSE 0 END) AS done
+FROM tasks AS t
+INNER JOIN task_user AS tu ON t.task_id = tu.task_id
+WHERE t.course_id = 1
+GROUP BY t.task_id
+ORDER BY t.task_id ASC
+
+-- Raw progress data
+SELECT
+tasks.task_id,
+tasks.name,
+tasks.description,
+users.first_name,
+users.last_name,
+task_user.task_state_id
+FROM tasks
+INNER JOIN task_user ON tasks.task_id = task_user.task_id
+INNER JOIN users ON task_user.user_id = users.user_id
+WHERE tasks.course_id = 1
+ORDER BY tasks.task_id ASC

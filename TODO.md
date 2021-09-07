@@ -19,3 +19,5 @@
 - [ ] Use auth service for FAB
 - [ ] Add loading stack for global loader
 - [ ] Add API versioning
+- [ ] Invite students to join boards
+- [ ] Invite teachers to join the app
