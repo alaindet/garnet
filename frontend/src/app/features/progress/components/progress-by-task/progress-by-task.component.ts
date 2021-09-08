@@ -3,7 +3,7 @@ import { finalize } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
 import { ProgressService } from '../../services';
-import { TaskProgress } from '../../types';
+import { TaskProgress, ProgressItem } from '../../types';
 
 @Component({
   selector: 'app-progress-by-task',
@@ -14,7 +14,7 @@ export class ProgressByTaskComponent {
 
   @Input() courseId!: string | number;
 
-  items: TaskProgress[] = [];
+  items: ProgressItem[] = [];
 
   constructor(
     public ui: UiService,
@@ -32,7 +32,17 @@ export class ProgressByTaskComponent {
       .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.message),
-        next: items => this.items = items,
+        next: students => this.items = students.map(this.mapProgressItem),
       });
+  }
+
+  private mapProgressItem(progress: TaskProgress): ProgressItem {
+    return {
+      title: `${progress.taskName} - ${progress.taskDescription}`,
+      badge: ''+progress.taskId,
+      todoCounter: progress.studentsToDo,
+      inProgressCounter: progress.studentsInProgress,
+      doneCounter: progress.studentsDone,
+    };
   }
 }

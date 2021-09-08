@@ -1,1 +1,15 @@
-<pre>{{ items | json }}</pre>
+<div class="app-cols">
+  <div
+    *ngFor="let item of items; let i = index"
+    class="app-col-12 app-col-m-6 app-p3"
+  >
+    <app-progress-item
+      [title]="item.title"
+      [badge]="item.badge"
+      [todoCounter]="item.todoCounter"
+      [inProgressCounter]="item.inProgressCounter"
+      [doneCounter]="item.doneCounter"
+      (badgeClicked)="onStudentClick(i)"
+    ></app-progress-item>
+  </div>
+</div>

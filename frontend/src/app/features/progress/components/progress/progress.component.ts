@@ -13,10 +13,7 @@ export class ProgressComponent implements OnInit {
 
   courseId!: string | number;
   tabIndex = 0;
-  tabsLoaded: { [name: string]: boolean } = {
-    'By Student': true,
-    'By Task': false,
-  };
+  tabsLoaded = [true, false];
 
   constructor(
     public ui: UiService,
@@ -34,9 +31,7 @@ export class ProgressComponent implements OnInit {
 
   onTabChange(tabIndex: number): void {
     this.tabIndex = tabIndex;
-    const tabs = Object.keys(this.tabsLoaded);
-    const tabName = tabs[tabIndex];
-    this.tabsLoaded[tabName] = true;
+    this.tabsLoaded[tabIndex] = true;
   }
 
   private fetchProgressByTask(): void {

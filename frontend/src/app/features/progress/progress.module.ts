@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { ProgressRoutingModule } from './progress.routing';
 import { ProgressComponentsModule } from './progress.components.module';
-import { ProgressComponent, ProgressByStudentComponent, ProgressByTaskComponent } from './components';
+import { ProgressComponent, ProgressByStudentComponent, ProgressByTaskComponent, ProgressItemComponent } from './components';
 
 @NgModule({
   imports: [
@@ -17,6 +17,7 @@ import { ProgressComponent, ProgressByStudentComponent, ProgressByTaskComponent 
     ProgressComponent,
     ProgressByStudentComponent,
     ProgressByTaskComponent,
+    ProgressItemComponent,
   ],
   providers: [
     // ...

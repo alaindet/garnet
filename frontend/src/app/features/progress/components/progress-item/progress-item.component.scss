@@ -1,0 +1,75 @@
+@import 'style';
+
+$badge-diameter: 56px;
+$bars-height: 20px;
+
+:host {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.-badge {
+  background-color: app-store('color.theme.background');
+  border-radius: 100%;
+  width: $badge-diameter;
+  height: $badge-diameter;
+  min-width: $badge-diameter;
+  min-height: $badge-diameter;
+  max-width: $badge-diameter;
+  max-height: $badge-diameter;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  border: 2px solid app-store('color.theme.primary.500');
+  font-size: 1.4rem;
+  color: app-store('color.theme.accent.700');
+  letter-spacing: -3px;
+
+  &.--clickable {
+    transition: 0.15s all ease-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: app-store('color.theme.primary.200');
+    }
+  }
+}
+
+.-right {
+  flex-grow: 1;
+  margin-left: 1rem;
+}
+
+.-title {
+  color: app-store('color.theme.accent.900');
+  font-size: 0.85em;
+}
+
+.-bars {
+  display: flex;
+  align-items: center;
+  border-radius: $bars-height * 2;
+  overflow: hidden;
+}
+
+.-bar {
+  height: 100%;
+  text-align: center;
+  font-weight: 700;
+  padding: 1px 0;
+}
+
+.-todo-bar {
+  background-color: app-store('color.theme.accent.200');
+}
+
+.-in-progress-bar {
+  background-color: app-store('color.theme.accent.600');
+  color: app-store('color.theme.background');
+}
+
+.-done-bar {
+  background-color: app-store('color.theme.primary.500');
+}

@@ -23,3 +23,4 @@
 - [ ] Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
 - [ ] Add numbering to tasks
+- [ ] FE: Truncate pipe

@@ -1,0 +1,40 @@
+<div class="-left">
+  <div
+    class="-badge"
+    [class.--clickable]="withClickableBadge"
+    (click)="onBadgeClicked()"
+  >
+    {{ badge }}
+  </div>
+</div>
+
+<div class="-right">
+  <div class="-title">{{ title }}</div>
+  <div class="-bars">
+
+    <div
+      *ngIf="todoCounter"
+      class="-bar -todo-bar"
+      [style.width]="todoWidth"
+    >
+      {{ todoCounter }}
+    </div>
+
+    <div
+      *ngIf="inProgressCounter"
+      class="-bar -in-progress-bar"
+      [style.width]="inProgressWidth"
+    >
+      {{ inProgressCounter }}
+    </div>
+
+    <div
+      *ngIf="doneCounter"
+      class="-bar -done-bar"
+      [style.width]="doneWidth"
+    >
+      {{ doneCounter }}
+    </div>
+
+  </div>
+</div>

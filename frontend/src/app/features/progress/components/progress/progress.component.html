@@ -13,7 +13,7 @@
     </ng-template>
 
     <app-progress-by-student
-      *ngIf="tabsLoaded['By Student']"
+      *ngIf="tabsLoaded[0]"
       [courseId]="courseId"
     ></app-progress-by-student>
 
@@ -27,7 +27,7 @@
     </ng-template>
 
     <app-progress-by-task
-      *ngIf="tabsLoaded['By Task']"
+      *ngIf="tabsLoaded[1]"
       [courseId]="courseId"
     ></app-progress-by-task>
 
