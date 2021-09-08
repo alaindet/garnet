@@ -3,7 +3,7 @@
   <h2>{{ ui.title$ | async }}</h2>
 </div>
 
-<mat-tab-group>
+<mat-tab-group [selectedIndex]="tabIndex" (selectedIndexChange)="onTabChange($event)">
 
   <!-- Progress by student -->
   <mat-tab>
@@ -12,7 +12,10 @@
       By Student &nbsp; <mat-icon>school</mat-icon>
     </ng-template>
 
-    Progress by student component...
+    <app-progress-by-student
+      *ngIf="tabsLoaded['By Student']"
+      [courseId]="courseId"
+    ></app-progress-by-student>
 
   </mat-tab>
 
@@ -23,7 +26,10 @@
       By Task &nbsp; <mat-icon>task_alt</mat-icon>
     </ng-template>
 
-    Progress by task component...
+    <app-progress-by-task
+      *ngIf="tabsLoaded['By Task']"
+      [courseId]="courseId"
+    ></app-progress-by-task>
 
   </mat-tab>
 

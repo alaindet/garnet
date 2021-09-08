@@ -12,6 +12,11 @@ import { ProgressService } from '../../services';
 export class ProgressComponent implements OnInit {
 
   courseId!: string | number;
+  tabIndex = 0;
+  tabsLoaded: { [name: string]: boolean } = {
+    'By Student': true,
+    'By Task': false,
+  };
 
   constructor(
     public ui: UiService,
@@ -24,20 +29,14 @@ export class ProgressComponent implements OnInit {
 
     // TODO: Remove
     this.ui.title = '_COURSE_NAME_ - Progress by _FEATURE_';
-    this.fetchProgressByStudent();
     this.fetchProgressByTask();
   }
 
-  private fetchProgressByStudent(): void {
-    this.ui.loading = true;
-    this.progressService.getCourseProgressByStudent(this.courseId)
-      .pipe(finalize(() => this.ui.loading = false))
-      .subscribe({
-        error: err => this.ui.setErrorToaster(err.error.message),
-        next: students => {
-          console.log('students', students);
-        },
-      });
+  onTabChange(tabIndex: number): void {
+    this.tabIndex = tabIndex;
+    const tabs = Object.keys(this.tabsLoaded);
+    const tabName = tabs[tabIndex];
+    this.tabsLoaded[tabName] = true;
   }
 
   private fetchProgressByTask(): void {
