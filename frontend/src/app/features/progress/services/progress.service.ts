@@ -5,9 +5,16 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { JwtService } from '@app/core/auth/services/jwt.service';
-import { GetCourseProgressResponse } from '../types';
+import {
+  GetProgressByStudentResponse,
+  StudentProgress,
+  GetProgressByTaskResponse,
+  TaskProgress,
+} from '../types';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ProgressService {
 
   constructor(
@@ -15,11 +22,18 @@ export class ProgressService {
     private jwtService: JwtService,
   ) {}
 
-  getCourseProgress(courseId: string | number): Observable<any[]> {
-    const url = `${environment.apiUrl}/courses`;
+  getCourseProgressByStudent(courseId: string | number): Observable<StudentProgress[]> {
+    const url = `${environment.apiUrl}/board/${courseId}/progress/by-student`;
     const options = this.getCorsOptions();
-    return this.http.get<GetCourseProgressResponse>(url, options)
-      .pipe(map(response => response.data))
+    return this.http.get<GetProgressByStudentResponse>(url, options)
+      .pipe(map(response => response.data.students))
+  }
+
+  getCourseProgressByTask(courseId: string | number): Observable<TaskProgress[]> {
+    const url = `${environment.apiUrl}/board/${courseId}/progress/by-task`;
+    const options = this.getCorsOptions();
+    return this.http.get<GetProgressByTaskResponse>(url, options)
+      .pipe(map(response => response.data.tasks))
   }
 
   // TODO: Move to interceptor

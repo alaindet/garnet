@@ -12,7 +12,7 @@ export class CoursesListItemActionsComponent {
 
   @Input() userRole!: UserRole;
 
-  @Output() showStudents = new EventEmitter<void>();
+  @Output() showProgress = new EventEmitter<void>();
   @Output() showBoard = new EventEmitter<void>();
   @Output() editTasks = new EventEmitter<number | string>();
   @Output() editCourse = new EventEmitter<number | string>();

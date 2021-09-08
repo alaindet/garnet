@@ -1,1 +1,30 @@
-<p>progress</p>
+<div class="app-page-header">
+  <app-back-button>Back</app-back-button>
+  <h2>{{ ui.title$ | async }}</h2>
+</div>
+
+<mat-tab-group>
+
+  <!-- Progress by student -->
+  <mat-tab>
+
+    <ng-template mat-tab-label>
+      By Student &nbsp; <mat-icon>school</mat-icon>
+    </ng-template>
+
+    Progress by student component...
+
+  </mat-tab>
+
+  <!-- Progress by task -->
+  <mat-tab>
+
+    <ng-template mat-tab-label>
+      By Task &nbsp; <mat-icon>task_alt</mat-icon>
+    </ng-template>
+
+    Progress by task component...
+
+  </mat-tab>
+
+</mat-tab-group>

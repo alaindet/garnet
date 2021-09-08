@@ -7,7 +7,10 @@ use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Board\Dtos\GetBoardTasksRequest;
 use App\Features\Board\Dtos\GetBoardTasksResponse;
 use App\Features\Board\Dtos\UpdateTaskState;
-use App\Features\Courses\Repositories\CoursesRepository;
+use App\Features\Board\Dtos\GetProgressByStudent;
+use App\Features\Board\Dtos\GetProgressByTask;
+use App\Features\Board\Models\StudentProgress;
+use App\Features\Board\Models\TaskProgress;
 
 class BoardService
 {
@@ -45,13 +48,41 @@ class BoardService
         return $this->tasksRepo->updateStateByIdAndUserId($dto);
     }
 
-    public function getProgressByStudent(string | int $courseId): array
+    public function getProgressByStudent(string | int $courseId): GetProgressByStudent
     {
-        return $this->tasksRepo->getProgressByStudent($courseId);
+        $data = $this->tasksRepo->getProgressByStudent($courseId);
+        $parsedData = [];
+
+        foreach ($data as $item) {
+            $progress = new StudentProgress();
+            $progress->userId = $item['user_id'];
+            $progress->firstName = $item['first_name'];
+            $progress->lastName = $item['last_name'];
+            $progress->tasksToDo = (int) $item['to_do'];
+            $progress->tasksInProgress = (int) $item['in_progress'];
+            $progress->tasksDone = (int) $item['done'];
+            $parsedData[] = $progress;
+        }
+
+        return new GetProgressByStudent(...$parsedData);    
     }
 
-    public function getProgressByTask(string | int $courseId): array
+    public function getProgressByTask(string | int $courseId): GetProgressByTask
     {
-        return $this->tasksRepo->getProgressByTask($courseId);
+        $data = $this->tasksRepo->getProgressByTask($courseId);
+        $parsedData = [];
+
+        foreach ($data as $item) {
+            $progress = new TaskProgress();
+            $progress->taskId = $item['task_id'];
+            $progress->taskName = $item['name'];
+            $progress->taskDescription = $item['description'];
+            $progress->studentsToDo = $item['to_do'];
+            $progress->studentsInProgress = $item['in_progress'];
+            $progress->studentsDone = $item['done'];
+            $parsedData[] = $progress;
+        }
+
+        return new GetProgressByTask(...$parsedData);
     }
 }

@@ -21,3 +21,5 @@
 - [ ] Add API versioning
 - [ ] Invite students to join boards
 - [ ] Invite teachers to join the app
+- [ ] FE: Move HTTP error handling into services
+- [ ] Add numbering to tasks

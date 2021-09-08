@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BoardRoutingModule } from './board.routing.module';
 import { BoardComponentsModule } from './board.components.module';
-import { BoardComponent, TaskComponent } from './components';
+import { BoardComponent } from './components';
 import { TasksService } from './services';
 
 @NgModule({
@@ -14,7 +14,6 @@ import { TasksService } from './services';
   ],
   declarations: [
     BoardComponent,
-    TaskComponent,
   ],
   providers: [
     TasksService,

@@ -47,8 +47,8 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onShowStudents(courseId: string | number): void {
-    this.router.navigate(['/courses', courseId, 'students']);
+  onShowProgress(courseId: string | number): void {
+    this.router.navigate(['/courses', courseId, 'progress']);
   }
 
   onLeaveCourse(courseId: string | number): void {

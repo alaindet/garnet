@@ -1,2 +1,2 @@
-export * from './get-course-progress.response';
-export * from './progress-item';
+export * from './progress-by-student';
+export * from './progress-by-task';

@@ -36,7 +36,7 @@
           <app-list-item-actions
             *ngIf="userInfo.roleId$ | async as userRole"
             [userRole]="userRole"
-            (showStudents)="onShowStudents(course.course_id)"
+            (showProgress)="onShowProgress(course.course_id)"
             (showBoard)="onShowBoard(course.course_id)"
             (editTasks)="onEditTasks(course.course_id)"
             (editCourse)="onEditCourse(course.course_id)"
