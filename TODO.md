@@ -28,3 +28,4 @@
 - [ ] Cache existing course in sessionStorage
 - [ ] Add pull to upload
 - [ ] Teacher should be able to visit a student's board
+- [ ] Centralize cached info (user, selected course)?
