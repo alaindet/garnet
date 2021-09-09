@@ -89,7 +89,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         this.ui.title = `${course.name} - Board`;
         this.ui.breadcrumbs = [
           { label: 'Courses', url: '/courses' },
-          { label: 'Board', url: ['/courses', this.courseId, 'board'] },
+          { label: 'Board', url: ['/board', this.courseId] },
         ];
       });
   }

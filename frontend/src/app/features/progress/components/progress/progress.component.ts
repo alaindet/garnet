@@ -43,7 +43,7 @@ export class ProgressComponent implements OnInit {
         this.ui.title = `${course.name} - Progress`;
         this.ui.breadcrumbs = [
           { label: 'Courses', url: '/courses' },
-          { label: 'Progress', url: ['/courses', this.courseId, 'progress'] },
+          { label: 'Progress', url: ['/progress', this.courseId] },
         ];
       });
   }

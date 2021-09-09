@@ -1,31 +1,15 @@
 - [ ] Add Angular Material components theme for each individual component
 - [ ] Add dark theme and dark theme toggle
-- [ ] Switch to dark theme?
-- [ ] Move theme files to separate files
-- [ ] CORS interceptor on FE
+- [ ] FE: CORS interceptor
 - [ ] Add middleware and roles aliases in backend
 - [ ] Fix style of button with icon
-- [ ] Delete without refetching list
-- [ ] Add role-based guard on FE
-- [ ] Fetch table rows on update and delete to show name field in feedback
-- [ ] JSON output in camelCase
-- [ ] Move task-manager feature up one level
-- [ ] Hide FAB on course page for students
-- [ ] Add global loader on FE
-- [ ] Unify API services on FE
-- [ ] Remove dto from repositories
-- [ ] Add classes to PDO
-- [ ] Remove setTimeout from FAB
-- [ ] Use auth service for FAB
-- [ ] Add loading stack for global loader
-- [ ] Add API versioning
+- [ ] FE: Delete without refetching list
+- [ ] FE: Fetch table rows on update and delete to show name field in feedback
+- [ ] BE: JSON output in camelCase
+- [ ] Remove DTOs from repositories
 - [ ] Invite students to join boards
 - [ ] Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
 - [ ] Add numbering to tasks
-- [ ] Add "Invite students" when on progress page and student is registered yet
-- [ ] Add breadcrumbs instead of titles everywhere
-- [ ] Cache existing course in sessionStorage
 - [ ] Add pull to upload
 - [ ] Teacher should be able to visit a student's board
-- [ ] Centralize cached info (user, selected course)?

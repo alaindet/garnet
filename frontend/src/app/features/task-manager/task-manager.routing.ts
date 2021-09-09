@@ -5,16 +5,16 @@ import { TaskManagerListComponent, TaskFormComponent } from './components';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':courseid/tasks/create',
+    component: TaskFormComponent,
+  },
+  {
+    path: ':courseid/tasks/:taskid',
+    component: TaskFormComponent,
+  },
+  {
+    path: ':courseid',
     component: TaskManagerListComponent,
-  },
-  {
-    path: 'create',
-    component: TaskFormComponent,
-  },
-  {
-    path: ':taskid',
-    component: TaskFormComponent,
   },
 ];
 

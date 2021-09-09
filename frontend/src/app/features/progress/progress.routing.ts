@@ -5,7 +5,7 @@ import { ProgressComponent } from './components';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':courseid',
     component: ProgressComponent,
   },
 ];

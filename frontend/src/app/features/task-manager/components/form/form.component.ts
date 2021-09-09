@@ -85,7 +85,7 @@ export class TaskFormComponent implements OnInit {
       if (formValue?.description) dto.description = formValue.description;
 
       [request, onSuccess] = [this.taskService.updateTask(dto), () => {
-        this.router.navigate(['/courses', this.courseId, 'task-manager']);
+        this.router.navigate(['/task-manager', this.courseId]);
         this.ui.setSuccessToaster(`Task "${this.task?.name}" updated`);
       }];
     }
@@ -99,7 +99,7 @@ export class TaskFormComponent implements OnInit {
       };
 
       [request, onSuccess] = [this.taskService.createTask(dto), () => {
-        this.router.navigate(['/courses', this.courseId, 'task-manager']);
+        this.router.navigate(['/task-manager', this.courseId]);
         this.ui.setSuccessToaster('Task created');
       }];
     }
@@ -122,8 +122,8 @@ export class TaskFormComponent implements OnInit {
     if (isEditing) {
       this.ui.breadcrumbs = [
         { label: 'Courses', url: '/courses' },
-        { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
-        { label: 'Edit', url: ['/courses', this.courseId, 'task-manager', this.taskId] },
+        { label: 'Tasks', url: ['/task-manager', this.courseId] },
+        { label: 'Edit', url: ['/task-manager', this.courseId, 'tasks', this.taskId] },
       ];
       this.submit = 'Edit';
       this.submitIcon = 'edit';
@@ -135,8 +135,8 @@ export class TaskFormComponent implements OnInit {
     this.submitIcon = 'add';
     this.ui.breadcrumbs = [
       { label: 'Courses', url: '/courses' },
-      { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
-      { label: 'Create', url: ['/courses', this.courseId, 'task-manager', 'create'] },
+      { label: 'Tasks', url: ['/task-manager', this.courseId] },
+      { label: 'Create', url: ['/task-manager', this.courseId, 'tasks', 'create'] },
     ];
   }
 

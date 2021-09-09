@@ -3,13 +3,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
-import { AuthModule } from '@app/core/auth';
-import { ToasterComponentModule } from '@app/shared/components/toaster';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { ShouldBeLoggedGuard, ShouldNotBeLoggedGuard, ShouldHaveTeacherRoleGuard, ShouldHaveStudentRoleGuard } from '@app/core/auth';
+import {
+  AuthModule,
+  ShouldBeLoggedGuard,
+  ShouldNotBeLoggedGuard,
+  ShouldHaveTeacherRoleGuard,
+  ShouldHaveStudentRoleGuard } from '@app/core/auth';
 import { MainLayoutComponentModule } from '@app/core/main-layout';
-
+import { ToasterComponentModule } from '@app/shared/components/toaster';
+import { AppRoutingModule } from './app.routing';
+import { AppComponent } from './app.component';
 @NgModule({
   declarations: [
     AppComponent

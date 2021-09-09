@@ -53,19 +53,19 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   onShowProgress(courseId: string | number): void {
     this.fetchAndCacheSelectedCourse(courseId, () => {
-      this.router.navigate(['/courses', courseId, 'progress']);
+      this.router.navigate(['/progress', courseId]);
     });
   }
 
   onShowBoard(courseId: string | number): void {
     this.fetchAndCacheSelectedCourse(courseId, () => {
-      this.router.navigate(['/courses', courseId, 'board']);
+      this.router.navigate(['/board', courseId]);
     });
   }
 
   onEditTasks(courseId: string | number): void {
     this.fetchAndCacheSelectedCourse(courseId, () => {
-      this.router.navigate(['/courses', courseId, 'task-manager']);
+      this.router.navigate(['/task-manager', courseId]);
     });
   }
 

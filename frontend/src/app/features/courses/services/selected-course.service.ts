@@ -31,7 +31,7 @@ export class SelectedCourseService {
     this.localStorageService.register(key, this.parser);
     const initialValue = this.localStorageService.fetchItem<Course>(key);
     this._course$ = new BehaviorSubject<Course | null>(initialValue);
-    this.course$ = this._course$.asObservable().pipe(share());
+    this.course$ = this._course$.asObservable();
   }
 
   private parser(rawCourse: string | null): Course | null {

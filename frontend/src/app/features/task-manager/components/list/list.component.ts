@@ -50,9 +50,6 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
-    this.ui.fab = null;
-
     for (const sub of Object.values(this.subs)) {
       sub.unsubscribe();
     }
@@ -60,7 +57,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
 
   onCreateTask(): void {
     const courseId = this.course?.course_id;
-    this.router.navigate(['/courses', courseId, 'task-manager', 'create']);
+    this.router.navigate(['/task-manager', courseId, 'tasks', 'create']);
   }
 
   onEditTask(index: number): void {
@@ -71,7 +68,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
 
     const courseId = this.courseId;
     const taskId = this.tasks[index].task_id;
-    this.router.navigate(['/courses', courseId, 'task-manager', taskId]);
+    this.router.navigate(['/task-manager', courseId, 'tasks', taskId]);
   }
 
   onDeleteTask(index: number): void {
@@ -133,7 +130,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
         this.ui.title = `${course.name} - Tasks`;
         this.ui.breadcrumbs = [
           { label: 'Courses', url: '/courses' },
-          { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
+          { label: 'Tasks', url: ['/task-manager', this.courseId] },
         ];
       });
   }
