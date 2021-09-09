@@ -23,4 +23,5 @@
 - [ ] Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
 - [ ] Add numbering to tasks
-- [ ] FE: Truncate pipe
+- [ ] Use breadcrumbs instead of titles
+- [ ] use RxJS share operator on UiService

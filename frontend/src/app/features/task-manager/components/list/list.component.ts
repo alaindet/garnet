@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
@@ -19,24 +19,23 @@ import { TaskManagerAction } from '../../actions';
 export class TaskManagerListComponent implements OnInit, OnDestroy {
 
   courseId!: number | string;
-  course?: Course;
-  tasks?: Task[];
-  isLoading = true;
+  course!: Course;
+  tasks!: Task[];
 
   private subs: { [sub: string]: Subscription } = {};
 
   constructor(
+    public ui: UiService,
     private tasksService: TaskManagerService,
     private coursesService: CoursesService,
     private route: ActivatedRoute,
-    private ui: UiService,
     private router: Router,
     private matDialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
-    this.ui.title = 'Tasks';
     this.courseId = this.route.snapshot.params['courseid'];
+    this.fetchCourse();
     this.fetchTasks();
     this.manageFab();
   }
@@ -103,7 +102,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
           return;
         }
 
-        this.isLoading = true;
+        this.ui.loading = true;
 
         const dto = {
           courseId: this.courseId,
@@ -111,7 +110,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
         };
 
         this.tasksService.deleteTask(dto)
-          .pipe(finalize(() => this.isLoading = false))
+          .pipe(finalize(() => this.ui.loading = false))
           .subscribe({
             error: err => this.ui.setErrorToaster(err.error.error.message),
             next: () => {
@@ -126,22 +125,23 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
       });
   }
 
+  private fetchCourse(): void {
+    this.ui.loading = true;
+    this.coursesService.getOneCourse(this.courseId)
+      .pipe(finalize(() => this.ui.loading = false))
+      .subscribe(course => {
+        this.course = course;
+        this.ui.title = `${course.name} - Tasks`;
+      });
+  }
+
   private fetchTasks(): void {
-
-    this.isLoading = true;
-
-    forkJoin([
-      this.coursesService.getOneCourse(this.courseId),
-      this.tasksService.getTasksByCourseId(this.courseId),
-    ])
-      .pipe(finalize(() => this.isLoading = false))
+    this.ui.loading = true;
+    this.tasksService.getTasksByCourseId(this.courseId)
+      .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
-        next: ([course, tasks]) => {
-          this.course = course;
-          this.tasks = tasks;
-          this.ui.title = `Tasks of course "${course.name}"`;
-        },
+        next: tasks => this.tasks = tasks,
       });
   }
 }

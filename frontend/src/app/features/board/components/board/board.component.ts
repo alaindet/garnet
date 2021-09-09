@@ -74,11 +74,9 @@ export class BoardComponent implements OnInit {
   }
 
   private fetchCourse(): void {
-
     this.ui.loading = true;
-
     this.coursesService.getOneCourse(this.courseId)
-      .pipe(tap(() => this.ui.loading = false))
+      .pipe(finalize(() => this.ui.loading = false))
       .subscribe(course => {
         this.course = course;
         this.ui.title = `${course.name} - Board`;

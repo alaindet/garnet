@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map, share } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { ToasterService } from '@app/shared/components/toaster';
@@ -19,14 +19,17 @@ export class UiService {
   private _isSidebarOpen$ = new BehaviorSubject<boolean>(false);
   private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
   private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
-  private _loading$ = new BehaviorSubject<boolean>(false);
+  private _loading$ = new BehaviorSubject<number>(0);
+  private loadingStack: number[] = [];
 
   title$ = this._title$.asObservable();
   isNavbarSticky$!: Observable<boolean>;
   isSidebarOpen$ = this._isSidebarOpen$.asObservable();
   fab$ = this._fab$.asObservable();
   fabClicked$ = this._fabClicked$.asObservable();
-  loading$ = this._loading$.asObservable();
+  loading$ = this._loading$
+    .asObservable()
+    .pipe(share(), map(counter => counter > 0), distinctUntilChanged());
 
   constructor(
     private titleService: Title,
@@ -73,7 +76,9 @@ export class UiService {
   }
 
   set loading(loading: boolean) {
-    this._loading$.next(loading);
+    const prevValue = this._loading$.getValue();
+    const nextValue = prevValue + (loading ? 1 : -1);
+    this._loading$.next(nextValue);
   }
 
   private computeIsNavbarSticky(): any {

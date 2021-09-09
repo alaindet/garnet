@@ -1,8 +1,8 @@
-<ng-container *ngIf="!isLoading; else loadingRef">
+<ng-container *ngIf="!(ui.loading$ | async); else loadingRef">
 
   <div class="app-page-header">
     <app-back-button to="/courses">Courses</app-back-button>
-    <h2>Tasks of course "{{ course?.name }}"</h2>
+    <h2>{{ ui.title$ | async }}</h2>
   </div>
 
   <div

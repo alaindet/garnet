@@ -111,7 +111,6 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   }
 
   private fetchCourses(): void {
-
     this.ui.loading = true;
     this.coursesService.getAllCourses()
       .pipe(finalize(() => this.ui.loading = false))

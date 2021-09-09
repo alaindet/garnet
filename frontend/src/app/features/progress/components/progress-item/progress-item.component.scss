@@ -40,6 +40,8 @@ $bars-height: 20px;
 .-right {
   flex-grow: 1;
   margin-left: 1rem;
+  position: relative;
+  top: -7px;
 }
 
 .-title {
@@ -57,7 +59,7 @@ $bars-height: 20px;
 .-bar {
   height: 100%;
   text-align: center;
-  font-weight: 700;
+  font-weight: 600;
   padding: 1px 0;
 }
 

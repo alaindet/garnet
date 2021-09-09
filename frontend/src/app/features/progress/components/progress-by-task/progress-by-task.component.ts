@@ -22,7 +22,6 @@ export class ProgressByTaskComponent {
   ) { }
 
   ngOnInit(): void {
-    this.ui.title = '_COURSE_NAME_ - Progress by _FEATURE_';
     this.fetchProgressByTask();
   }
 

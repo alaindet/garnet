@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize, tap } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
+import { CoursesService } from '@app/features/courses/services';
+import { Course } from '@app/features/courses/types';
 import { ProgressService } from '../../services';
 
 @Component({
@@ -12,6 +14,7 @@ import { ProgressService } from '../../services';
 export class ProgressComponent implements OnInit {
 
   courseId!: string | number;
+  course!: Course;
   tabIndex = 0;
   tabsLoaded = [true, false];
 
@@ -19,19 +22,28 @@ export class ProgressComponent implements OnInit {
     public ui: UiService,
     private route: ActivatedRoute,
     private progressService: ProgressService,
+    private coursesService: CoursesService,
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
-
-    // TODO: Remove
-    this.ui.title = '_COURSE_NAME_ - Progress by _FEATURE_';
+    this.fetchCourse();
     this.fetchProgressByTask();
   }
 
   onTabChange(tabIndex: number): void {
     this.tabIndex = tabIndex;
     this.tabsLoaded[tabIndex] = true;
+  }
+
+  private fetchCourse(): void {
+    this.ui.loading = true;
+    this.coursesService.getOneCourse(this.courseId)
+      .pipe(finalize(() => this.ui.loading = false))
+      .subscribe(course => {
+        this.course = course;
+        this.ui.title = `${course.name} - Progress`;
+      });
   }
 
   private fetchProgressByTask(): void {
