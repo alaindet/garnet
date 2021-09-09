@@ -40,6 +40,16 @@ a {
   align-items: center;
   position: relative;
   top: -1px;
+  cursor: pointer;
+  transition: 0.15s color ease-out;
+
+  &:hover {
+    color: app-store('color.theme.primary.600');
+
+    mat-icon {
+      color: app-store('color.theme.primary.600');
+    }
+  }
 
   mat-icon {
     margin-right: 8px;
@@ -48,14 +58,19 @@ a {
     transform-origin: top center;
     cursor: pointer;
     transition: 0.15s color ease-out;
-
-    &:hover {
-      color: app-store('color.theme.primary.600');
-    }
   }
 }
 
 .--active {
-  // color: app-store('color.theme.primary.900');
   font-weight: 800;
+}
+
+@media screen and (max-width: 600px) {
+  li {
+    margin: 0 0.1em;
+
+    &::before {
+      margin: 0 0.25rem;
+    }
+  }
 }

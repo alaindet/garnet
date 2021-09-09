@@ -5,8 +5,11 @@ import { distinctUntilChanged, map, share } from 'rxjs/operators';
 
 import { environment } from '@environment/environment';
 import { ToasterService } from '@app/shared/components/toaster';
+import { Breadcrumb } from '@app/shared/components/breadcrumbs';
 import { isNavbarSticky } from '../functions';
 import { ScrollingDirection, FabConfiguration } from '../types';
+
+const INITIAL_BREADCRUMBS: Breadcrumb[] = [{ label: 'Home', url: '/' }];
 
 @Injectable({
   providedIn: 'root',
@@ -20,13 +23,14 @@ export class UiService {
   private _fab$ = new BehaviorSubject<FabConfiguration | null>(null);
   private _fabClicked$ = new Subject<FabConfiguration['actionName']>();
   private _loading$ = new BehaviorSubject<number>(0);
-  private loadingStack: number[] = [];
+  private _breadcrumbs$ = new BehaviorSubject<Breadcrumb[]>(INITIAL_BREADCRUMBS);
 
-  title$ = this._title$.asObservable();
+  title$ = this._title$.asObservable().pipe(share());
   isNavbarSticky$!: Observable<boolean>;
-  isSidebarOpen$ = this._isSidebarOpen$.asObservable();
-  fab$ = this._fab$.asObservable();
-  fabClicked$ = this._fabClicked$.asObservable();
+  isSidebarOpen$ = this._isSidebarOpen$.asObservable().pipe(share());
+  fab$ = this._fab$.asObservable().pipe(share());
+  fabClicked$ = this._fabClicked$.asObservable().pipe(share());
+  breadcrumbs$ = this._breadcrumbs$.asObservable().pipe(share());
   loading$ = this._loading$
     .asObservable()
     .pipe(share(), map(counter => counter > 0), distinctUntilChanged());
@@ -73,6 +77,10 @@ export class UiService {
 
   set fab(config: FabConfiguration | null) {
     this._fab$.next(config);
+  }
+
+  set breadcrumbs(breadcrumbs: Breadcrumb[]) {
+    this._breadcrumbs$.next(breadcrumbs);
   }
 
   set loading(loading: boolean) {

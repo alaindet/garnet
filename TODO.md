@@ -23,5 +23,5 @@
 - [ ] Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
 - [ ] Add numbering to tasks
-- [ ] Use breadcrumbs instead of titles
-- [ ] use RxJS share operator on UiService
+- [ ] Add "Invite students" when on progress page and student is registered yet
+- [ ] Add breadcrumbs instead of titles everywhere

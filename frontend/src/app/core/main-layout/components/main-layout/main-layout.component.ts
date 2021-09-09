@@ -22,7 +22,6 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
 
   appName = environment.appName;
   fab$!: Observable<FabConfiguration | null>;
-  loading$!: Observable<boolean>;
 
   private subs: { [sub: string]: Subscription } = {};
 
@@ -37,7 +36,6 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
   ngOnInit(): void {
     this.observeLockedScrolling();
     this.observeRouterEvents();
-    this.observeUiUpdates();
   }
 
   ngAfterViewInit(): void {
@@ -48,13 +46,6 @@ export class MainLayoutComponent implements AfterViewInit, OnInit, OnDestroy {
     for (const sub of Object.values(this.subs)) {
       sub.unsubscribe();
     }
-  }
-
-  private observeUiUpdates(): void {
-    this.fab$ = this.ui.fab$;
-    this.loading$ = this.ui.loading$;
-    this.subs.uiUpdate = combineLatest([this.fab$, this.loading$])
-      .subscribe(() => this.cdr.detectChanges());
   }
 
   private observeLockedScrolling(): void {

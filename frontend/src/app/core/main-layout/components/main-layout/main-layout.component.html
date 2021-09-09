@@ -2,8 +2,23 @@
   [title]="appName"
 ></app-navbar>
 
+<app-breadcrumbs
+  [items]="(ui.breadcrumbs$ | async) || []"
+></app-breadcrumbs>
+
+<main #routerOutletRef class="app-container --viewport-height">
+  <router-outlet></router-outlet>
+</main>
+
+<ng-container *ngIf="((ui.fab$ | async) || null) as fab">
+  <app-fab
+    [icon]="fab?.icon"
+    (click)="ui.clickFab(fab.actionName)"
+  ></app-fab>
+</ng-container>
+
 <mat-progress-bar
-  *ngIf="loading$ | async"
+  *ngIf="!!(ui.loading$ | async)"
   mode="indeterminate"
   color="accent"
   class="app-override-progress-bar -progress-bar"
@@ -13,23 +28,3 @@
   [open]="!!(ui.isSidebarOpen$ | async)"
   (dismissed)="ui.isSidebarOpen = false"
 ></app-sidebar>
-
-<app-breadcrumbs
-  [items]="[
-    { label: 'Home', url: '/' },
-    { label: 'Courses', url: '/courses' },
-    { label: 'Board', url: '/courses/1/task-manager' }
-  ]"
-></app-breadcrumbs>
-
-<main #routerOutletRef class="app-container --viewport-height">
-  <router-outlet></router-outlet>
-</main>
-
-<!-- FAB -->
-<ng-container *ngIf="fab$ | async as fab">
-  <app-fab
-    [icon]="fab?.icon"
-    (click)="ui.clickFab(fab.actionName)"
-  ></app-fab>
-</ng-container>

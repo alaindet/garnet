@@ -45,6 +45,10 @@ export class CourseFormComponent implements OnInit {
 
     if (this.isEditing) {
       this.ui.title = 'Edit course';
+      this.ui.breadcrumbs = [
+        { label: 'Courses', url: '/courses' },
+        { label: 'Edit course' },
+      ];
       this.title = 'Edit course';
       this.submit = 'Edit';
       this.submitIcon = 'edit';
@@ -65,6 +69,10 @@ export class CourseFormComponent implements OnInit {
     }
 
     this.ui.title = 'Create course';
+    this.ui.breadcrumbs = [
+      { label: 'Courses', url: '/courses' },
+      { label: 'Create course' },
+    ];
     this.title = 'Create course';
     this.submit = 'Create';
     this.submitIcon = 'add';

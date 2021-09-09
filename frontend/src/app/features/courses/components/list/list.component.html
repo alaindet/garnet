@@ -1,8 +1,3 @@
-<div class="app-page-header">
-  <h2>Courses</h2>
-</div>
-
-<!-- Courses list -->
 <ng-container *ngIf="!(ui.loading$ | async); else loadingRef">
   <div
     *ngIf="courses?.length; else noCoursesRef"

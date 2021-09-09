@@ -34,6 +34,9 @@ export class CoursesListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.ui.title = 'Courses';
+    this.ui.breadcrumbs = [
+      { label: 'Courses', url: '/courses' },
+    ];
     this.fetchCourses();
     this.manageFab();
   }
