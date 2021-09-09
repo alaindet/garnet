@@ -1,13 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { animationFrameScheduler, Subscription } from 'rxjs';
 import { finalize, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop, CdkDragStart, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { UiService } from '@app/core/main-layout/services';
-import { CoursesService } from '@app/features/courses/services';
+import { SelectedCourseService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
-import { followDraggedItem } from '@app/shared/utils';
+import { appFollowDraggedItem } from '@app/shared/utils';
 import { TasksService } from '../../services';
 import { BoardTask, BoardState, TaskState } from '../../types';
 
@@ -15,7 +15,7 @@ import { BoardTask, BoardState, TaskState } from '../../types';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
 
   @ViewChild('boardColumnsRef', { static: true })
   boardColumnsRef!: ElementRef;
@@ -29,17 +29,25 @@ export class BoardComponent implements OnInit {
     [TaskState.Done]: [],
   };
 
+  private subs: { [sub: string]: Subscription } = {};
+
   constructor(
     public ui: UiService,
     private route: ActivatedRoute,
     private tasksService: TasksService,
-    private coursesService: CoursesService,
+    private selectedCourseService: SelectedCourseService,
   ) {}
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
     this.fetchCourse();
     this.fetchTasks();
+  }
+
+  ngOnDestroy(): void {
+    for (const sub of Object.values(this.subs)) {
+      sub.unsubscribe();
+    }
   }
 
   onDropTask(event: CdkDragDrop<TaskState>): void {
@@ -74,12 +82,15 @@ export class BoardComponent implements OnInit {
   }
 
   private fetchCourse(): void {
-    this.ui.loading = true;
-    this.coursesService.getOneCourse(this.courseId)
-      .pipe(finalize(() => this.ui.loading = false))
+    this.subs.course = this.selectedCourseService.course$
       .subscribe(course => {
+        if (!course) return;
         this.course = course;
         this.ui.title = `${course.name} - Board`;
+        this.ui.breadcrumbs = [
+          { label: 'Courses', url: '/courses' },
+          { label: 'Board', url: ['/courses', this.courseId, 'board'] },
+        ];
       });
   }
 
@@ -122,7 +133,7 @@ export class BoardComponent implements OnInit {
 
     this.dragSub = event.source.moved
       .pipe(throttleTime(0, animationFrameScheduler))
-      .subscribe(followDraggedItem(board, leftThreshold, rightThreshold));
+      .subscribe(appFollowDraggedItem(board, leftThreshold, rightThreshold));
   }
 
   onDragStop(event: CdkDragDrop<any>): void {

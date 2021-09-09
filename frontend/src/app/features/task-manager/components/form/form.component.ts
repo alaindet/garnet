@@ -6,6 +6,7 @@ import { finalize } from 'rxjs/operators';
 
 import { UiService } from '@app/core/main-layout/services';
 import { Task } from '@app/shared/types';
+import { SelectedCourseService } from '@app/features/courses/services';
 import { TaskManagerService } from '../../services';
 import { TaskFormValue, CreateTaskRequest, UpdateTaskRequest } from '../../types';
 
@@ -18,17 +19,17 @@ export class TaskFormComponent implements OnInit {
   isLoading = false;
   courseId!: string | number;
   taskId?: string | number;
-  title!: string;
   submit!: string;
   submitIcon!: string;
   taskForm!: FormGroup;
   task?: Task;
 
   constructor(
-    private ui: UiService,
+    public ui: UiService,
     private taskService: TaskManagerService,
     private router: Router,
     private route: ActivatedRoute,
+    private course: SelectedCourseService,
   ) {}
 
   get name(): FormControl {
@@ -53,6 +54,11 @@ export class TaskFormComponent implements OnInit {
 
     this.updateUiByAction(isEditing);
     this.initForm();
+    this.course.course$.subscribe(course => {
+      if (course) {
+        this.ui.title = course.name;
+      }
+    });
   }
 
   onSubmit(): void {
@@ -114,18 +120,24 @@ export class TaskFormComponent implements OnInit {
   private updateUiByAction(isEditing: boolean): void {
 
     if (isEditing) {
-      this.ui.title = 'Edit task';
-      this.title = 'Edit task';
+      this.ui.breadcrumbs = [
+        { label: 'Courses', url: '/courses' },
+        { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
+        { label: 'Edit', url: ['/courses', this.courseId, 'task-manager', this.taskId] },
+      ];
       this.submit = 'Edit';
       this.submitIcon = 'edit';
       this.isLoading = true;
       return;
     }
 
-    this.ui.title = 'Create task';
-    this.title = 'Create task';
     this.submit = 'Create';
     this.submitIcon = 'add';
+    this.ui.breadcrumbs = [
+      { label: 'Courses', url: '/courses' },
+      { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
+      { label: 'Create', url: ['/courses', this.courseId, 'task-manager', 'create'] },
+    ];
   }
 
   private fetchExistingTask(courseId: string | number, taskId: string | number): void {

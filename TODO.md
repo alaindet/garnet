@@ -25,3 +25,4 @@
 - [ ] Add numbering to tasks
 - [ ] Add "Invite students" when on progress page and student is registered yet
 - [ ] Add breadcrumbs instead of titles everywhere
+- [ ] Cache existing course in sessionStorage

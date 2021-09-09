@@ -1,4 +1,4 @@
-export const asNumber = (value: string | number | null): number => {
+export const appAsNumber = (value: string | number | null): number => {
   switch (typeof value) {
     case 'string':
       return parseInt(value);

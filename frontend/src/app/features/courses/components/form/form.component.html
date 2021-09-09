@@ -43,7 +43,7 @@
         <button
           mat-flat-button
           color="primary"
-          [disabled]="isLoading"
+          [disabled]="!!(ui.loading$ | async)"
           (click)="onSubmit()"
         >
           {{ submit }}

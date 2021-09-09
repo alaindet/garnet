@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { finalize, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { UiService } from '@app/core/main-layout/services';
-import { CoursesService } from '@app/features/courses/services';
+import { SelectedCourseService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
 
 @Component({
@@ -17,10 +17,12 @@ export class ProgressComponent implements OnInit {
   tabIndex = 0;
   tabsLoaded = [true, false];
 
+  private subs: { [sub: string]: Subscription } = {};
+
   constructor(
     public ui: UiService,
     private route: ActivatedRoute,
-    private coursesService: CoursesService,
+    private selectedCourseService: SelectedCourseService,
   ) {}
 
   ngOnInit(): void {
@@ -34,12 +36,15 @@ export class ProgressComponent implements OnInit {
   }
 
   private fetchCourse(): void {
-    this.ui.loading = true;
-    this.coursesService.getOneCourse(this.courseId)
-      .pipe(finalize(() => this.ui.loading = false))
+    this.subs.course = this.selectedCourseService.course$
       .subscribe(course => {
+        if (!course) return;
         this.course = course;
         this.ui.title = `${course.name} - Progress`;
+        this.ui.breadcrumbs = [
+          { label: 'Courses', url: '/courses' },
+          { label: 'Progress', url: ['/courses', this.courseId, 'progress'] },
+        ];
       });
   }
 }

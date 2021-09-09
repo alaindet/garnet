@@ -3,7 +3,7 @@ import jwt_decode from 'jwt-decode';
 
 import { environment } from '@environment/environment';
 import { LocalStorageService } from '@app/core/services';
-import { asNumber } from '@app/shared/utils';
+import { appAsNumber } from '@app/shared/utils';
 import { JwtDecodedInfo } from '../types';
 import { UserInfoService } from './user-info.service';
 
@@ -50,7 +50,7 @@ export class JwtService {
       return true;
     }
 
-    const expiration = asNumber(info.exp) * 1000;
+    const expiration = appAsNumber(info.exp) * 1000;
     const now = Date.now();
 
     return now >= expiration;

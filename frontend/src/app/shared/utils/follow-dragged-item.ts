@@ -1,6 +1,6 @@
 import { CdkDragMove } from '@angular/cdk/drag-drop';
 
-export const followDraggedItem = (
+export const appFollowDraggedItem = (
   elementToScroll: HTMLElement,
   leftThreshold: number,
   rightThreshold: number

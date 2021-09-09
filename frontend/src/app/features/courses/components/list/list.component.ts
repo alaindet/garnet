@@ -8,7 +8,7 @@ import { UserInfoService } from '@app/core/auth/services/user-info.service';
 import { UiService } from '@app/core/main-layout/services';
 import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
 import { ConfirmDeleteDialogConfig } from '@app/shared/types';
-import { CoursesService } from '../../services';
+import { CoursesService, SelectedCourseService } from '../../services';
 import { Course } from '../../types';
 import { CoursesAction } from '../../actions';
 import { UserRole } from '@app/core/auth/types';
@@ -28,6 +28,7 @@ export class CoursesListComponent implements OnInit, OnDestroy {
     public userInfo: UserInfoService,
     public ui: UiService,
     private coursesService: CoursesService,
+    private selectedCourseService: SelectedCourseService,
     private router: Router,
     private matDialog: MatDialog,
   ) {}
@@ -51,24 +52,33 @@ export class CoursesListComponent implements OnInit, OnDestroy {
   }
 
   onShowProgress(courseId: string | number): void {
-    this.router.navigate(['/courses', courseId, 'progress']);
+    this.fetchAndCacheSelectedCourse(courseId, () => {
+      this.router.navigate(['/courses', courseId, 'progress']);
+    });
+  }
+
+  onShowBoard(courseId: string | number): void {
+    this.fetchAndCacheSelectedCourse(courseId, () => {
+      this.router.navigate(['/courses', courseId, 'board']);
+    });
+  }
+
+  onEditTasks(courseId: string | number): void {
+    this.fetchAndCacheSelectedCourse(courseId, () => {
+      this.router.navigate(['/courses', courseId, 'task-manager']);
+    });
+  }
+
+  onEditCourse(courseId: string | number): void {
+    this.fetchAndCacheSelectedCourse(courseId, () => {
+      this.router.navigate(['/courses', courseId]);
+    });
+
   }
 
   onLeaveCourse(courseId: string | number): void {
     console.log('onLeaveCourse', courseId);
     // ...
-  }
-
-  onShowBoard(courseId: string | number): void {
-    this.router.navigate(['/courses', courseId, 'board']);
-  }
-
-  onEditTasks(courseId: string | number): void {
-    this.router.navigate(['/courses', courseId, 'task-manager']);
-  }
-
-  onEditCourse(courseId: string | number): void {
-    this.router.navigate(['/courses', courseId]);
   }
 
   onCreateCourse(action: string): void {
@@ -120,6 +130,22 @@ export class CoursesListComponent implements OnInit, OnDestroy {
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
         next: courses => this.courses = courses,
+      });
+  }
+
+  private fetchAndCacheSelectedCourse(
+    courseId: string | number,
+    onSuccess: () => void,
+  ): void {
+    this.ui.loading = true;
+    this.coursesService.getOneCourse(courseId)
+      .pipe(finalize(() => {
+        onSuccess();
+        this.ui.loading = false;
+      }))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.error.message),
+        next: course => this.selectedCourseService.course = course,
       });
   }
 

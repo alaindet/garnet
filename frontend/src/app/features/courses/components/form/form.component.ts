@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,24 +7,25 @@ import { finalize } from 'rxjs/operators';
 import { UiService } from '@app/core/main-layout/services';
 import { CoursesService } from '../../services';
 import { Course, CreateCourseRequest, UpdateCourseRequest, CourseFormValue } from '../../types';
-import { CoursesAction } from '../../actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class CourseFormComponent implements OnInit {
+export class CourseFormComponent implements OnInit, OnDestroy {
 
   isLoading = false;
-  title!: string;
   submit!: string;
   submitIcon!: string;
   isEditing = false;
   existingCourse?: Course;
   courseForm!: FormGroup;
 
+  private subs: { [sub: string]: Subscription } = {};
+
   constructor(
-    private ui: UiService,
+    public ui: UiService,
     private coursesService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
@@ -47,36 +48,30 @@ export class CourseFormComponent implements OnInit {
       this.ui.title = 'Edit course';
       this.ui.breadcrumbs = [
         { label: 'Courses', url: '/courses' },
-        { label: 'Edit course' },
+        { label: 'Edit', url: ['/courses', courseId] },
       ];
-      this.title = 'Edit course';
       this.submit = 'Edit';
       this.submitIcon = 'edit';
-      this.isLoading = true;
-      this.coursesService.getOneCourse(courseId)
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe({
-          error: err => this.ui.setErrorToaster(err.error.error.message),
-          next: course => {
-            this.existingCourse = course;
-            this.initForm({
-              name: course.name,
-              description: course?.description ?? null,
-            });
-          },
-        });
+      this.ui.loading = true;
+      this.fetchCourse(courseId);
       return;
     }
 
     this.ui.title = 'Create course';
     this.ui.breadcrumbs = [
       { label: 'Courses', url: '/courses' },
-      { label: 'Create course' },
+      { label: 'Create', url: '/courses/create' },
     ];
-    this.title = 'Create course';
     this.submit = 'Create';
     this.submitIcon = 'add';
     this.initForm();
+    this.subs.loading = this.ui.loading$.subscribe(isLoading => this.isLoading);
+  }
+
+  ngOnDestroy(): void {
+    for (const sub of Object.values(this.subs)) {
+      sub.unsubscribe();
+    }
   }
 
   onSubmit(): void {
@@ -85,7 +80,7 @@ export class CourseFormComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
+    this.ui.loading = true;
     this.courseForm.disable();
     const formValue = this.courseForm.value;
 
@@ -115,7 +110,7 @@ export class CourseFormComponent implements OnInit {
 
     request
       .pipe(finalize(() => {
-        this.isLoading = false;
+        this.ui.loading = false;
         this.courseForm.enable();
       }))
       .subscribe({
@@ -124,6 +119,22 @@ export class CourseFormComponent implements OnInit {
         },
         next: onSuccess,
       });
+  }
+
+  private fetchCourse(courseId: string | number): void {
+    this.ui.loading = true;
+      this.coursesService.getOneCourse(courseId)
+        .pipe(finalize(() => this.ui.loading = false))
+        .subscribe({
+          error: err => this.ui.setErrorToaster(err.error.error.message),
+          next: course => {
+            this.existingCourse = course;
+            this.initForm({
+              name: course.name,
+              description: course?.description ?? null,
+            });
+          },
+        });
   }
 
   private initForm(data?: CourseFormValue): void {

@@ -1,13 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { forkJoin, Subscription } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 import { UiService } from '@app/core/main-layout/services';
 import { ConfirmDeleteComponent } from '@app/shared/components/confirm-delete';
 import { ConfirmDeleteDialogConfig, Task } from '@app/shared/types';
-import { CoursesService } from '@app/features/courses/services';
+import { SelectedCourseService } from '@app/features/courses/services';
 import { Course } from '@app/features/courses/types';
 import { TaskManagerService } from '../../services';
 import { TaskManagerAction } from '../../actions';
@@ -27,7 +27,7 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
   constructor(
     public ui: UiService,
     private tasksService: TaskManagerService,
-    private coursesService: CoursesService,
+    private selectedCourseService: SelectedCourseService,
     private route: ActivatedRoute,
     private router: Router,
     private matDialog: MatDialog,
@@ -126,12 +126,15 @@ export class TaskManagerListComponent implements OnInit, OnDestroy {
   }
 
   private fetchCourse(): void {
-    this.ui.loading = true;
-    this.coursesService.getOneCourse(this.courseId)
-      .pipe(finalize(() => this.ui.loading = false))
+    this.subs.course = this.selectedCourseService.course$
       .subscribe(course => {
+        if (!course) return;
         this.course = course;
         this.ui.title = `${course.name} - Tasks`;
+        this.ui.breadcrumbs = [
+          { label: 'Courses', url: '/courses' },
+          { label: 'Tasks', url: ['/courses', this.courseId, 'task-manager'] },
+        ];
       });
   }
 

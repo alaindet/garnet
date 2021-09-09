@@ -1,11 +1,8 @@
-<main class="app-container-narrow">
+<div class="app-page-header">
+  <h2>{{ ui.title$ | async }}</h2>
+</div>
 
-  <div class="app-page-header">
-    <app-back-button to="/courses/{{ courseId }}/task-manager">
-      Tasks
-    </app-back-button>
-    <h2>{{ title }}</h2>
-  </div>
+<main class="app-container-narrow">
 
   <mat-card>
     <ng-container *ngIf="taskForm; else loadingTaskRef">

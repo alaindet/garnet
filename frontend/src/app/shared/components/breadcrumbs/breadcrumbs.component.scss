@@ -16,6 +16,7 @@ ol {
 
 li {
   margin: 0 0.25em;
+  color: app-store('color.theme.accent.700');
 
   &::before {
     content: '/';
