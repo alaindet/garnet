@@ -3,7 +3,7 @@
 ></app-navbar>
 
 <app-breadcrumbs
-  [items]="(ui.breadcrumbs$ | async) || []"
+  [items]="uiBreadcrumbs"
   class="app-mb3"
 ></app-breadcrumbs>
 
@@ -11,21 +11,21 @@
   <router-outlet></router-outlet>
 </main>
 
-<ng-container *ngIf="((ui.fab$ | async) || null) as fab">
+<ng-container *ngIf="uiFab">
   <app-fab
-    [icon]="fab?.icon"
-    (click)="ui.clickFab(fab.actionName)"
+    [icon]="uiFab?.icon"
+    (click)="onFabClicked()"
   ></app-fab>
 </ng-container>
 
 <mat-progress-bar
-  *ngIf="!!(ui.loading$ | async)"
+  *ngIf="uiLoading"
   mode="indeterminate"
   color="accent"
   class="app-override-progress-bar -progress-bar"
 ></mat-progress-bar>
 
 <app-sidebar
-  [open]="!!(ui.isSidebarOpen$ | async)"
-  (dismissed)="ui.isSidebarOpen = false"
+  [open]="uiIsSidebarOpen"
+  (dismissed)="onDismissSidebar()"
 ></app-sidebar>

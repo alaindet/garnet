@@ -52,7 +52,6 @@ export class CourseFormComponent implements OnInit, OnDestroy {
       ];
       this.submit = 'Edit';
       this.submitIcon = 'edit';
-      this.ui.loading = true;
       this.fetchCourse(courseId);
       return;
     }
@@ -123,18 +122,18 @@ export class CourseFormComponent implements OnInit, OnDestroy {
 
   private fetchCourse(courseId: string | number): void {
     this.ui.loading = true;
-      this.coursesService.getOneCourse(courseId)
-        .pipe(finalize(() => this.ui.loading = false))
-        .subscribe({
-          error: err => this.ui.setErrorToaster(err.error.error.message),
-          next: course => {
-            this.existingCourse = course;
-            this.initForm({
-              name: course.name,
-              description: course?.description ?? null,
-            });
-          },
-        });
+    this.coursesService.getOneCourse(courseId)
+      .pipe(finalize(() => this.ui.loading = false))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.error.message),
+        next: course => {
+          this.existingCourse = course;
+          this.initForm({
+            name: course.name,
+            description: course?.description ?? null,
+          });
+        },
+      });
   }
 
   private initForm(data?: CourseFormValue): void {

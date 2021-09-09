@@ -89,6 +89,10 @@ export class UiService {
     this._loading$.next(nextValue);
   }
 
+  clearLoading(): void {
+    this._loading$.next(0);
+  }
+
   private computeIsNavbarSticky(): any {
     return combineLatest([
       this._isDummyNavbarVisible$,

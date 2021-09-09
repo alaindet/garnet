@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { UiService } from '../../services';
 
@@ -8,11 +8,11 @@ import { UiService } from '../../services';
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements AfterViewInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   @Input() title!: string;
 
-  @ViewChild('staticDummyRef')
+  @ViewChild('staticDummyRef', { static: true })
   staticDummyRef!: ElementRef;
 
   private observer?: IntersectionObserver;
@@ -21,7 +21,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     public ui: UiService,
   ) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.detachStickyNavbarOnScroll();
   }
 
