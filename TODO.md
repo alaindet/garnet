@@ -27,3 +27,4 @@
 - [ ] Add breadcrumbs instead of titles everywhere
 - [ ] Cache existing course in sessionStorage
 - [ ] Add pull to upload
+- [ ] Teacher should be able to visit a student's board
