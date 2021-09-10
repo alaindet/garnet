@@ -21,6 +21,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   boardColumnsRef!: ElementRef;
 
   courseId!: string | number;
+  asStudent?: string | number;
   course!: Course;
   TaskState = TaskState;
   boardState: BoardState = {
@@ -40,8 +41,14 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
+    this.asStudent = this.route.snapshot.queryParams['as-student'];
     this.fetchCourse();
-    this.fetchTasks();
+
+    if (!!this?.asStudent) {
+      this.fetchTasksAsStudent();
+    } else {
+      this.fetchTasks();
+    }
   }
 
   ngOnDestroy(): void {
@@ -121,6 +128,26 @@ export class BoardComponent implements OnInit, OnDestroy {
           return (aa === bb) ? 0 : (aa > bb ? 1 : -1);
         });
     }
+  }
+
+  private fetchTasksAsStudent(): void {
+
+    if (!this?.asStudent) {
+      return;
+    }
+
+    this.ui.loading = true;
+    this.tasksService.getBoardTasksAsStudent(this.courseId, this.asStudent)
+      .pipe(finalize(() => this.ui.loading = false))
+      .subscribe({
+        error: err => this.ui.setErrorToaster(err.error.error.message),
+        next: tasks => {
+          for (const task of tasks) {
+            const taskState = +task.taskStateId as TaskState;
+            this.boardState[taskState].push(task);
+          }
+        },
+      });
   }
 
   private fetchTasks(): void {
