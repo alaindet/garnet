@@ -25,7 +25,6 @@ const routes: Routes = [
       },
       {
         path: 'board',
-        canLoad: [ShouldHaveStudentRoleGuard],
         loadChildren: () => import('./features/board/board.module')
         .then(m => m.BoardModule),
       },

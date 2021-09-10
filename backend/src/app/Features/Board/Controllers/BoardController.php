@@ -21,7 +21,9 @@ class BoardController extends Controller
     public function getTasksByBoard(Request $req, Response $res): Response
     {
         $authData = $req->getAuthenticationData();
-        $userId = $authData['user_id'];
+        $validatedData = $req->getValidatedData();
+        $studentId = $validatedData['studentId'];
+        $userId = $studentId ?? $authData['user_id'];
         $courseId = $req->getUriParameter('courseid');
 
         $dto = new GetBoardTasksRequest();

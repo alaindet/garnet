@@ -50,6 +50,24 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   }
 
+  onDragStart(event: CdkDragStart<HTMLElement>): void {
+
+    this.subs.drag.unsubscribe();
+
+    const board = this.boardColumnsRef.nativeElement;
+    const windowWidth = window.innerWidth;
+    const leftThreshold = 0.15 * windowWidth;
+    const rightThreshold = 0.90 * windowWidth;
+
+    this.subs.drag = event.source.moved
+      .pipe(throttleTime(0, animationFrameScheduler))
+      .subscribe(appFollowDraggedItem(board, leftThreshold, rightThreshold));
+  }
+
+  onDragStop(event: CdkDragDrop<any>): void {
+    this.subs.drag?.unsubscribe();
+  }
+
   onDropTask(event: CdkDragDrop<TaskState>): void {
 
     const fromState = event.previousContainer.data;
@@ -118,25 +136,5 @@ export class BoardComponent implements OnInit, OnDestroy {
           }
         },
       });
-  }
-
-  private dragSub?: Subscription;
-
-  onDragStart(event: CdkDragStart<HTMLElement>): void {
-
-    this.dragSub?.unsubscribe();
-
-    const board = this.boardColumnsRef.nativeElement;
-    const windowWidth = window.innerWidth;
-    const leftThreshold = 0.15 * windowWidth;
-    const rightThreshold = 0.90 * windowWidth;
-
-    this.dragSub = event.source.moved
-      .pipe(throttleTime(0, animationFrameScheduler))
-      .subscribe(appFollowDraggedItem(board, leftThreshold, rightThreshold));
-  }
-
-  onDragStop(event: CdkDragDrop<any>): void {
-    this.dragSub?.unsubscribe();
   }
 }

@@ -15,6 +15,7 @@ export class ProgressByStudentComponent {
 
   @Input() courseId!: string | number;
 
+  students: StudentProgress[] = [];
   items: ProgressItem[] = [];
 
   constructor(
@@ -28,7 +29,9 @@ export class ProgressByStudentComponent {
   }
 
   onStudentClick(index: number): void {
-    // ...
+    const student = this.students[index];
+    const queryParams = { 'as-student': student.userId };
+    this.router.navigate(['/board', this.courseId], { queryParams });
   }
 
   private fetchProgressByStudent(): void {
@@ -37,7 +40,10 @@ export class ProgressByStudentComponent {
       .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.message),
-        next: students => this.items = students.map(this.mapProgressItem),
+        next: students => {
+          this.students = students;
+          this.items = students.map(this.mapProgressItem);
+        },
       });
   }
 
