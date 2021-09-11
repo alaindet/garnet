@@ -11,6 +11,7 @@ use App\Features\Board\Dtos\GetProgressByStudent;
 use App\Features\Board\Dtos\GetProgressByTask;
 use App\Features\Board\Models\StudentProgress;
 use App\Features\Board\Models\TaskProgress;
+use App\Features\Courses\Repositories\CoursesRepository;
 
 class BoardService
 {
@@ -92,6 +93,18 @@ class BoardService
         string|int $courseId,
     ): bool
     {
+        $assoc = (new CoursesRepository)
+            ->getStudentAndTeacherCourseAssociation($studentId, $courseId);
 
+        if (
+            !isset($assoc) ||
+            $assoc['course_id'] != $courseId ||
+            $assoc['student_id'] != $studentId ||
+            $assoc['teacher_id'] != $teacherId
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

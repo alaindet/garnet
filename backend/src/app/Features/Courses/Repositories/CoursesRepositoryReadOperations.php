@@ -49,32 +49,29 @@ trait CoursesRepositoryReadOperations
         return $this->db->selectFirst($sql, $params);
     }
 
-    public function getTeacherAndCourse(
-        string|int $teacherId,
+    public function getStudentAndTeacherCourseAssociation(
         string|int $studentId,
-        string|int $courseId,
-    ): bool
+        string|int $courseId
+    ): array|null
     {
         $sql = "
             SELECT
-                cs.course_id,
+                c.teacher_id,
                 cs.student_id,
-                c.teacher_id
+                cs.course_id
             FROM
                 course_student AS cs
                 INNER JOIN courses AS c ON cs.course_id = c.course_id
             WHERE
-                cs.course_id = :courseid AND
-                cs.student_id = :studentid
+                cs.student_id = :studentid AND
+                cs.course_id = :courseid
         ";
 
         $params = [
-            ':courseid' => $courseId,
             ':studentid' => $studentId,
+            ':courseid' => $courseId,
         ];
 
-        if ($)
-
-        $result = $this->db->selectFirst($sql, $params);
+        return $this->db->selectFirst($sql, $params);
     }
 }

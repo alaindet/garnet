@@ -43,11 +43,10 @@ class BoardController extends Controller
     public function updateTaskState(Request $req, Response $res): Response
     {
         $auth = $req->getAuthenticationData();
-        $body = $req->getValidatedData();
+        $taskStateId = $req->getValidatedData('taskStateId');
 
-        $userId = $auth['user_id'];
+        $userId = $req->getValidatedData('studentId') ?? $auth['user_id'];
         $taskId = $req->getUriParameter('taskid');
-        $taskStateId = $body['taskStateId'];
 
         $dto = new UpdateTaskState();
         $dto->userId = $userId;

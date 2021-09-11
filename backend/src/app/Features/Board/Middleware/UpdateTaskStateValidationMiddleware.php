@@ -20,12 +20,12 @@ class UpdateTaskStateValidationMiddleware extends Middleware
         $taskStateIds = TaskState::getValues();
 
         if (!in_array($taskStateId, $taskStateIds)) {
-            $message = 'Please provide a valid task state';
-            $data = null;
-            throw (new BadRequestHttpException($message))->setData($data);
+            throw new BadRequestHttpException(
+                'Please provide a valid task state'
+            );
         }
 
-        $req->setValidatedData([
+        $req->addValidatedData([
             'taskStateId' => $taskStateId,
         ]);
 

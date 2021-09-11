@@ -6,30 +6,35 @@ use App\Core\Exceptions\Http\BadRequestHttpException;
 use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
+use App\Features\Board\Services\BoardService;
 
 class GetBoardTasksAsStudentMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
 
+    private BoardService $boardService;
+
+    public function __construct()
+    {
+        $this->boardService = new BoardService();
+    }
+
     public function process(Request $req, Response $res, ...$args): Response
     {
+        $teacherId = $req->getAuthenticationData('user_id');            
         $studentId = $req->getUriParameter('studentid');
+        $courseId = $req->getUriParameter('courseid');
 
-        // TODO: Check if student belongs to course
-        // TODO: Check if course belongs to logged teacher
-        // TODO
-        /*
-        SELECT
-            cs.course_id,
-            cs.student_id,
-            c.teacher_id
-        FROM
-            course_student AS cs
-            INNER JOIN courses AS c ON cs.course_id = c.course_id
-        WHERE
-            cs.course_id = :courseid AND
-            cs.student_id = :studentid
-        */
+        if (!$this->boardService->doTeacherAndStudentBelongToCourse(
+            $teacherId,
+            $studentId,
+            $courseId
+        )) {
+            throw new BadRequestHttpException(
+                "Could not fetch tasks from course {$courseId} " .
+                "by teacher {$teacherId} as student {$studentId}"
+            );
+        }
 
         $req->setValidatedData([
             'studentId' => $studentId,

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { animationFrameScheduler, Subscription } from 'rxjs';
+import { animationFrameScheduler, Observable, Subscription } from 'rxjs';
 import { finalize, tap, throttleTime } from 'rxjs/operators';
 import { CdkDragDrop, CdkDragStart, transferArrayItem } from '@angular/cdk/drag-drop';
 
@@ -59,7 +59,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   onDragStart(event: CdkDragStart<HTMLElement>): void {
 
-    this.subs.drag.unsubscribe();
+    this.subs?.drag?.unsubscribe();
 
     const board = this.boardColumnsRef.nativeElement;
     const windowWidth = window.innerWidth;
@@ -96,9 +96,20 @@ export class BoardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.ui.loading = true;
+    let request: Observable<any>;
 
-    this.tasksService.updateTaskStateById(this.courseId, item.taskId, toState)
+    if (!!this?.asStudent) {
+      request = this.tasksService.updateTaskStateByIdAsStudent(
+        this.courseId, item.taskId, toState, this.asStudent
+      );
+    } else {
+      request = this.tasksService.updateTaskStateById(
+        this.courseId, item.taskId, toState
+      );
+    }
+
+    this.ui.loading = true;
+    request
       .pipe(tap(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
