@@ -40,6 +40,11 @@ const routes: Routes = [
         loadChildren: () => import('./features/task-manager/task-manager.module')
           .then(m => m.TaskManagerModule),
       },
+      {
+        path: 'profile',
+        loadChildren: () => import('./features/profile/profile.module')
+          .then(m => m.ProfileModule),
+      },
     ],
   },
   {

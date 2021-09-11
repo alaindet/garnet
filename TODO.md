@@ -1,15 +1,14 @@
-- [ ] Add Angular Material components theme for each individual component
-- [ ] Add dark theme and dark theme toggle
+- [ ] FE: Add Angular Material components theme for each individual component
+- [ ] FE: Add dark theme and dark theme toggle
 - [ ] FE: CORS interceptor
-- [ ] Add middleware and roles aliases in backend
-- [ ] Fix style of button with icon
+- [ ] FE: Fix style of button with icon
 - [ ] FE: Delete without refetching list
 - [ ] FE: Fetch table rows on update and delete to show name field in feedback
 - [ ] BE: JSON output in camelCase
-- [ ] Remove DTOs from repositories
-- [ ] Invite students to join boards
-- [ ] Invite teachers to join the app
+- [ ] BE: emove DTOs from repositories
+- [ ] FE/BE: Invite students to join boards
+- [ ] FE/BE: Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
-- [ ] Add numbering to tasks
-- [ ] Add pull to upload
-- [ ] Teacher should be able to visit a student's board
+- [ ] FE/BE: Add numbering to tasks
+- [ ] FE: Add pull to upload
+- [ ] BE: Add GET /profile
