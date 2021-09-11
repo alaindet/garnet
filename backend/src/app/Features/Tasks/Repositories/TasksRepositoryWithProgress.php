@@ -4,7 +4,7 @@ namespace App\Features\Tasks\Repositories;
 
 trait TasksRepositoryWithProgress
 {
-    public function getProgressByStudent(string | int $courseId): array
+    public function getProgressByStudent(string|int $courseId): array
     {
         $sql = "
             SELECT
@@ -26,7 +26,7 @@ trait TasksRepositoryWithProgress
         return $this->db->select($sql, $params);
     }
 
-    public function getProgressByTask(string | int $courseId): array
+    public function getProgressByTask(string|int $courseId): array
     {
         $sql = "
             SELECT

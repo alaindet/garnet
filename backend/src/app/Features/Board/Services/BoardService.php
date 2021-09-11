@@ -48,7 +48,7 @@ class BoardService
         return $this->tasksRepo->updateStateByIdAndUserId($dto);
     }
 
-    public function getProgressByStudent(string | int $courseId): GetProgressByStudent
+    public function getProgressByStudent(string|int $courseId): GetProgressByStudent
     {
         $data = $this->tasksRepo->getProgressByStudent($courseId);
         $parsedData = [];
@@ -67,7 +67,7 @@ class BoardService
         return new GetProgressByStudent(...$parsedData);    
     }
 
-    public function getProgressByTask(string | int $courseId): GetProgressByTask
+    public function getProgressByTask(string|int $courseId): GetProgressByTask
     {
         $data = $this->tasksRepo->getProgressByTask($courseId);
         $parsedData = [];
@@ -84,5 +84,14 @@ class BoardService
         }
 
         return new GetProgressByTask(...$parsedData);
+    }
+
+    public function doTeacherAndStudentBelongToCourse(
+        string|int $teacherId,
+        string|int $studentId,
+        string|int $courseId,
+    ): bool
+    {
+
     }
 }

@@ -7,6 +7,7 @@ use App\Core\Routing\RouteGroup;
 use App\Features\Authentication\Middleware\AuthenticationMiddleware;
 use App\Features\Board\Controllers\BoardController;
 use App\Features\Board\Middleware\UpdateTaskStateValidationMiddleware;
+use App\Features\Board\Middleware\UpdateTaskStateAsStudentMiddleware;
 use App\Features\Board\Middleware\GetBoardTasksAsStudentMiddleware;
 use App\Features\Users\Enums\UserRole;
 use App\Features\Authentication\Middleware\RoleAuthorizationMiddleware;
@@ -38,6 +39,10 @@ class Routes
 
                 Route::put('/tasks/{taskid}', '@updateTaskState')
                     ->middleware(UpdateTaskStateValidationMiddleware::class),
+
+                Route::put('/tasks/{taskid}/as-student/{studentid}', '@updateTaskState')
+                    ->middleware(UpdateTaskStateValidationMiddleware::class)
+                    ->middleware(UpdateTaskStateAsStudentMiddleware::class),
 
                 Route::get('/progress/by-student', '@getProgressByStudent')
                     ->middleware($role, [$teacher]),
