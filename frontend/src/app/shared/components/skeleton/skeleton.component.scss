@@ -1,11 +1,12 @@
 @import 'style';
 
-$background-fallback: app-store('color.theme.accent.100');
+$background-fallback: rgba(0,0,0,0.15);
+
 $background-gradient: linear-gradient(
   90deg,
-  app-store('color.theme.accent.100') 0%,
-  scale_color(app-store('color.theme.accent.100'), $lightness: +10%) 50%,
-  app-store('color.theme.accent.100') 100%
+  transparent 0%,
+  rgba(255,255,255,0.2) 50%,
+  transparent 100%
 );
 
 :host {

@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(ui.loading$ | async); else loadingRef">
+<ng-container *ngIf="!(ui.loading$ | async) || courses === null; else loadingRef">
   <div
     *ngIf="courses?.length; else noCoursesRef"
     class="app-cols app-cols--gap"

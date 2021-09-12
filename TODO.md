@@ -5,10 +5,9 @@
 - [ ] FE: Delete without refetching list
 - [ ] FE: Fetch table rows on update and delete to show name field in feedback
 - [ ] BE: JSON output in camelCase
-- [ ] BE: emove DTOs from repositories
+- [ ] BE: Remove DTOs from repositories
 - [ ] FE/BE: Invite students to join boards
 - [ ] FE/BE: Invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
 - [ ] FE/BE: Add numbering to tasks
 - [ ] FE: Add pull to upload
-- [ ] BE: Add GET /profile

@@ -20,3 +20,28 @@
   color: app-store('color.theme.accent.600');
   font-size: 1.1rem !important;
 }
+
+app-skeleton {
+  display: block;
+}
+
+.-skeleton-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.-skeleton-name {
+  display: flex;
+}
+
+.-skeleton-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+
+  &-info {
+    flex-grow: 1;
+  }
+}

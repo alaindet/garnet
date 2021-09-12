@@ -32,7 +32,7 @@ export class SkeletonComponent {
     }
 
     if (this.rounded || this.rounded === '') {
-      this.cssStyle.borderRadius = '1rem';
+      this.cssStyle.borderRadius = (this.rounded === '') ? '1rem' : this.rounded;
     }
 
     this.cssStyle.width = this.width;
