@@ -1,8 +1,7 @@
-<div class="app-container-narrow" *ngIf="profile; else loadingRef">
+<div class="app-container-narrow" *ngIf="false; else loadingRef">
   <mat-card>
 
-    <mat-card-header>
-      <div mat-card-avatar></div>
+    <!-- <mat-card-header>
       <mat-card-title>
         {{ profile.firstName }}
         {{ profile.lastName}}
@@ -37,11 +36,41 @@
           <span mat-line class="-content">{{ profile.createdOn | date }}</span>
         </mat-list-item>
       </mat-list>
-    </mat-card-content>
+    </mat-card-content> -->
 
   </mat-card>
 </div>
 
 <ng-template #loadingRef>
-  Loading...
+  <div class="app-container-narrow">
+    <mat-card>
+
+      <mat-card-header>
+        <mat-card-title>
+          <app-skeleton height="2rem" width="100%"></app-skeleton>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <app-skeleton height="1rem" width="100%"></app-skeleton>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-list>
+
+          <mat-list-item>
+            <div class="-icon">
+              <app-skeleton circle="1rem"></app-skeleton>
+            </div>
+            <strong mat-line class="-label">
+              <app-skeleton height="1rem" width="3rem"></app-skeleton>
+            </strong>
+            <span mat-line class="-content">
+              <app-skeleton height="1rem" width="6rem"></app-skeleton>
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+
+    </mat-card>
+  </div>
 </ng-template>

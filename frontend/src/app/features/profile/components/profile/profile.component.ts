@@ -28,7 +28,13 @@ export class ProfileComponent implements OnInit {
       .pipe(finalize(() => this.ui.loading = false))
       .subscribe({
         error: err => this.ui.setErrorToaster(err.error.error.message),
-        next: profile => this.profile = profile
+        next: profile => {
+          this.profile = profile;
+          this.ui.title = 'Profile';
+          this.ui.breadcrumbs = [
+            { label: 'Profile', url: '/profile' },
+          ];
+        }
       });
   }
 }
