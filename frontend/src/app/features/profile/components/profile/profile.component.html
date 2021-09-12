@@ -1,1 +1,47 @@
-Profile page
+<div class="app-container-narrow" *ngIf="profile; else loadingRef">
+  <mat-card>
+
+    <mat-card-header>
+      <div mat-card-avatar></div>
+      <mat-card-title>
+        {{ profile.firstName }}
+        {{ profile.lastName}}
+      </mat-card-title>
+      <mat-card-subtitle>{{ profile.role }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-list>
+
+        <mat-list-item>
+          <div class="-icon">
+            <mat-icon>person</mat-icon>
+          </div>
+          <strong mat-line class="-label">Role</strong>
+          <span mat-line class="-content">{{ profile.role }}</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <div class="-icon">
+            <mat-icon>email</mat-icon>
+          </div>
+          <strong mat-line class="-label">Email</strong>
+          <span mat-line class="-content">{{ profile.email }}</span>
+        </mat-list-item>
+
+        <mat-list-item>
+          <div class="-icon">
+            <mat-icon>event</mat-icon>
+          </div>
+          <strong mat-line class="-label">Registerd on</strong>
+          <span mat-line class="-content">{{ profile.createdOn | date }}</span>
+        </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+
+<ng-template #loadingRef>
+  Loading...
+</ng-template>

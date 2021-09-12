@@ -4,7 +4,7 @@ namespace App\Features\Board\Dtos;
 
 use App\Features\Board\Models\BoardTask;
 
-class GetBoardTasksResponse
+class GetBoardTasksResponseDto
 {
     /** @var BoardTask[] */
     public array $tasks;

@@ -2,7 +2,7 @@
 
 namespace App\Features\Board\Dtos;
 
-class UpdateTaskState
+class UpdateTaskStateDto
 {
     public string|int $userId;
     public string|int $taskId;

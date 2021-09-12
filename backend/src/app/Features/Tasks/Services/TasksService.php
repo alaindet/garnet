@@ -11,6 +11,7 @@ use App\Features\Tasks\Dtos\CreatedTaskDto;
 use App\Features\Tasks\Dtos\UpdateTaskDto;
 use App\Features\Tasks\Dtos\UpdatedTaskDto;
 use App\Features\Tasks\Dtos\DeletedTaskDto;
+use App\Shared\Utils\Time;
 
 class TasksService
 {
@@ -28,8 +29,8 @@ class TasksService
         $dtoOut = new CreatedTaskDto();
         $dtoOut->taskId = $data['task_id'];
         $dtoOut->courseId = $data['course_id'];
-        $dtoOut->createdOn = $data['created_on'];
-        $dtoOut->updatedOn = $data['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($data['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($data['updated_on']);
         $dtoOut->name = $data['name'];
         $dtoOut->description = $data['description'];
 
@@ -87,8 +88,8 @@ class TasksService
         $dtoOut = new UpdatedTaskDto();
         $dtoOut->taskId = $task['task_id'];
         $dtoOut->courseId = $task['course_id'];
-        $dtoOut->createdOn = $task['created_on'];
-        $dtoOut->updatedOn = $task['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($task['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($task['updated_on']);
         $dtoOut->name = $task['name'];
         $dtoOut->description = $task['description'];
 
@@ -109,8 +110,8 @@ class TasksService
         $dtoOut = new DeletedTaskDto();
         $dtoOut->teacherId = $task['task_id'];
         $dtoOut->courseId = $task['course_id'];
-        $dtoOut->createdOn = $task['created_on'];
-        $dtoOut->updatedOn = $task['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($task['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($task['updated_on']);
         $dtoOut->name = $task['name'];
         $dtoOut->description = $task['description'];
 

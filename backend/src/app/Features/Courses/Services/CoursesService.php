@@ -10,6 +10,7 @@ use App\Features\Courses\Dtos\UpdateCourseDto;
 use App\Features\Courses\Dtos\UpdatedCourseDto;
 use App\Features\Courses\Dtos\DeletedCourseDto;
 use App\Features\Courses\Repositories\CoursesRepository;
+use App\Shared\Utils\Time;
 
 class CoursesService
 {
@@ -27,8 +28,8 @@ class CoursesService
         $dtoOut = new CreatedCourseDto();
         $dtoOut->courseId = $data['course_id'];
         $dtoOut->teacherId = $data['teacher_id'];
-        $dtoOut->createdOn = $data['created_on'];
-        $dtoOut->updatedOn = $data['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($data['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($data['updated_on']);
         $dtoOut->name = $data['name'];
         $dtoOut->description = $data['description'];
 
@@ -88,8 +89,8 @@ class CoursesService
         $dtoOut = new UpdatedCourseDto();
         $dtoOut->courseId = $course['course_id'];
         $dtoOut->teacherId = $course['teacher_id'];
-        $dtoOut->createdOn = $course['created_on'];
-        $dtoOut->updatedOn = $course['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($course['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($course['updated_on']);
         $dtoOut->name = $course['name'];
         $dtoOut->description = $course['description'];
 
@@ -110,8 +111,8 @@ class CoursesService
         $dtoOut = new DeletedCourseDto();
         $dtoOut->courseId = $course['course_id'];
         $dtoOut->teacherId = $course['teacher_id'];
-        $dtoOut->createdOn = $course['created_on'];
-        $dtoOut->updatedOn = $course['updated_on'];
+        $dtoOut->createdOn = Time::getTimestamp($course['created_on']);
+        $dtoOut->updatedOn = Time::getTimestamp($course['updated_on']);
         $dtoOut->name = $course['name'];
         $dtoOut->description = $course['description'];
 

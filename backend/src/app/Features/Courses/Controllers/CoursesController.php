@@ -20,7 +20,7 @@ class CoursesController extends Controller
 
     public function create(Request $req, Response $res): Response
     {
-        $dtoIn = $req->getValidatedData();
+        $dtoIn = $req->getValidatedData('dto');
         $dtoOut = $this->coursesService->create($dtoIn);
 
         $res->setBody([
@@ -76,7 +76,7 @@ class CoursesController extends Controller
 
     public function update(Request $req, Response $res): Response
     {
-        $dtoIn = $req->getValidatedData();
+        $dtoIn = $req->getValidatedData('dto');
 
         $dtoOut = $this->coursesService->updateById($dtoIn);
 

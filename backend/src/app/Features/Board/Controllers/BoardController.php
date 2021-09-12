@@ -6,8 +6,8 @@ use App\Core\Controller;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Features\Board\Services\BoardService;
-use App\Features\Board\Dtos\GetBoardTasksRequest;
-use App\Features\Board\Dtos\UpdateTaskState;
+use App\Features\Board\Dtos\GetBoardTasksRequestDto;
+use App\Features\Board\Dtos\UpdateTaskStateDto;
 
 class BoardController extends Controller
 {
@@ -26,7 +26,7 @@ class BoardController extends Controller
         $userId = $studentId ?? $authData['user_id'];
         $courseId = $req->getUriParameter('courseid');
 
-        $dto = new GetBoardTasksRequest();
+        $dto = new GetBoardTasksRequestDto();
         $dto->courseId = $courseId;
         $dto->userId = $userId;
 
@@ -48,7 +48,7 @@ class BoardController extends Controller
         $userId = $req->getValidatedData('studentId') ?? $auth['user_id'];
         $taskId = $req->getUriParameter('taskid');
 
-        $dto = new UpdateTaskState();
+        $dto = new UpdateTaskStateDto();
         $dto->userId = $userId;
         $dto->taskId = $taskId;
         $dto->taskStateId = $taskStateId;

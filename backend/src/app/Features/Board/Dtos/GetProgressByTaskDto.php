@@ -4,7 +4,7 @@ namespace App\Features\Board\Dtos;
 
 use App\Features\Board\Models\TaskProgress;
 
-class GetProgressByTask
+class GetProgressByTaskDto
 {
     /** @var TaskProgress[] */
     public array $tasks;

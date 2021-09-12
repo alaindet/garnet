@@ -17,7 +17,6 @@ import { SkeletonModule } from '@app/shared/components/skeleton';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatInputModule,
     SkeletonModule,
   ],
   exports: [

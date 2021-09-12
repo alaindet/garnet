@@ -4,7 +4,7 @@ namespace App\Features\Board\Dtos;
 
 use App\Features\Board\Models\StudentProgress;
 
-class GetProgressByStudent
+class GetProgressByStudentDto
 {
     /** @var StudentProgress[] */
     public array $students;

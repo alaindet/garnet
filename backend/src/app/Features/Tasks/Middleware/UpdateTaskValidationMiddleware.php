@@ -42,7 +42,7 @@ class UpdateTaskValidationMiddleware extends Middleware
         $dto->name = $body['name'] ?? null;
         $dto->description = $body['description'] ?? null;
 
-        $req->setValidatedData($dto);
+        $req->setValidatedData(['dto' => $dto]);
 
         return $res;
     }

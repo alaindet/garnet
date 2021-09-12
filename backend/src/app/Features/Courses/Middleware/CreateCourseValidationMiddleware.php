@@ -43,7 +43,7 @@ class CreateCourseValidationMiddleware extends Middleware
         $dto->name = $body['name'];
         $dto->description = $body['description'] ?? null;
 
-        $req->setValidatedData($dto);
+        $req->setValidatedData(['dto' => $dto]);
 
         return $res;
     }

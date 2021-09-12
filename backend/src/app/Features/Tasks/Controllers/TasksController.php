@@ -20,7 +20,7 @@ class TasksController extends Controller
     {
         $courseId = $req->getUriParameter('courseid');
 
-        $dtoIn = $req->getValidatedData();
+        $dtoIn = $req->getValidatedData('dto');
         $dtoOut = $this->tasksService->create($dtoIn);
 
         $res->setBody([
@@ -60,7 +60,7 @@ class TasksController extends Controller
 
     public function update(Request $req, Response $res): Response
     {
-        $dtoIn = $req->getValidatedData();
+        $dtoIn = $req->getValidatedData('dto');
 
         $dtoOut = $this->tasksService->updateById($dtoIn);
 

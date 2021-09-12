@@ -4,10 +4,11 @@ use App\Core\Routing\RouteGroup;
 use App\Core\Middleware\CorsMiddleware;
 
 $routes = [
-    \App\Features\Authentication\Routes::register(),
-    \App\Features\Courses\Routes::register(),
-    \App\Features\Tasks\Routes::register(),
     \App\Features\Board\Routes::register(),
+    \App\Features\Tasks\Routes::register(),
+    \App\Features\Courses\Routes::register(),
+    \App\Features\Users\Routes::register(),
+    \App\Features\Authentication\Routes::register(),
     // Add route groups from feature modules here...
 ];
 

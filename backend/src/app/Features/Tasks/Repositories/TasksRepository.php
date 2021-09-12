@@ -4,9 +4,9 @@ namespace App\Features\Tasks\Repositories;
 
 use App\Core\Repository;
 use App\Core\Services\Database\Database;
-use App\Features\Board\Dtos\GetBoardTasksRequest;
+use App\Features\Board\Dtos\GetBoardTasksRequestDto;
 use App\Features\Tasks\Dtos\CreateTaskDto;
-use App\Features\Board\Dtos\UpdateTaskState;
+use App\Features\Board\Dtos\UpdateTaskStateDto;
 use App\Shared\Utils\Time;
 
 class TasksRepository extends Repository
@@ -30,7 +30,7 @@ class TasksRepository extends Repository
         return $this->db->select($sql, $params);
     }
 
-    public function getAllByCourseIdAndUserId(GetBoardTasksRequest $dto): array
+    public function getAllByCourseIdAndUserId(GetBoardTasksRequestDto $dto): array
     {
         $sql = "
             SELECT
@@ -118,7 +118,7 @@ class TasksRepository extends Repository
         return $this->db->execute($sql, $params);
     }
 
-    public function updateStateByIdAndUserId(UpdateTaskState $dto): bool
+    public function updateStateByIdAndUserId(UpdateTaskStateDto $dto): bool
     {
         $sql = "
             UPDATE task_user

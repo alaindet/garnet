@@ -2,7 +2,7 @@
 
 namespace App\Features\Board\Dtos;
 
-class GetBoardTasksRequest
+class GetBoardTasksRequestDto
 {
     public string|int $courseId;
     public string|int $userId;

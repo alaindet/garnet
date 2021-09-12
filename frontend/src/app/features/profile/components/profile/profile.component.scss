@@ -1,1 +1,22 @@
 @import 'style';
+
+.-icon {
+  background-color: app-store('color.theme.primary.500');
+  border-radius: 100%;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: app-store('color.theme.accent.800');
+}
+
+.-label {
+  font-weight: 600 !important;
+  color: app-store('color.theme.accent.800');
+}
+
+.-content {
+  color: app-store('color.theme.accent.600');
+  font-size: 1.1rem !important;
+}

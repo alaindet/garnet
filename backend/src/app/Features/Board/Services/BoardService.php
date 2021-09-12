@@ -4,14 +4,15 @@ namespace App\Features\Board\Services;
 
 use App\Features\Board\Models\BoardTask;
 use App\Features\Tasks\Repositories\TasksRepository;
-use App\Features\Board\Dtos\GetBoardTasksRequest;
-use App\Features\Board\Dtos\GetBoardTasksResponse;
-use App\Features\Board\Dtos\UpdateTaskState;
-use App\Features\Board\Dtos\GetProgressByStudent;
-use App\Features\Board\Dtos\GetProgressByTask;
+use App\Features\Board\Dtos\GetBoardTasksRequestDto;
+use App\Features\Board\Dtos\GetBoardTasksResponseDto;
+use App\Features\Board\Dtos\UpdateTaskStateDto;
+use App\Features\Board\Dtos\GetProgressByStudentDto;
+use App\Features\Board\Dtos\GetProgressByTaskDto;
 use App\Features\Board\Models\StudentProgress;
 use App\Features\Board\Models\TaskProgress;
 use App\Features\Courses\Repositories\CoursesRepository;
+use App\Shared\Utils\Time;
 
 class BoardService
 {
@@ -23,8 +24,8 @@ class BoardService
     }
 
     public function getTasksByBoard(
-        GetBoardTasksRequest $dtoIn,
-    ): GetBoardTasksResponse
+        GetBoardTasksRequestDto $dtoIn,
+    ): GetBoardTasksResponseDto
     {
         $data = $this->tasksRepo->getAllByCourseIdAndUserId($dtoIn);
 
@@ -34,22 +35,24 @@ class BoardService
             $task = new BoardTask();
             $task->taskId = $item['task_id'];
             $task->taskStateId = $item['task_state_id'];
-            $task->createdOn = $item['created_on'];
-            $task->updatedOn = $item['updated_on'];
+            $task->createdOn = Time::getTimestamp($item['created_on']);
+            $task->updatedOn = Time::getTimestamp($item['updated_on']);
             $task->name = $item['name'];
             $task->description = $item['description'];
             $parsedData[] = $task;
         }
 
-        return new GetBoardTasksResponse(...$parsedData);
+        return new GetBoardTasksResponseDto(...$parsedData);
     }
 
-    public function updateTaskState(UpdateTaskState $dto): bool
+    public function updateTaskState(UpdateTaskStateDto $dto): bool
     {
         return $this->tasksRepo->updateStateByIdAndUserId($dto);
     }
 
-    public function getProgressByStudent(string|int $courseId): GetProgressByStudent
+    public function getProgressByStudent(
+        string|int $courseId,
+    ): GetProgressByStudentDto
     {
         $data = $this->tasksRepo->getProgressByStudent($courseId);
         $parsedData = [];
@@ -65,10 +68,10 @@ class BoardService
             $parsedData[] = $progress;
         }
 
-        return new GetProgressByStudent(...$parsedData);    
+        return new GetProgressByStudentDto(...$parsedData);    
     }
 
-    public function getProgressByTask(string|int $courseId): GetProgressByTask
+    public function getProgressByTask(string|int $courseId): GetProgressByTaskDto
     {
         $data = $this->tasksRepo->getProgressByTask($courseId);
         $parsedData = [];
@@ -78,13 +81,13 @@ class BoardService
             $progress->taskId = $item['task_id'];
             $progress->taskName = $item['name'];
             $progress->taskDescription = $item['description'];
-            $progress->studentsToDo = $item['to_do'];
-            $progress->studentsInProgress = $item['in_progress'];
-            $progress->studentsDone = $item['done'];
+            $progress->studentsToDo = (int) $item['to_do'];
+            $progress->studentsInProgress = (int) $item['in_progress'];
+            $progress->studentsDone = (int) $item['done'];
             $parsedData[] = $progress;
         }
 
-        return new GetProgressByTask(...$parsedData);
+        return new GetProgressByTaskDto(...$parsedData);
     }
 
     public function doTeacherAndStudentBelongToCourse(
