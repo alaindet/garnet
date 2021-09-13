@@ -1,3 +1,15 @@
+<div class="-invite">
+  Would you like to
+  <a
+    routerLink="/invite/student"
+    [queryParams]="{ course: courseId }"
+    class="app-link"
+  >
+    invite a new student
+  </a>
+  ?
+</div>
+
 <div class="app-cols">
   <div
     *ngFor="let item of items; let i = index"

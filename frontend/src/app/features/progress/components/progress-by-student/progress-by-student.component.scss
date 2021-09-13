@@ -1,1 +1,12 @@
 @import 'style';
+
+.-invite {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.05);
+  color: app-store('color.theme.accent.800');
+  border-radius: 1rem;
+}

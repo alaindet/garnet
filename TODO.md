@@ -11,3 +11,7 @@
 - [ ] FE: Move HTTP error handling into services
 - [ ] FE/BE: Add numbering to tasks
 - [ ] FE: Add pull to upload
+- [ ] BE: Cron job to delete unused tokens (password reset, invites)
+- [ ] BE: Make course name unique
+- [ ] FE: Pass course ID via query params
+- [ ] FE: Use guard to print error and redirect if course id is missing from query params

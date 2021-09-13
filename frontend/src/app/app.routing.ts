@@ -45,6 +45,11 @@ const routes: Routes = [
         loadChildren: () => import('./features/profile/profile.module')
           .then(m => m.ProfileModule),
       },
+      {
+        path: 'invite',
+        loadChildren: () => import('./features/invite/invite.module')
+          .then(m => m.InviteModule),
+      },
     ],
   },
   {

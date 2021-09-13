@@ -1,0 +1,53 @@
+<main class="app-container-narrow app-mt4">
+  <form [formGroup]="inviteForm" (ngSubmit)="onSubmit()">
+    <mat-card>
+
+      <mat-card-content class="-card-content">
+
+        <mat-card-title>
+          <h1>Invite Student</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <h2>to join a course</h2>
+        </mat-card-subtitle>
+
+        <!-- Email -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="Student's email..."
+            formControlName="email"
+          >
+          <mat-icon matSuffix aria-hidden="true">person</mat-icon>
+        </mat-form-field>
+
+        <!-- TODO: Course -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>Course</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Course name..."
+            formControlName="course"
+          >
+          <mat-icon matSuffix aria-hidden="true">school</mat-icon>
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="isLoading"
+          type="submit"
+          style="width: 100%"
+        >
+          Invite
+          <mat-icon>send</mat-icon>
+        </button>
+
+      </mat-card-content>
+
+    </mat-card>
+  </form>
+</main>

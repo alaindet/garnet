@@ -5,6 +5,7 @@
     text-decoration: none;
     position: relative;
     transition: 0.15s color ease-out;
+    letter-spacing: 0.05px;
 
     &::after {
       content: '';
@@ -19,16 +20,15 @@
     }
 
     &:hover {
-      color: app-store('color.theme.primary.500');
+      color: app-store('color.theme.primary.600');
     }
   }
 
   .app-link:hover {
-    color: app-store('color.theme.primary.500');
+    color: app-store('color.theme.primary.600');
 
     &::after {
       width: 100%;
-      border-color: app-store('color.theme.primary.500');
     }
   }
 
@@ -41,6 +41,6 @@
     transition: 0.15s width ease-out;
     width: 50%;
     min-width: 1.5rem;
-    border-bottom: 2px solid app-store('color.theme.primary.700');
+    border-bottom: 2px solid app-store('color.theme.primary.600');
   }
 }
