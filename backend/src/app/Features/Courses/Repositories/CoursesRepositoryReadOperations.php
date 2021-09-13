@@ -74,4 +74,19 @@ trait CoursesRepositoryReadOperations
 
         return $this->db->selectFirst($sql, $params);
     }
+
+    public function searchByName(string $courseName): array
+    {
+        $sql = "
+            SELECT c.course_id, c.name
+            FROM {$this->table} AS c
+            WHERE c.name LIKE :coursename
+        ";
+
+        $params = [
+            ':coursename' => "%".$courseName."%"
+        ];
+
+        return $this->db->select($sql, $params);
+    }
 }

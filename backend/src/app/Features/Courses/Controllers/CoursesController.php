@@ -101,4 +101,16 @@ class CoursesController extends Controller
 
         return $res;
     }
+
+    public function searchByName(Request $req, Response $res): Response
+    {
+        $courseName = $req->getValidatedData('name');
+
+        $res->setBody([
+            'message' => "Get courses with name like \"{$courseName}\"",
+            'data' => $this->coursesService->searchByName($courseName),
+        ]);
+
+        return $res;
+    }
 }

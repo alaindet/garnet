@@ -9,6 +9,7 @@ use App\Features\Authentication\Middleware\RoleAuthorizationMiddleware;
 use App\Features\Courses\Controllers\CoursesController;
 use App\Features\Courses\Middleware\CreateCourseValidationMiddleware;
 use App\Features\Courses\Middleware\UpdateCourseValidationMiddleware;
+use App\Features\Courses\Middleware\SearchCoursesByNameValidationMiddleware;
 use App\Features\Users\Enums\UserRole;
 
 class Routes
@@ -40,9 +41,13 @@ class Routes
                 Route::patch('/{courseid}', '@update')
                     ->middleware($role, [$teacher])
                     ->middleware(UpdateCourseValidationMiddleware::class),
-                    
+
                 Route::delete('/{courseid}', '@delete')
                     ->middleware($role, [$teacher]),
+
+                Route::get('/search/by-name', '@searchByName')
+                    ->middleware($role, [$teacher])
+                    ->middleware(SearchCoursesByNameValidationMiddleware::class),
             ])
             ->collect();
     }

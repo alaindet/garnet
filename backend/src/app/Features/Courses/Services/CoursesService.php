@@ -58,9 +58,9 @@ class CoursesService
         return $course;
     }
 
-    public function existsById(string|int $courseId): bool 
+    public function existsById(string|int $courseId): bool
     {
-        return $this->coursesRepo->existsById($courseId);   
+        return $this->coursesRepo->existsById($courseId);
     }
 
     public function updateById(UpdateCourseDto $dtoIn): UpdatedCourseDto
@@ -117,5 +117,10 @@ class CoursesService
         $dtoOut->description = $course['description'];
 
         return $dtoOut;
+    }
+
+    public function searchByName(string $courseName): array
+    {
+        return $this->coursesRepo->searchByName($courseName);
     }
 }
