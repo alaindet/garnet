@@ -23,7 +23,7 @@
           <mat-icon matSuffix aria-hidden="true">person</mat-icon>
         </mat-form-field>
 
-        <!-- TODO: Course -->
+        <!-- Course -->
         <mat-form-field appearance="fill" class="app-my2">
           <mat-label>Course</mat-label>
           <input
@@ -31,8 +31,17 @@
             type="text"
             placeholder="Course name..."
             formControlName="course"
+            [matAutocomplete]="courseAutocomplete"
           >
           <mat-icon matSuffix aria-hidden="true">school</mat-icon>
+          <mat-autocomplete
+            #courseAutocomplete="matAutocomplete"
+            (optionSelected)="onCourseSelected($event)"
+          >
+            <mat-option *ngFor="let option of filteredOptions" [value]="option.name">
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
 
         <button
@@ -42,7 +51,7 @@
           type="submit"
           style="width: 100%"
         >
-          Invite
+          Invite to course
           <mat-icon>send</mat-icon>
         </button>
 

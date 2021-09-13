@@ -14,7 +14,9 @@ import {
   UpdateCourseRequest,
 } from '../types';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CoursesService {
 
   constructor(

@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { SkeletonModule } from '@app/shared/components/skeleton';
 
@@ -14,6 +15,7 @@ import { SkeletonModule } from '@app/shared/components/skeleton';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
     SkeletonModule,
   ],
   exports: [
@@ -22,6 +24,7 @@ import { SkeletonModule } from '@app/shared/components/skeleton';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
     SkeletonModule,
   ],
 })

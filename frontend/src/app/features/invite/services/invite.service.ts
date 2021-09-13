@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { JwtService } from '@app/core/auth/services/jwt.service';
 import { UserProfile, GetUserProfileResponse } from '@app/features/profile/types';
 import { environment } from '@environment/environment';
+import { CourseSearchItem, GetCoursesByNameResponse } from '../types';
 
 @Injectable()
 export class InviteService {
@@ -21,6 +22,14 @@ export class InviteService {
   //   return this.http.get<GetUserProfileResponse>(url, options)
   //     .pipe(map(response => response.data));
   // }
+
+  searchCoursesByName(name: string): Observable<CourseSearchItem[]> {
+    const url = `${environment.apiUrl}/courses/search/by-name`;
+    const params = { name };
+    const options = { params, ...this.getCorsOptions() };
+    return this.http.get<GetCoursesByNameResponse>(url, options)
+      .pipe(map(response => response.data));
+  }
 
   // TODO: Move to interceptor
   private getCorsOptions(): { headers: HttpHeaders } {
