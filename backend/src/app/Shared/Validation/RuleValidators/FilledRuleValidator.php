@@ -3,6 +3,7 @@
 namespace App\Shared\Validation\RuleValidators;
 
 use App\Shared\Validation\RuleValidator\SingleRuleValidator;
+
 /**
  * Checks if single value is empty or not
  * If param is "true", value must be filled

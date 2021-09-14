@@ -1,6 +1,6 @@
 <?php
 
-use App\Shared\Utils;
+namespace App\Shared\Utils;
 
 abstract class Random
 {
@@ -32,30 +32,35 @@ abstract class Random
             $pool = (string) $type;
         }
 
-        $crypto_rand_secure = function ($min, $max) {
-            $range = $max - $min;
-            if ($range < 0) {
-                return $min;
-            }
-            $log = log($range, 2);
-            $bytes  = (int) ($log / 8) + 1;
-            $bits = (int) $log + 1;
-            $filter = (int) (1 << $bits) - 1;
-
-            do {
-                $rnd = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
-                $rnd = $rnd & $filter;
-            } while ($rnd >= $range);
-
-            return $min + $rnd;
-        };
-
         $token = '';
         $max   = strlen($pool);
+
         for ($i = 0; $i < $length; $i++) {
-            $token .= $pool[$crypto_rand_secure(0, $max)];
+            $randomIndex = self::getCryptoSecureRandomNumber(0, $max);
+            $token .= $pool[$randomIndex];
         }
+
         return $token;
     }
 
+    static private function getCryptoSecureRandomNumber(int $min, int $max): int
+    {
+        $range = $max - $min;
+
+        if ($range < 0) {
+            return $min;
+        }
+
+        $log = log($range, 2);
+        $bytes  = (int) ($log / 8) + 1;
+        $bits = (int) $log + 1;
+        $filter = (int) (1 << $bits) - 1;
+
+        do {
+            $random = hexdec(bin2hex(openssl_random_pseudo_bytes($bytes)));
+            $random = $random & $filter;
+        } while ($random >= $range);
+
+        return $min + $random;
+    }
 }

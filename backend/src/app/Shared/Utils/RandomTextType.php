@@ -1,6 +1,6 @@
 <?php
 
-use App\Shared\Utils;
+namespace App\Shared\Utils;
 
 class RandomTextType
 {

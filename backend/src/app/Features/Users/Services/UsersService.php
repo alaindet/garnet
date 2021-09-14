@@ -5,6 +5,7 @@ namespace App\Features\Users\Services;
 use App\Core\Exceptions\Http\NotFoundHttpException;
 use App\Features\Users\Repositories\UsersRepository;
 use App\Features\Users\Dtos\GetUserProfileDto;
+use App\Features\Users\Dtos\InviteStudentDto;
 use App\Shared\Utils\Time;
 
 class UsersService
@@ -35,5 +36,10 @@ class UsersService
         $dto->email = $item['email'];
         
         return $dto;
+    }
+
+    public function generateStudentInvite(InviteStudentDto $dtoIn): string
+    {
+        return 'TODO: JOIN TOKEN';
     }
 }

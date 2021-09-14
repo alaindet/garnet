@@ -27,4 +27,23 @@ class UsersController extends Controller
 
         return $res;
     }
+
+    public function generateStudentInvite(Request $req, Response $res): Response
+    {
+        $dto = $req->getValidatedData('dto');
+
+        $joinToken = $this->usersService->generateStudentInvite($dto);
+
+        $res->setBody([
+            'message' => (
+                "Student {$dto->email} was invited to ".
+                "join course #{$dto->courseId}"
+            ),
+            'data' => [
+                'token' => $joinToken,
+            ],
+        ]);
+
+        return $res;
+    }
 }
