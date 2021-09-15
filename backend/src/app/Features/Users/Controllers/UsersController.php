@@ -32,16 +32,14 @@ class UsersController extends Controller
     {
         $dto = $req->getValidatedData('dto');
 
-        $joinToken = $this->usersService->generateStudentInvite($dto);
+        $invite = $this->usersService->generateStudentInvite($dto);
 
         $res->setBody([
             'message' => (
                 "Student {$dto->email} was invited to ".
                 "join course #{$dto->courseId}"
             ),
-            'data' => [
-                'token' => $joinToken,
-            ],
+            'data' => $invite,
         ]);
 
         return $res;

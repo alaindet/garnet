@@ -15,7 +15,7 @@ use App\Shared\Validation\RuleValidators\MaxLengthRuleValidator;
 use App\Shared\Validation\RuleValidators\MaxRuleValidator;
 use App\Shared\Validation\RuleValidators\MinLengthRuleValidator;
 use App\Shared\Validation\RuleValidators\MinRuleValidator;
-use App\Shared\Validation\RuleValidators\MissingOnDatabase;
+use App\Shared\Validation\RuleValidators\MissingOnDatabaseRuleValidator;
 use App\Shared\Validation\RuleValidators\RegexRuleValidator;
 use App\Shared\Validation\RuleValidators\RequiredRuleValidator;
 // ...
@@ -42,7 +42,7 @@ class Validator
         'max' => MaxRuleValidator::class,
         'minLength' => MinLengthRuleValidator::class,
         'min' => MinRuleValidator::class,
-        'missingOnDatabase' => MissingOnDatabase::class,
+        'missingOnDatabase' => MissingOnDatabaseRuleValidator::class,
         'regex' => RegexRuleValidator::class,
         'required' => RequiredRuleValidator::class,
         // ...

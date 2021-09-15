@@ -7,7 +7,7 @@ use App\Core\Middleware;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Shared\Validation\Validator;
-use App\Features\Users\Dtos\InviteStudentDto;
+use App\Features\Users\Dtos\CreateStudentInviteDto;
 
 class InviteStudentValidationMiddleware extends Middleware
 {
@@ -25,7 +25,7 @@ class InviteStudentValidationMiddleware extends Middleware
             'courseId' => [
                 'required' => true,
                 'existsOnDatabase' => ['courses', 'course_id'],
-            ]
+            ],
         ]);
 
         if (!$validator->validate()) {
@@ -39,7 +39,7 @@ class InviteStudentValidationMiddleware extends Middleware
             throw (new BadRequestHttpException($message))->setData($data);
         }
 
-        $dto = new InviteStudentDto();
+        $dto = new CreateStudentInviteDto();
         $dto->email = $body['email'];
         $dto->courseId = $body['courseId'];
 

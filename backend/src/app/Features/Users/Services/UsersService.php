@@ -3,9 +3,13 @@
 namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
+use App\Features\Users\Dtos\CreatedStudentInviteDto;
 use App\Features\Users\Repositories\UsersRepository;
 use App\Features\Users\Dtos\GetUserProfileDto;
-use App\Features\Users\Dtos\InviteStudentDto;
+use App\Features\Users\Dtos\CreateStudentInviteDto;
+use App\Features\Users\Repositories\InvitesRepository;
+use App\Shared\Utils\Random;
+use App\Shared\Utils\RandomTextType;
 use App\Shared\Utils\Time;
 
 class UsersService
@@ -38,8 +42,21 @@ class UsersService
         return $dto;
     }
 
-    public function generateStudentInvite(InviteStudentDto $dtoIn): string
+    public function generateStudentInvite(
+        CreateStudentInviteDto $dtoIn,
+    ): CreatedStudentInviteDto
     {
-        return 'TODO: JOIN TOKEN';
+        $dtoIn->token = Random::getRandomText(RandomTextType::AlphaNumeric, 32);
+        $invitesRepo = new InvitesRepository();
+        $inviteId = $invitesRepo->createStudentInvite($dtoIn);
+
+        $dtoOut = new CreatedStudentInviteDto();
+        $dtoOut->inviteId = $inviteId;
+        $dtoOut->token = $dtoIn->token;
+        $dtoOut->email = $dtoIn->email;
+        $dtoOut->userRoleId = $dtoIn->userRoleId;
+        $dtoOut->courseId = $dtoIn->courseId;
+
+        return $dtoOut;
     }
 }
