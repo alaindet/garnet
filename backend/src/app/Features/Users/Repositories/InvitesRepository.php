@@ -20,9 +20,9 @@ class InvitesRepository extends Repository
     {
         $sql = "
             INSERT INTO {$this->table}
-                (token, email, user_role_id, course_id)
+                (token, email, expires_on, user_role_id, course_id)
             VALUES
-                (:token, :email, :roleid, :courseid)
+                (:token, :email, :expireson, :roleid, :courseid)
             ON DUPLICATE KEY UPDATE
                 token = :tokenagain
         ";
@@ -31,10 +31,18 @@ class InvitesRepository extends Repository
             ':token' => $dto->token,
             ':tokenagain' => $dto->token,
             ':email' => $dto->email,
+            ':expireson' => $dto->expiresOn,
             ':roleid' => $dto->userRoleId,
             ':courseid' => $dto->courseId,
         ];
 
         return $this->db->insert($sql, $params);
+    }
+
+    public function getInviteByToken(string $token): array
+    {
+        $sql = "SELECT * FROM {$this->table} WHERE token = :token";
+        $params = [':token' => $token];
+        return $this->db->selectFirst($sql, $params);
     }
 }

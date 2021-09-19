@@ -3,11 +3,13 @@
 namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
+use App\Features\Users\Constants\UserConstants;
+use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
-use App\Features\Users\Repositories\UsersRepository;
-use App\Features\Users\Dtos\GetUserProfileDto;
 use App\Features\Users\Dtos\CreateStudentInviteDto;
+use App\Features\Users\Dtos\GetUserProfileDto;
 use App\Features\Users\Repositories\InvitesRepository;
+use App\Features\Users\Repositories\UsersRepository;
 use App\Shared\Utils\Random;
 use App\Shared\Utils\RandomTextType;
 use App\Shared\Utils\Time;
@@ -46,7 +48,11 @@ class UsersService
         CreateStudentInviteDto $dtoIn,
     ): CreatedStudentInviteDto
     {
-        $dtoIn->token = Random::getRandomText(RandomTextType::AlphaNumeric, 32);
+        $type = RandomTextType::AlphaNumeric;
+        $length = UserConstants::INVITE_TOKEN_LENGTH;
+        $dtoIn->token = Random::getRandomText($type, $length);
+        $expireTimestamp = Time::getTimestampInSeconds() + 60*60*24;
+        $dtoIn->expiresOn = Time::getDateFromSeconds($expireTimestamp);
         $invitesRepo = new InvitesRepository();
         $inviteId = $invitesRepo->createStudentInvite($dtoIn);
 
@@ -54,9 +60,28 @@ class UsersService
         $dtoOut->inviteId = $inviteId;
         $dtoOut->token = $dtoIn->token;
         $dtoOut->email = $dtoIn->email;
+        $dtoOut->expiresOn = $dtoIn->expiresOn;
         $dtoOut->userRoleId = $dtoIn->userRoleId;
         $dtoOut->courseId = $dtoIn->courseId;
 
         return $dtoOut;
+    }
+
+    public function checkInviteToken(CheckInviteDto $dto): bool
+    {
+        $token = $dto->token;
+        $invitesRepo = new InvitesRepository();
+        $invite = $invitesRepo->getInviteByToken($token);
+
+        if ($invite === null) {
+            return false;
+        }
+
+        $expiresOn = Time::getTimestamp($invite['expires_on']);
+        $now = Time::getTimestamp();
+
+        dd([$expiresOn, $now]);
+
+        return true;
     }
 }

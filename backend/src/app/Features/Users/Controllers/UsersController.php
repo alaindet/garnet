@@ -44,4 +44,18 @@ class UsersController extends Controller
 
         return $res;
     }
+
+    public function checkInviteValidity(Request $req, Response $res): Response
+    {
+        $dto = $req->getValidatedData('dto');
+
+        $isTokenValid = $this->usersService->checkInviteToken($dto);
+
+        $res->setBody([
+            'message' => 'Invite token is ' . ($isTokenValid ? '' : 'in'). 'valid',
+            'data' => $isTokenValid,
+        ]);
+
+        return $res;
+    }
 }

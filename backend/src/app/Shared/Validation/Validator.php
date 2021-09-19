@@ -5,6 +5,7 @@ namespace App\Shared\Validation;
 use App\Shared\Validation\RuleValidators\BetweenRuleValidator;
 use App\Shared\Validation\RuleValidators\EmailRuleValidator;
 use App\Shared\Validation\RuleValidators\EqualsRuleValidator;
+use App\Shared\Validation\RuleValidators\ExactLengthRuleValidator;
 use App\Shared\Validation\RuleValidators\ExceptInRuleValidator;
 use App\Shared\Validation\RuleValidators\ExceptRuleValidator;
 use App\Shared\Validation\RuleValidators\ExistsOnDatabaseRuleValidator;
@@ -32,16 +33,17 @@ class Validator
         'between' => BetweenRuleValidator::class,
         'email' => EmailRuleValidator::class,
         'equals' => EqualsRuleValidator::class,
+        'exactLength' => ExactLengthRuleValidator::class,
         'except' => ExceptRuleValidator::class,
         'exceptIn' => ExceptInRuleValidator::class,
         'existsOnDatabase' => ExistsOnDatabaseRuleValidator::class,
         'filled' => FilledRuleValidator::class,
         'in' => InRuleValidator::class,
         'is' => IsRuleValidator::class,
-        'maxLength' => MaxLengthRuleValidator::class,
         'max' => MaxRuleValidator::class,
-        'minLength' => MinLengthRuleValidator::class,
+        'maxLength' => MaxLengthRuleValidator::class,
         'min' => MinRuleValidator::class,
+        'minLength' => MinLengthRuleValidator::class,
         'missingOnDatabase' => MissingOnDatabaseRuleValidator::class,
         'regex' => RegexRuleValidator::class,
         'required' => RequiredRuleValidator::class,
