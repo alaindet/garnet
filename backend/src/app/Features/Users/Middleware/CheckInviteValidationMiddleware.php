@@ -24,7 +24,6 @@ class CheckInviteValidationMiddleware extends Middleware
             'token' => [
                 'required' => true,
                 'exactLength' => $length,
-                'existsOnDatabase' => ['invites', 'token'],
             ],
         ]);
 

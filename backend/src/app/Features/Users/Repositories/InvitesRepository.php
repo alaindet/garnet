@@ -39,10 +39,18 @@ class InvitesRepository extends Repository
         return $this->db->insert($sql, $params);
     }
 
-    public function getInviteByToken(string $token): array
+    public function getInviteByToken(string $token): array | null
     {
         $sql = "SELECT * FROM {$this->table} WHERE token = :token";
         $params = [':token' => $token];
         return $this->db->selectFirst($sql, $params);
+    }
+
+    public function deleteInviteByToken(string $token): int
+    {
+        $sql = "DELETE FROM {$this->table} WHERE token = :token";
+        $params = [':token' => $token];
+        return $this->db->execute($sql, $params);
+
     }
 }

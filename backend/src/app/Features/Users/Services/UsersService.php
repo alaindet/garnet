@@ -40,7 +40,7 @@ class UsersService
         $dto->lastName = $item['last_name'];
         $dto->role = $item['role'];
         $dto->email = $item['email'];
-        
+
         return $dto;
     }
 
@@ -64,6 +64,8 @@ class UsersService
         $dtoOut->userRoleId = $dtoIn->userRoleId;
         $dtoOut->courseId = $dtoIn->courseId;
 
+        // TODO: Send email...
+
         return $dtoOut;
     }
 
@@ -80,7 +82,10 @@ class UsersService
         $expiresOn = Time::getTimestamp($invite['expires_on']);
         $now = Time::getTimestamp();
 
-        dd([$expiresOn, $now]);
+        if ($now >= $expiresOn) {
+            $invitesRepo->deleteInviteByToken($token);
+            return false;
+        }
 
         return true;
     }

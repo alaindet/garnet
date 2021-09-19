@@ -7,6 +7,9 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+CREATE DATABASE `garnet` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+USE `garnet`;
+
 DROP TABLE IF EXISTS `courses`;
 CREATE TABLE `courses` (
   `course_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
