@@ -39,9 +39,16 @@ class InvitesRepository extends Repository
         return $this->db->insert($sql, $params);
     }
 
+    /**
+     * The BINARY operator performs a binary comparison, so that
+     * the query is case-sensitive
+     *
+     * @param string $token
+     * @return void
+     */
     public function getInviteByToken(string $token): array | null
     {
-        $sql = "SELECT * FROM {$this->table} WHERE token = :token";
+        $sql = "SELECT * FROM {$this->table} WHERE token = BINARY :token";
         $params = [':token' => $token];
         return $this->db->selectFirst($sql, $params);
     }

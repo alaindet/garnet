@@ -2,7 +2,7 @@
 
 namespace App\Features\Authentication\Dtos;
 
-class LoginUserDto
+class SignInUserDto
 {
     public string $email;
     public string $password;

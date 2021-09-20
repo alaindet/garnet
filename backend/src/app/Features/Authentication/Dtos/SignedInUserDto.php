@@ -2,7 +2,7 @@
 
 namespace App\Features\Authentication\Dtos;
 
-class LoggedUserDto
+class SignedInUserDto
 {
     public string $jwt;
 }

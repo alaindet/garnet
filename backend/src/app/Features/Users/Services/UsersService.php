@@ -72,6 +72,7 @@ class UsersService
     public function checkInviteToken(CheckInviteDto $dto): bool
     {
         $token = $dto->token;
+
         $invitesRepo = new InvitesRepository();
         $invite = $invitesRepo->getInviteByToken($token);
 

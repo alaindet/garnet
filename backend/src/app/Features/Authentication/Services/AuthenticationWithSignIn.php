@@ -6,11 +6,11 @@ use Firebase\JWT\JWT;
 
 use App\Shared\Utils\Time;
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
-use App\Features\Authentication\Dtos\{LoginUserDto, LoggedUserDto};
+use App\Features\Authentication\Dtos\{SignInUserDto, SignedInUserDto};
 
 trait AuthenticationWithSignIn
 {
-    public function signIn(LoginUserDto $dtoIn): LoggedUserDto
+    public function signIn(SignInUserDto $dtoIn): SignedInUserDto
     {
         $user = $this->validateLoginDto($dtoIn);
 
@@ -20,13 +20,13 @@ trait AuthenticationWithSignIn
 
         $jwt = $this->buildJwt($user, $from, $to);
 
-        $dtoOut = new LoggedUserDto();
+        $dtoOut = new SignedInUserDto();
         $dtoOut->jwt = $jwt;
 
         return $dtoOut;
     }
 
-    private function validateLoginDto(LoginUserDto $dto): array
+    private function validateLoginDto(SignInUserDto $dto): array
     {
         $fields = ['user_id', 'user_role_id', 'email', 'password'];
 
