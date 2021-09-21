@@ -68,4 +68,22 @@ trait CoursesRepositoryWriteOperations
         $params = [':courseid' => $courseId];
         return $this->db->execute($sql, $params);
     }
+
+    public function addStudentToCourse(
+        string | int $courseId,
+        string | int $studentId
+    ): void
+    {
+        $sql = "
+            INSERT INTO course_student (course_id, student_id)
+            VALUES (:courseid, :studentid)
+        ";
+
+        $params = [
+            ':courseid' => $courseId,
+            ':studentid' => $studentId,
+        ];
+
+        $this->db->insert($sql, $params);
+    }
 }

@@ -70,9 +70,8 @@ class UsersController extends Controller
         // Check token
         $checkInviteDto = new CheckInviteDto;
         $checkInviteDto->token = $dto->token;
-        $isTokenValid = $this->usersService->checkInviteToken($checkInviteDto);
 
-        if (!$isTokenValid) {
+        if (!$this->usersService->checkInviteToken($checkInviteDto)) {
             throw new UnauthorizedHttpException(
                 'Invalid or expired token'
             );
@@ -84,6 +83,7 @@ class UsersController extends Controller
         $signInDto->email = $dto->email;
         $signInDto->password = $dto->password;
         $signedInDto = $authService->signIn($signInDto);
+        $jwt = $signedInDto->jwt;
 
         $this->usersService->acceptInviteBySignIn($dto->token);
 
