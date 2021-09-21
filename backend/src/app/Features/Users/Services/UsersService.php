@@ -3,6 +3,8 @@
 namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
+use App\Features\Courses\Repositories\CoursesRepository;
+use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Users\Constants\UserConstants;
 use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
@@ -119,9 +121,21 @@ class UsersService
 
     private function acceptStudentInviteBySignIn(array $invite): void
     {
-        // Add row to course_student
+        $email = $invite['email'];
+        $user = $this->usersRepo->findUserByEmail($email);
 
+        if (!isset($user)) {
+            throw new NotFoundHttpException(
+                'User not found'
+            );
+        }
 
+        $coursesRepo = new CoursesRepository();
+        $courseId = $invite['course_id'];
+        $studentId = $user['user_id'];
+        $coursesRepo->addStudentToCourse($courseId, $studentId);
+
+        $tasksRepo = new TasksRepository();
         // Clone all tasks into task_user
 
     }
