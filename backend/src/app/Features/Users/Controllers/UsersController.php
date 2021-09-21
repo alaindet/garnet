@@ -3,10 +3,12 @@
 namespace App\Features\Users\Controllers;
 
 use App\Core\Controller;
+use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Features\Authentication\Dtos\SignInUserDto;
 use App\Features\Authentication\Services\AuthenticationService;
+use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Services\UsersService;
 
 class UsersController extends Controller
@@ -64,17 +66,26 @@ class UsersController extends Controller
     public function acceptInviteBySignIn(Request $req, Response $res): Response
     {
         $dto = $req->getValidatedData('dto');
-        $authService = new AuthenticationService;
 
+        // Check token
+        $checkInviteDto = new CheckInviteDto;
+        $checkInviteDto->token = $dto->token;
+        $isTokenValid = $this->usersService->checkInviteToken($checkInviteDto);
+
+        if (!$isTokenValid) {
+            throw new UnauthorizedHttpException(
+                'Invalid or expired token'
+            );
+        }
+
+        // Try authenticating the user
+        $authService = new AuthenticationService;
         $signInDto = new SignInUserDto();
         $signInDto->email = $dto->email;
         $signInDto->password = $dto->password;
+        $signedInDto = $authService->signIn($signInDto);
 
-        $authService->signIn($signInDto);
-
-        // TODO: Check token
-        // TODO: Accept
-        // $this->usersService->acceptInvite($token);
+        $this->usersService->acceptInviteBySignIn($dto->token);
 
         $res->setBody([
             'message' => 'Student :student accepted the invite to join course #:course',

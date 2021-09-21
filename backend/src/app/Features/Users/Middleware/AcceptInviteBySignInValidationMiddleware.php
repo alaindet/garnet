@@ -35,7 +35,7 @@ class AcceptInviteBySignInValidationMiddleware extends Middleware
         ]);
 
         if (!$validator->validate()) {
-            $message = 'Could not accept invite';
+            $message = 'Invalid request';
             $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
         }

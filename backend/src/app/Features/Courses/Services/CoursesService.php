@@ -123,4 +123,11 @@ class CoursesService
     {
         return $this->coursesRepo->searchByName($courseName);
     }
+
+    public function addStudentToCourse(
+        AddStudentToCourseDto $dto,
+    ): void
+    {
+
+    }
 }

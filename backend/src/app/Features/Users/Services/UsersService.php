@@ -8,6 +8,7 @@ use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
 use App\Features\Users\Dtos\CreateStudentInviteDto;
 use App\Features\Users\Dtos\GetUserProfileDto;
+use App\Features\Users\Enums\UserRole;
 use App\Features\Users\Repositories\InvitesRepository;
 use App\Features\Users\Repositories\UsersRepository;
 use App\Shared\Utils\Random;
@@ -89,5 +90,44 @@ class UsersService
         }
 
         return true;
+    }
+
+    public function acceptInviteBySignIn(string $token): void
+    {
+        $invitesRepo = new InvitesRepository();
+        $invite = $invitesRepo->getInviteByToken($token);
+
+        if (!isset($invite)) {
+            throw new NotFoundHttpException(
+                'Invite not found'
+            );
+        }
+
+        switch ($invite['user_role_id']) {
+
+            case UserRole::Student:
+                $this->acceptStudentInviteBySignIn($invite);
+                break;
+
+            case UserRole::Teacher:
+                $this->acceptTeacherInviteBySignIn($invite);
+                break;
+        }
+
+        $invitesRepo->deleteInviteByToken($token);
+    }
+
+    private function acceptStudentInviteBySignIn(array $invite): void
+    {
+        // Add row to course_student
+
+
+        // Clone all tasks into task_user
+
+    }
+
+    private function acceptTeacherInviteBySignIn(array $invite): void
+    {
+        // TODO...
     }
 }
