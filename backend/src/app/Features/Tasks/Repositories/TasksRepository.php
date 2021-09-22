@@ -144,19 +144,22 @@ class TasksRepository extends Repository
         return $this->db->execute($sql, $params);
     }
 
-    public function initStudentTasksFromCourse(
+    public function cloneStudentTasksFromCourse(
         string | int $courseId,
         string | int $studentId
     ): void
     {
         $sql = "
             INSERT INTO task_user (task_id, user_id)
-            SELECT column1, column2, column3, ...
-            FROM table1
-            WHERE condition;
+            SELECT t.task_id, :studentid
+            FROM {$this->table} AS t
+            WHERE t.course_id = :courseid
         ";
 
-        $params = [];
+        $params = [
+            ':studentid' => $studentId,
+            ':courseid' => $courseId,
+        ];
 
         $this->db->insert($sql, $params);
     }

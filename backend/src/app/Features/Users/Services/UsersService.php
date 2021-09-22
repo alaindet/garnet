@@ -3,6 +3,7 @@
 namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
+use App\Features\Authentication\Dtos\SignedInUserDto;
 use App\Features\Courses\Repositories\CoursesRepository;
 use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Users\Constants\UserConstants;
@@ -10,6 +11,7 @@ use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
 use App\Features\Users\Dtos\CreateStudentInviteDto;
 use App\Features\Users\Dtos\GetUserProfileDto;
+use App\Features\Users\Dtos\AcceptedInviteBySignInDto;
 use App\Features\Users\Enums\UserRole;
 use App\Features\Users\Repositories\InvitesRepository;
 use App\Features\Users\Repositories\UsersRepository;
@@ -72,7 +74,7 @@ class UsersService
         return $dtoOut;
     }
 
-    public function checkInviteToken(CheckInviteDto $dto): bool
+    public function checkInviteToken(CheckInviteDto $dto): array | false
     {
         $token = $dto->token;
 
@@ -91,24 +93,21 @@ class UsersService
             return false;
         }
 
-        return true;
+        return $invite;
     }
 
-    public function acceptInviteBySignIn(string $token): void
+    public function acceptInviteBySignIn(
+        array $invite,
+        SignedInUserDto $signedInDto
+    ): AcceptedInviteBySignInDto
     {
         $invitesRepo = new InvitesRepository();
-        $invite = $invitesRepo->getInviteByToken($token);
-
-        if (!isset($invite)) {
-            throw new NotFoundHttpException(
-                'Invite not found'
-            );
-        }
+        $courseId = null;
 
         switch ($invite['user_role_id']) {
 
             case UserRole::Student:
-                $this->acceptStudentInviteBySignIn($invite);
+                $courseId = $this->acceptStudentInviteBySignIn($invite);
                 break;
 
             case UserRole::Teacher:
@@ -116,10 +115,15 @@ class UsersService
                 break;
         }
 
-        $invitesRepo->deleteInviteByToken($token);
+        $invitesRepo->deleteInviteByToken($invite['token']);
+        $acceptedInviteDto = new AcceptedInviteBySignInDto;
+        $acceptedInviteDto->jwt = $signedInDto->jwt;
+        $acceptedInviteDto->courseId = $courseId;
+
+        return $acceptedInviteDto;
     }
 
-    private function acceptStudentInviteBySignIn(array $invite): void
+    private function acceptStudentInviteBySignIn(array $invite): string | int
     {
         $email = $invite['email'];
         $user = $this->usersRepo->findUserByEmail($email);
@@ -130,14 +134,13 @@ class UsersService
             );
         }
 
-        $coursesRepo = new CoursesRepository();
-        $courseId = $invite['course_id'];
         $studentId = $user['user_id'];
-        $coursesRepo->addStudentToCourse($courseId, $studentId);
+        $courseId = $invite['course_id'];
+        (new CoursesRepository)->addStudentToCourse($courseId, $studentId);
 
-        $tasksRepo = new TasksRepository();
-        // Clone all tasks into task_user
+        (new TasksRepository)->cloneStudentTasksFromCourse($courseId, $studentId);
 
+        return $courseId;
     }
 
     private function acceptTeacherInviteBySignIn(array $invite): void

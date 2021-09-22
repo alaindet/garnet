@@ -53,7 +53,7 @@ class UsersController extends Controller
     {
         $dto = $req->getValidatedData('dto');
 
-        $isTokenValid = $this->usersService->checkInviteToken($dto);
+        $isTokenValid = $this->usersService->checkInviteToken($dto) !== false;
 
         $res->setBody([
             'message' => 'Invite token is ' . ($isTokenValid ? '' : 'in'). 'valid',
@@ -70,8 +70,9 @@ class UsersController extends Controller
         // Check token
         $checkInviteDto = new CheckInviteDto;
         $checkInviteDto->token = $dto->token;
+        $invite = $this->usersService->checkInviteToken($checkInviteDto);
 
-        if (!$this->usersService->checkInviteToken($checkInviteDto)) {
+        if ($invite === false) {
             throw new UnauthorizedHttpException(
                 'Invalid or expired token'
             );
@@ -79,14 +80,14 @@ class UsersController extends Controller
 
         // Try authenticating the user
         $authService = new AuthenticationService;
-        $signInDto = new SignInUserDto();
+        $signInDto = new SignInUserDto;
         $signInDto->email = $dto->email;
         $signInDto->password = $dto->password;
         $signedInDto = $authService->signIn($signInDto);
-        $jwt = $signedInDto->jwt;
 
-        $this->usersService->acceptInviteBySignIn($dto->token);
+        $this->usersService->acceptInviteBySignIn($invite, $signedInDto);
 
+        // TODO
         $res->setBody([
             'message' => 'Student :student accepted the invite to join course #:course',
             'data' => null,
