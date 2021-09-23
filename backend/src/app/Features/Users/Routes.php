@@ -9,6 +9,7 @@ use App\Features\Authentication\Middleware\RoleAuthorizationMiddleware;
 use App\Features\Users\Middleware\InviteStudentValidationMiddleware;
 use App\Features\Users\Middleware\CheckInviteValidationMiddleware;
 use App\Features\Users\Middleware\AcceptInviteBySignInValidationMiddleware;
+use App\Features\Users\Middleware\AcceptInviteByRegistrationValidationMiddleware;
 use App\Features\Users\Controllers\UsersController;
 use App\Features\Users\Enums\UserRole;
 
@@ -31,8 +32,14 @@ class Routes
                     ->middleware($role, [$teacher])
                     ->middleware(InviteStudentValidationMiddleware::class),
 
-                Route::post('/invite/student/signin', '@acceptInviteBySignIn')
+                // // TODO
+                // Route::post('/invite/teacher', '@generateTeacherInvite')
+
+                Route::post('/invite/accept/signin', '@acceptInviteBySigningIn')
                     ->middleware(AcceptInviteBySignInValidationMiddleware::class),
+                
+                Route::post('/invite/accept/register', '@acceptInviteByRegistration')
+                    ->middleware(AcceptInviteByRegistrationValidationMiddleware::class),
 
                 Route::post('/invite/check', '@checkInviteValidity')
                     ->middleware(CheckInviteValidationMiddleware::class),
