@@ -123,6 +123,11 @@ class UsersService
         return $acceptedInviteDto;
     }
 
+    public function acceptInviteByRegistration()
+    {
+        // TODO...
+    }
+
     private function acceptStudentInviteBySignIn(array $invite): string | int
     {
         $email = $invite['email'];

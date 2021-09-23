@@ -19,3 +19,4 @@
 - [ ] BE: Refactor invites in separate feature
 - [ ] BE: Move response messages into dto?
 - [ ] BE: Use "is" validator on any validator to type check input
+- [ ] BE: Merge Authentication and Users features

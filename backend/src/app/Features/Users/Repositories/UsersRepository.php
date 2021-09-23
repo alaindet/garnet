@@ -3,6 +3,7 @@
 namespace App\Features\Users\Repositories;
 
 use App\Core\Repository;
+use App\Features\Authentication\Dtos\RegisterUserDto;
 use App\Core\Services\Database\Database;
 
 class UsersRepository extends Repository
@@ -13,6 +14,28 @@ class UsersRepository extends Repository
     public function __construct()
     {
         $this->db = appServiceProvider(Database::class);
+    }
+
+    public function createUser(RegisterUserDto $dto): int
+    {
+        $sql = "
+            INSERT INTO {$this->table}
+                (first_name, last_name, user_role_id, email, password)
+            VALUES
+                (:firstname, :lastname, :roleid, :email, :password)
+        ";
+
+        $params = [
+            ':firstname' => $dto->firstName,
+            ':lastName' => $dto->lastName,
+            ':roleid'=> $dto->roleId,
+            ':email' => $dto->email,
+            ':password' => $dto->password,
+        ];
+
+        $userId = $this->db->insert($sql, $params);
+
+        return $userId;
     }
 
     public function getUserProfile(string|int $userId): array|null
