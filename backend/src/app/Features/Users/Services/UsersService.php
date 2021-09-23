@@ -136,8 +136,8 @@ class UsersService
 
         $studentId = $user['user_id'];
         $courseId = $invite['course_id'];
-        (new CoursesRepository)->addStudentToCourse($courseId, $studentId);
 
+        (new CoursesRepository)->addStudentToCourse($courseId, $studentId);
         (new TasksRepository)->cloneStudentTasksFromCourse($courseId, $studentId);
 
         return $courseId;

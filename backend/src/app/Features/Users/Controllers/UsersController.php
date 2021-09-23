@@ -63,7 +63,7 @@ class UsersController extends Controller
         return $res;
     }
 
-    public function acceptInviteBySignIn(Request $req, Response $res): Response
+    public function acceptInviteBySigningIn(Request $req, Response $res): Response
     {
         $dto = $req->getValidatedData('dto');
 
@@ -85,11 +85,25 @@ class UsersController extends Controller
         $signInDto->password = $dto->password;
         $signedInDto = $authService->signIn($signInDto);
 
-        $this->usersService->acceptInviteBySignIn($invite, $signedInDto);
+        $acceptedInviteDto = $this->usersService->acceptInviteBySignIn(
+            $invite,
+            $signedInDto
+        );
 
-        // TODO
         $res->setBody([
-            'message' => 'Student :student accepted the invite to join course #:course',
+            'message' => 'Invite accepted by signing in',
+            'data' => $acceptedInviteDto,
+        ]);
+
+        return $res;
+    }
+
+    public function acceptInviteByRegistration(Request $req, Response $res): Response
+    {
+        // TODO...
+
+        $res->setBody([
+            'message' => 'Invite accepted by registering',
             'data' => null,
         ]);
 

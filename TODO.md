@@ -17,3 +17,4 @@
 - [ ] FE: Use guard to print error and redirect if course id is missing from query params
 - [ ] FE: Print student name on board "as student" feature
 - [ ] BE: Refactor invites in separate feature
+- [ ] BE: Move response messages into dto?
