@@ -35,12 +35,15 @@ class Routes
                 // // TODO
                 // Route::post('/invite/teacher', '@generateTeacherInvite')
 
+                // Public
                 Route::post('/invite/accept/signin', '@acceptInviteBySigningIn')
                     ->middleware(AcceptInviteBySignInValidationMiddleware::class),
-                
+
+                // Public
                 Route::post('/invite/accept/register', '@acceptInviteByRegistration')
                     ->middleware(AcceptInviteByRegistrationValidationMiddleware::class),
 
+                // Public
                 Route::post('/invite/check', '@checkInviteValidity')
                     ->middleware(CheckInviteValidationMiddleware::class),
             ])

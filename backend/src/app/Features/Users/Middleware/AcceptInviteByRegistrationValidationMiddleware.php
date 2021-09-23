@@ -7,7 +7,7 @@ use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Core\Middleware;
 use App\Features\Users\Constants\UserConstants;
-use App\Features\Users\Dtos\AcceptInviteBySignInDto;
+use App\Features\Users\Dtos\AcceptInviteByRegisteringDto;
 use App\Shared\Validation\Validator;
 
 class AcceptInviteByRegistrationValidationMiddleware extends Middleware
@@ -16,37 +16,52 @@ class AcceptInviteByRegistrationValidationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        // $body = $req->getBody();
+        $body = $req->getBody();
 
-        // $length = UserConstants::INVITE_TOKEN_LENGTH;
+        $tokenLength = UserConstants::INVITE_TOKEN_LENGTH;
 
-        // $validator = new Validator($body, [
-        //     'email' => [
-        //         'required' => true,
-        //         'email' => true,
-        //     ],
-        //     'password' => [
-        //         'required' => true,
-        //     ],
-        //     'token' => [
-        //         'required' => true,
-        //         'exactLength' => $length,
-        //     ],
-        // ]);
+        $validator = new Validator($body, [
+            'email' => [
+                'required' => true,
+                'is' => 'string',
+                'email' => true,
+            ],
+            'password' => [
+                'required' => true,
+                'is' => 'string',
+            ],
+            'firstName' => [
+                'required' => true,
+                'is' => 'string',
+                'minLength' => 2,
+            ],
+            'lastName' => [
+                'required' => true,
+                'is' => 'string',
+                'minLength' => 2,
+            ],
+            'token' => [
+                'required' => true,
+                'is' => 'string',
+                'exactLength' => $tokenLength,
+            ],
+        ]);
 
-        // if (!$validator->validate()) {
-        //     $message = 'Invalid request';
-        //     $data = ['validation' => $validator->getErrors()];
-        //     throw (new BadRequestHttpException($message))->setData($data);
-        // }
+        if (!$validator->validate()) {
+            $message = 'Invalid request';
+            $data = ['validation' => $validator->getErrors()];
+            throw (new BadRequestHttpException($message))->setData($data);
+        }
 
-        // $dto = new AcceptInviteBySignInDto();
-        // $dto->email = $body['email'];
-        // $dto->password = $body['password'];
-        // $dto->token = $body['token'];
+        $dto = new AcceptInviteByRegisteringDto();
+        $dto->email = $body['email'];
+        $dto->password = $body['password'];
+        $dto->firstName = $body['firstName'];
+        $dto->lastName = $body['lastName'];
+        $dto->token = $body['token'];
 
-        // $req->setValidatedData(['dto' => $dto]);
+        $req->setValidatedData(['dto' => $dto]);
 
-        // return $res;
+        return $res;
     }
 }

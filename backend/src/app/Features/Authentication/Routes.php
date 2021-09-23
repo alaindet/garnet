@@ -15,6 +15,8 @@ class Routes
             ->path('/auth')
             ->handler(AuthenticationController::class)
             ->routes([
+
+                // Public
                 Route::post('/signin', '@signIn')
                     ->middleware(SignInValidationMiddleware::class)
             ])

@@ -2,7 +2,7 @@
 
 namespace App\Features\Users\Dtos;
 
-class AcceptInviteBySignInDto
+class AcceptInviteBySigningInDto
 {
     public string $email;
     public string $password;

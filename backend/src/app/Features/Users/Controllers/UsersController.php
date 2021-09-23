@@ -100,7 +100,26 @@ class UsersController extends Controller
 
     public function acceptInviteByRegistration(Request $req, Response $res): Response
     {
+        $dto = $req->getValidatedData('dto');
+
+        // Check token
+        $checkInviteDto = new CheckInviteDto;
+        $checkInviteDto->token = $dto->token;
+        $invite = $this->usersService->checkInviteToken($checkInviteDto);
+
+        if ($invite === false) {
+            throw new UnauthorizedHttpException(
+                'Invalid or expired token'
+            );
+        }
+
         // TODO...
+        // Register new user
+            // If student
+                // Add to course_student
+                // Add to task_user
+        // Remove token
+        // Sign in
 
         $res->setBody([
             'message' => 'Invite accepted by registering',

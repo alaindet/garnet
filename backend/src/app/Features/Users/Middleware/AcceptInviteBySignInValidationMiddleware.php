@@ -7,7 +7,7 @@ use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Core\Middleware;
 use App\Features\Users\Constants\UserConstants;
-use App\Features\Users\Dtos\AcceptInviteBySignInDto;
+use App\Features\Users\Dtos\AcceptInviteBySigningInDto;
 use App\Shared\Validation\Validator;
 
 class AcceptInviteBySignInValidationMiddleware extends Middleware
@@ -40,7 +40,7 @@ class AcceptInviteBySignInValidationMiddleware extends Middleware
             throw (new BadRequestHttpException($message))->setData($data);
         }
 
-        $dto = new AcceptInviteBySignInDto();
+        $dto = new AcceptInviteBySigningInDto();
         $dto->email = $body['email'];
         $dto->password = $body['password'];
         $dto->token = $body['token'];

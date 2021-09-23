@@ -7,6 +7,7 @@ use App\Features\Users\Repositories\UsersRepository;
 class AuthenticationService
 {
     use AuthenticationWithSignIn;
+    use AuthenticationWithRegistration;
 
     protected UsersRepository $usersRepo;
 
