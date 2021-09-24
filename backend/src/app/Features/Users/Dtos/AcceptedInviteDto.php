@@ -2,7 +2,7 @@
 
 namespace App\Features\Users\Dtos;
 
-class AcceptedInviteBySignInDto
+class AcceptedInviteDto
 {
     public string $jwt;
     public string | int | null $courseId = null;

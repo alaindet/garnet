@@ -7,7 +7,7 @@ use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Core\Middleware;
 use App\Features\Users\Constants\UserConstants;
-use App\Features\Users\Dtos\AcceptInviteByRegisteringDto;
+use App\Features\Users\Dtos\AcceptInviteByRegistrationDto;
 use App\Shared\Validation\Validator;
 
 class AcceptInviteByRegistrationValidationMiddleware extends Middleware
@@ -53,7 +53,7 @@ class AcceptInviteByRegistrationValidationMiddleware extends Middleware
             throw (new BadRequestHttpException($message))->setData($data);
         }
 
-        $dto = new AcceptInviteByRegisteringDto();
+        $dto = new AcceptInviteByRegistrationDto();
         $dto->email = $body['email'];
         $dto->password = $body['password'];
         $dto->firstName = $body['firstName'];

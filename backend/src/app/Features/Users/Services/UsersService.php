@@ -3,15 +3,20 @@
 namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
-use App\Features\Authentication\Dtos\SignedInUserDto;
+use App\Core\Exceptions\Http\UnauthorizedHttpException;
+use App\Features\Authentication\Dtos\RegisterUserDto;
+use App\Features\Authentication\Dtos\SignInUserDto;
+use App\Features\Authentication\Services\AuthenticationService;
 use App\Features\Courses\Repositories\CoursesRepository;
 use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Users\Constants\UserConstants;
+use App\Features\Users\Dtos\AcceptedInviteDto;
+use App\Features\Users\Dtos\AcceptInviteByRegistrationDto;
+use App\Features\Users\Dtos\AcceptInviteBySigningInDto;
 use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
 use App\Features\Users\Dtos\CreateStudentInviteDto;
 use App\Features\Users\Dtos\GetUserProfileDto;
-use App\Features\Users\Dtos\AcceptedInviteBySignInDto;
 use App\Features\Users\Enums\UserRole;
 use App\Features\Users\Repositories\InvitesRepository;
 use App\Features\Users\Repositories\UsersRepository;
@@ -74,15 +79,17 @@ class UsersService
         return $dtoOut;
     }
 
-    public function checkInviteToken(CheckInviteDto $dto): array | false
+    public function checkInviteToken(CheckInviteDto $dto): array
     {
-        $token = $dto->token;
-
         $invitesRepo = new InvitesRepository();
+
+        $token = $dto->token;
         $invite = $invitesRepo->getInviteByToken($token);
 
         if ($invite === null) {
-            return false;
+            $message = 'Invalid or expired token';
+            $data = false;
+            throw (new UnauthorizedHttpException($message))->setData($data);
         }
 
         $expiresOn = Time::getTimestamp($invite['expires_on']);
@@ -90,48 +97,96 @@ class UsersService
 
         if ($now >= $expiresOn) {
             $invitesRepo->deleteInviteByToken($token);
-            return false;
+            $message = 'Invalid or expired token';
+            $data = false;
+            throw (new UnauthorizedHttpException($message))->setData($data);
         }
 
         return $invite;
     }
 
     public function acceptInviteBySignIn(
-        array $invite,
-        SignedInUserDto $signedInDto
-    ): AcceptedInviteBySignInDto
+        AcceptInviteBySigningInDto $acceptDto
+    ): AcceptedInviteDto
     {
         $invitesRepo = new InvitesRepository();
+        $authService = new AuthenticationService();
         $courseId = null;
+
+        // Check token
+        $checkInviteDto = new CheckInviteDto();
+        $checkInviteDto->token = $acceptDto->token;
+        $invite = $this->checkInviteToken($checkInviteDto);
+
+        // Try authenticating the user
+        $signInDto = new SignInUserDto();
+        $signInDto->email = $acceptDto->email;
+        $signInDto->password = $acceptDto->password;
+        $signedInDto = $authService->signIn($signInDto);
 
         switch ($invite['user_role_id']) {
 
             case UserRole::Student:
-                $courseId = $this->acceptStudentInviteBySignIn($invite);
+                $courseId = $this->acceptStudentInvite($invite);
                 break;
 
             case UserRole::Teacher:
-                $this->acceptTeacherInviteBySignIn($invite);
+                $this->acceptTeacherInvite($invite);
                 break;
         }
 
         $invitesRepo->deleteInviteByToken($invite['token']);
-        $acceptedInviteDto = new AcceptedInviteBySignInDto;
+        $acceptedInviteDto = new AcceptedInviteDto;
         $acceptedInviteDto->jwt = $signedInDto->jwt;
         $acceptedInviteDto->courseId = $courseId;
 
         return $acceptedInviteDto;
     }
 
-    public function acceptInviteByRegistration()
+    public function acceptInviteByRegistration(
+        AcceptInviteByRegistrationDto $acceptDto
+    ): AcceptedInviteDto
     {
-        // TODO...
+        $invitesRepo = new InvitesRepository();
+        $authService = new AuthenticationService();
+        $courseId = null;
+
+        // Check token
+        $checkInviteDto = new CheckInviteDto();
+        $checkInviteDto->token = $acceptDto->token;
+        $invite = $this->checkInviteToken($checkInviteDto);
+
+        // Try registering the user
+        $registerDto = new RegisterUserDto();
+        $registerDto->email = $acceptDto->email;
+        $registerDto->password = $acceptDto->password;
+        $registerDto->firstName = $acceptDto->firstName;
+        $registerDto->lastName = $acceptDto->lastName;
+        $registerDto->roleId = $invite['user_role_id'];
+        $signedInDto = $authService->register($registerDto);
+
+        switch ($invite['user_role_id']) {
+
+            case UserRole::Student:
+                $courseId = $this->acceptStudentInvite($invite);
+                break;
+
+            case UserRole::Teacher:
+                $this->acceptTeacherInvite($invite);
+                break;
+        }
+
+        $invitesRepo->deleteInviteByToken($invite['token']);
+        $acceptedInviteDto = new AcceptedInviteDto;
+        $acceptedInviteDto->jwt = $signedInDto->jwt;
+        $acceptedInviteDto->courseId = $courseId;
+
+        return $acceptedInviteDto;
     }
 
-    private function acceptStudentInviteBySignIn(array $invite): string | int
+    private function acceptStudentInvite(array $invite): string | int
     {
-        $email = $invite['email'];
-        $user = $this->usersRepo->findUserByEmail($email);
+        $user = $this->usersRepo->findUserByEmail($invite['email']);
 
         if (!isset($user)) {
             throw new NotFoundHttpException(
@@ -139,8 +194,8 @@ class UsersService
             );
         }
 
-        $studentId = $user['user_id'];
         $courseId = $invite['course_id'];
+        $studentId = $user['user_id'];
 
         (new CoursesRepository)->addStudentToCourse($courseId, $studentId);
         (new TasksRepository)->cloneStudentTasksFromCourse($courseId, $studentId);
@@ -148,7 +203,7 @@ class UsersService
         return $courseId;
     }
 
-    private function acceptTeacherInviteBySignIn(array $invite): void
+    private function acceptTeacherInvite(array $invite): void
     {
         // TODO...
     }

@@ -3,12 +3,8 @@
 namespace App\Features\Users\Controllers;
 
 use App\Core\Controller;
-use App\Core\Exceptions\Http\UnauthorizedHttpException;
 use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
-use App\Features\Authentication\Dtos\SignInUserDto;
-use App\Features\Authentication\Services\AuthenticationService;
-use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Services\UsersService;
 
 class UsersController extends Controller
@@ -51,13 +47,11 @@ class UsersController extends Controller
 
     public function checkInviteValidity(Request $req, Response $res): Response
     {
-        $dto = $req->getValidatedData('dto');
-
-        $isTokenValid = $this->usersService->checkInviteToken($dto) !== false;
+        $inviteDto = $req->getValidatedData('dto');
 
         $res->setBody([
-            'message' => 'Invite token is ' . ($isTokenValid ? '' : 'in'). 'valid',
-            'data' => $isTokenValid,
+            'message' => 'Invite token is valid',
+            'data' => (bool) $this->usersService->checkInviteToken($inviteDto),
         ]);
 
         return $res;
@@ -65,34 +59,12 @@ class UsersController extends Controller
 
     public function acceptInviteBySigningIn(Request $req, Response $res): Response
     {
-        $dto = $req->getValidatedData('dto');
-
-        // Check token
-        $checkInviteDto = new CheckInviteDto;
-        $checkInviteDto->token = $dto->token;
-        $invite = $this->usersService->checkInviteToken($checkInviteDto);
-
-        if ($invite === false) {
-            throw new UnauthorizedHttpException(
-                'Invalid or expired token'
-            );
-        }
-
-        // Try authenticating the user
-        $authService = new AuthenticationService;
-        $signInDto = new SignInUserDto;
-        $signInDto->email = $dto->email;
-        $signInDto->password = $dto->password;
-        $signedInDto = $authService->signIn($signInDto);
-
-        $acceptedInviteDto = $this->usersService->acceptInviteBySignIn(
-            $invite,
-            $signedInDto
-        );
+        $acceptDto = $req->getValidatedData('dto');
+        $acceptedDto = $this->usersService->acceptInviteBySignIn($acceptDto);
 
         $res->setBody([
             'message' => 'Invite accepted by signing in',
-            'data' => $acceptedInviteDto,
+            'data' => $acceptedDto,
         ]);
 
         return $res;
@@ -100,30 +72,12 @@ class UsersController extends Controller
 
     public function acceptInviteByRegistration(Request $req, Response $res): Response
     {
-        $dto = $req->getValidatedData('dto');
-
-        // Check token
-        $checkInviteDto = new CheckInviteDto;
-        $checkInviteDto->token = $dto->token;
-        $invite = $this->usersService->checkInviteToken($checkInviteDto);
-
-        if ($invite === false) {
-            throw new UnauthorizedHttpException(
-                'Invalid or expired token'
-            );
-        }
-
-        // TODO...
-        // Register new user
-            // If student
-                // Add to course_student
-                // Add to task_user
-        // Remove token
-        // Sign in
+        $acceptDto = $req->getValidatedData('dto');
+        $acceptedDto = $this->usersService->acceptInviteByRegistration($acceptDto);
 
         $res->setBody([
-            'message' => 'Invite accepted by registering',
-            'data' => null,
+            'message' => 'Invite accepted by registration',
+            'data' => $acceptedDto,
         ]);
 
         return $res;
