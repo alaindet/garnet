@@ -27,7 +27,7 @@ class UsersRepository extends Repository
 
         $params = [
             ':firstname' => $dto->firstName,
-            ':lastName' => $dto->lastName,
+            ':lastname' => $dto->lastName,
             ':roleid'=> $dto->roleId,
             ':email' => $dto->email,
             ':password' => $dto->password,

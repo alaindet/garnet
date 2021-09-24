@@ -118,6 +118,13 @@ class UsersService
         $checkInviteDto->token = $acceptDto->token;
         $invite = $this->checkInviteToken($checkInviteDto);
 
+        // Check email of requesting user
+        if ($invite['email'] !== $acceptDto->email) {
+            throw new UnauthorizedHttpException(
+                "This invite is not associated to email {$acceptDto->email}"
+            );
+        }
+
         // Try authenticating the user
         $signInDto = new SignInUserDto();
         $signInDto->email = $acceptDto->email;
@@ -156,6 +163,13 @@ class UsersService
         $checkInviteDto->token = $acceptDto->token;
         $invite = $this->checkInviteToken($checkInviteDto);
 
+        // Check email of requesting user
+        if ($invite['email'] !== $acceptDto->email) {
+            throw new UnauthorizedHttpException(
+                "This invite is not associated to email {$acceptDto->email}"
+            );
+        }
+
         // Try registering the user
         $registerDto = new RegisterUserDto();
         $registerDto->email = $acceptDto->email;
@@ -163,6 +177,7 @@ class UsersService
         $registerDto->firstName = $acceptDto->firstName;
         $registerDto->lastName = $acceptDto->lastName;
         $registerDto->roleId = $invite['user_role_id'];
+
         $signedInDto = $authService->register($registerDto);
 
         switch ($invite['user_role_id']) {
@@ -177,7 +192,7 @@ class UsersService
         }
 
         $invitesRepo->deleteInviteByToken($invite['token']);
-        $acceptedInviteDto = new AcceptedInviteDto;
+        $acceptedInviteDto = new AcceptedInviteDto();
         $acceptedInviteDto->jwt = $signedInDto->jwt;
         $acceptedInviteDto->courseId = $courseId;
 

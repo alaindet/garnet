@@ -10,5 +10,5 @@ class RegisterUserDto
     public string $password;
     public string $firstName;
     public string $lastName;
-    public UserRole $roleId;
+    public int $roleId; // UserRole
 }
