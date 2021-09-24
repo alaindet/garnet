@@ -1,22 +1,18 @@
-- [ ] FE: Add Angular Material components theme for each individual component
+- [ ] FE: Add Angular Material components theme for each individual component, not all
 - [ ] FE: Add dark theme and dark theme toggle
-- [ ] FE: CORS interceptor
-- [ ] FE: Fix style of button with icon
-- [ ] FE: Delete without refetching list
-- [ ] FE: Fetch table rows on update and delete to show name field in feedback
-- [ ] BE: JSON output in camelCase
-- [ ] BE: Remove DTOs from repositories
-- [ ] FE/BE: Invite students to join boards
-- [ ] FE/BE: Invite teachers to join the app
+- [ ] FE: CORS interceptor?
+- [ ] FE: Fix style of button with misaligned icon
+- [ ] FE: Delete anything without refetching list?
+- [ ] BE: JSON output all in camelCase
+- [ ] BE: Remove DTOs from repositories?
+- [ ] FE/BE: Add feature to invite teachers to join the app
 - [ ] FE: Move HTTP error handling into services
-- [ ] FE/BE: Add numbering to tasks
-- [ ] FE: Add pull to upload
+- [ ] FE/BE: Add numbering/ordering to tasks?
+- [ ] FE: Add pull down to upload
 - [ ] BE: Cron job to delete unused tokens (password reset, invites)
 - [ ] BE: Make course name unique
-- [ ] FE: Pass course ID via query params
-- [ ] FE: Use guard to print error and redirect if course id is missing from query params
-- [ ] FE: Print student name on board "as student" feature
-- [ ] BE: Refactor invites in separate feature
-- [ ] BE: Move response messages into dto?
-- [ ] BE: Use "is" validator on any validator to type check input
-- [ ] BE: Merge Authentication and Users features
+- [ ] BE: Refactor invites in separate feature from Users
+- [ ] BE: Use "is" validator on any validator to type check inputs
+- [ ] Global: Add production setup
+- [ ] Global: Add build pipeline
+- [ ] Global: Add Git commit and branches convention

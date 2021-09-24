@@ -18,7 +18,6 @@ CREATE TABLE `courses` (
   `name` varchar(191) NOT NULL,
   `description` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`course_id`),
-  UNIQUE KEY `name` (`name`),
   KEY `teacher_id` (`teacher_id`),
   CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -26,7 +25,7 @@ CREATE TABLE `courses` (
 INSERT INTO `courses` (`course_id`, `teacher_id`, `created_on`, `updated_on`, `name`, `description`) VALUES
 (1,	2,	'2021-08-05 18:47:08',	'2021-08-05 18:47:08',	'React autumn 2021',	'Lorem ipsum dolor sit amet'),
 (2,	3,	'2021-08-05 18:47:21',	'2021-08-05 18:47:21',	'Angular autumn 2021',	'Lorem ipsum dolor sit amet'),
-(3,	2,	'2021-08-23 16:32:06',	'2021-08-23 16:32:06',	'A new course',	'Some description...');
+(6,	2,	'2021-09-09 19:57:38',	'2021-09-09 19:57:38',	'New course',	'Some description');
 
 CREATE TABLE `course_student` (
   `course_id` int(10) unsigned NOT NULL,
@@ -45,6 +44,22 @@ INSERT INTO `course_student` (`course_id`, `student_id`, `created_on`) VALUES
 (2,	7,	'2021-08-19 22:46:00'),
 (2,	8,	'2021-08-19 22:46:00');
 
+CREATE TABLE `invites` (
+  `invite_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `expires_on` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `token` varchar(191) NOT NULL,
+  `email` varchar(191) NOT NULL,
+  `user_role_id` int(10) unsigned NOT NULL,
+  `course_id` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`invite_id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `user_role_id` (`user_role_id`),
+  KEY `course_id` (`course_id`),
+  CONSTRAINT `invites_ibfk_1` FOREIGN KEY (`user_role_id`) REFERENCES `user_roles` (`user_role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `invites_ibfk_2` FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 CREATE TABLE `tasks` (
   `task_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `course_id` int(10) unsigned NOT NULL,
@@ -60,13 +75,13 @@ CREATE TABLE `tasks` (
 INSERT INTO `tasks` (`task_id`, `course_id`, `created_on`, `updated_on`, `name`, `description`) VALUES
 (1,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Init repo',	'Initialize repository on GitHub'),
 (2,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Scaffolding',	'Scaffold application via CLI'),
-(3,	1,	'2021-08-06 16:30:34',	'2021-08-25 06:00:09',	'[Feature] Create new todo',	'As a user, I want to create a new todo'),
+(3,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Create new todo',	'As a user, I want to create a new todo'),
 (4,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Get all todos',	'As a user, I want to get a list of all todos'),
 (5,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Get one todo',	'As a user, I want to get a single todo'),
 (6,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Replace todo',	'As a user, I want to replace a todo'),
-(7,	1,	'2021-08-06 16:30:34',	'2021-08-25 05:58:44',	'[Feature] Delete todo',	'As a user, I want to delete a todo'),
-(8,	1,	'2021-08-06 16:30:34',	'2021-08-25 05:58:00',	'[Feature] Delete todos',	'As a user, I want to delete all todos'),
-(9,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Authentication',	'As a user, I want to authenticate via username and password so that I get back a JWT access token'),
+(7,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Delete todo',	'As a user, I want to delete a todo'),
+(8,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Delete todos',	'As a user, I want to delete all todos'),
+(10,	1,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Validation',	'Validate todo CRUD operations'),
 (11,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Init repo',	'Initialize repository on GitHub'),
 (12,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Scaffolding',	'Scaffold application via CLI'),
 (13,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Create new todo',	'As a user, I want to create a new todo'),
@@ -76,10 +91,7 @@ INSERT INTO `tasks` (`task_id`, `course_id`, `created_on`, `updated_on`, `name`,
 (17,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Delete todo',	'As a user, I want to delete a todo'),
 (18,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Delete todos',	'As a user, I want to delete all todos'),
 (19,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Authentication',	'As a user, I want to authenticate via username and password so that I get back a JWT access token'),
-(20,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Validation',	'Validate todo CRUD operations'),
-(24,	3,	'2021-08-26 15:50:44',	'2021-08-26 15:50:44',	'The first task...',	'...is very important.'),
-(25,	1,	'2021-09-03 06:48:53',	'2021-09-03 06:48:53',	'dsfsdf',	'werwer'),
-(26,	1,	'2021-09-03 15:42:16',	'2021-09-03 15:42:16',	'oodasjfiudsiof',	'sdsadsad');
+(20,	2,	'2021-08-06 16:30:34',	'2021-08-06 16:30:34',	'Feature: Validation',	'Validate todo CRUD operations');
 
 CREATE TABLE `task_states` (
   `task_state_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -94,8 +106,8 @@ INSERT INTO `task_states` (`task_state_id`, `name`) VALUES
 
 CREATE TABLE `task_user` (
   `task_id` int(10) unsigned NOT NULL,
+  `task_state_id` int(10) unsigned NOT NULL DEFAULT 1,
   `user_id` int(10) unsigned NOT NULL,
-  `task_state_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`task_id`,`user_id`,`task_state_id`),
   KEY `user_id` (`user_id`),
   KEY `task_state_id` (`task_state_id`),
@@ -105,54 +117,54 @@ CREATE TABLE `task_user` (
   CONSTRAINT `task_user_ibfk_3` FOREIGN KEY (`task_state_id`) REFERENCES `task_states` (`task_state_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `task_user` (`task_id`, `user_id`, `task_state_id`) VALUES
-(1,	4,	1),
-(1,	5,	3),
-(1,	6,	1),
-(2,	4,	3),
-(2,	5,	3),
-(2,	6,	1),
-(3,	4,	2),
-(3,	5,	2),
-(3,	6,	1),
-(4,	4,	2),
-(4,	5,	1),
-(4,	6,	1),
-(5,	4,	2),
-(5,	5,	2),
-(5,	6,	1),
-(6,	4,	2),
-(6,	5,	2),
-(6,	6,	1),
-(7,	4,	1),
-(7,	5,	1),
-(7,	6,	1),
-(8,	4,	3),
-(8,	5,	1),
-(8,	6,	1),
-(9,	4,	1),
-(9,	5,	1),
-(9,	6,	1),
-(11,	7,	1),
-(11,	8,	1),
-(12,	7,	3),
-(12,	8,	1),
-(13,	7,	2),
-(13,	8,	1),
-(14,	7,	1),
-(14,	8,	1),
-(15,	7,	3),
-(15,	8,	1),
-(16,	7,	3),
-(16,	8,	1),
-(17,	7,	1),
-(17,	8,	1),
-(18,	7,	3),
-(18,	8,	1),
-(19,	7,	2),
-(19,	8,	1),
-(20,	7,	1),
-(20,	8,	1);
+INSERT INTO `task_user` (`task_id`, `task_state_id`, `user_id`) VALUES
+(1,	3,	4),
+(1,	1,	5),
+(1,	1,	6),
+(2,	3,	4),
+(2,	1,	5),
+(2,	1,	6),
+(3,	1,	4),
+(3,	1,	5),
+(3,	1,	6),
+(4,	2,	4),
+(4,	1,	5),
+(4,	1,	6),
+(5,	2,	4),
+(5,	1,	5),
+(5,	1,	6),
+(6,	1,	4),
+(6,	1,	5),
+(6,	1,	6),
+(7,	1,	4),
+(7,	1,	5),
+(7,	1,	6),
+(8,	1,	4),
+(8,	1,	5),
+(8,	1,	6),
+(10,	1,	4),
+(10,	1,	5),
+(10,	1,	6),
+(11,	1,	7),
+(11,	1,	8),
+(12,	1,	7),
+(12,	1,	8),
+(13,	1,	7),
+(13,	1,	8),
+(14,	1,	7),
+(14,	1,	8),
+(15,	1,	7),
+(15,	1,	8),
+(16,	1,	7),
+(16,	1,	8),
+(17,	1,	7),
+(17,	1,	8),
+(18,	1,	7),
+(18,	1,	8),
+(19,	1,	7),
+(19,	1,	8),
+(20,	1,	7),
+(20,	1,	8);
 
 CREATE TABLE `users` (
   `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -164,6 +176,7 @@ CREATE TABLE `users` (
   `email` varchar(191) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email` (`email`),
   KEY `role_id` (`user_role_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_role_id`) REFERENCES `user_roles` (`user_role_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -189,4 +202,4 @@ INSERT INTO `user_roles` (`user_role_id`, `name`) VALUES
 (2,	'Teacher'),
 (3,	'Student');
 
--- 2021-09-13 05:55:04
+-- 2021-09-21 16:46:35
