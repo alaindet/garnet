@@ -14,22 +14,25 @@ const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [ShouldBeLoggedGuard],
-    canLoad: [ShouldBeLoggedGuard],
     component: MainLayoutComponent,
     children: [
       {
         path: 'courses',
+        canActivate: [ShouldBeLoggedGuard],
+        canLoad: [ShouldBeLoggedGuard],
         loadChildren: () => import('./features/courses/courses.module')
           .then(m => m.CoursesModule),
       },
       {
         path: 'board',
+        canActivate: [ShouldBeLoggedGuard],
+        canLoad: [ShouldBeLoggedGuard],
         loadChildren: () => import('./features/board/board.module')
         .then(m => m.BoardModule),
       },
       {
         path: 'progress',
+        canActivate: [ShouldHaveTeacherRoleGuard],
         canLoad: [ShouldHaveTeacherRoleGuard],
         loadChildren: () => import('./features/progress/progress.module')
           .then(m => m.ProgressModule),
@@ -37,11 +40,14 @@ const routes: Routes = [
       {
         path: 'task-manager',
         canLoad: [ShouldHaveTeacherRoleGuard],
+        canActivate: [ShouldHaveTeacherRoleGuard],
         loadChildren: () => import('./features/task-manager/task-manager.module')
           .then(m => m.TaskManagerModule),
       },
       {
         path: 'profile',
+        canActivate: [ShouldBeLoggedGuard],
+        canLoad: [ShouldBeLoggedGuard],
         loadChildren: () => import('./features/profile/profile.module')
           .then(m => m.ProfileModule),
       },
