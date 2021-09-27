@@ -1,1 +1,37 @@
-<p>Accept invite</p>
+<div class="app-page-header">
+  <h2>{{ ui.title$ | async }}</h2>
+</div>
+
+<mat-tab-group
+  [selectedIndex]="tabIndex"
+  (selectedIndexChange)="onTabChange($event)"
+>
+  <!-- By registering -->
+  <mat-tab>
+
+    <ng-template mat-tab-label>
+      Register &nbsp; <mat-icon>person_add_alt</mat-icon>
+    </ng-template>
+
+    <app-accept-invite-by-registration
+      *ngIf="tabsLoaded[1]"
+      [inviteToken]="inviteToken"
+    ></app-accept-invite-by-registration>
+
+  </mat-tab>
+
+  <!-- By signin in -->
+  <mat-tab>
+
+    <ng-template mat-tab-label>
+      Sign In &nbsp; <mat-icon>person_outline</mat-icon>
+    </ng-template>
+
+    <app-accept-invite-by-signin-in
+      *ngIf="tabsLoaded[0]"
+      [inviteToken]="inviteToken"
+    ></app-accept-invite-by-signin-in>
+
+  </mat-tab>
+
+</mat-tab-group>

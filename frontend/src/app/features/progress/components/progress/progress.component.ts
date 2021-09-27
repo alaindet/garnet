@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { Course } from '@app/features/courses/types';
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss'],
 })
-export class ProgressComponent implements OnInit {
+export class ProgressComponent implements OnInit, OnDestroy {
 
   courseId!: string | number;
   course!: Course;
@@ -28,6 +28,12 @@ export class ProgressComponent implements OnInit {
   ngOnInit(): void {
     this.courseId = this.route.snapshot.params['courseid'];
     this.fetchCourse();
+  }
+
+  ngOnDestroy(): void {
+    for (const sub of Object.values(this.subs)) {
+      sub.unsubscribe();
+    }
   }
 
   onTabChange(tabIndex: number): void {
