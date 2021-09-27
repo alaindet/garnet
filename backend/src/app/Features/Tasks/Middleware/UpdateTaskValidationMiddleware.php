@@ -21,10 +21,12 @@ class UpdateTaskValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'name' => [
                 'required' => false,
+                'is' => 'string',
                 'minLength' => 5,
             ],
             'description' => [
                 'required' => false,
+                'is' => 'string',
                 'minLength' => 5,
             ]
         ]);

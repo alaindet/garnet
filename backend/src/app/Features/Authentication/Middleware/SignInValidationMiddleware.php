@@ -21,10 +21,13 @@ class SignInValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'email' => [
                 'required' => true,
+                'is' => 'string',
                 'email' => true,
             ],
             'password' => [
                 'required' => true,
+                'is' => 'string',
+                'minLength' => 2,
             ],
         ]);
 

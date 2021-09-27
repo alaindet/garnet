@@ -23,13 +23,16 @@ class AcceptInviteBySignInValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'email' => [
                 'required' => true,
+                'is' => 'string',
                 'email' => true,
             ],
             'password' => [
                 'required' => true,
+                'is' => 'string',
             ],
             'token' => [
                 'required' => true,
+                'is' => 'string',
                 'exactLength' => $length,
             ],
         ]);

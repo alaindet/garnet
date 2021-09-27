@@ -20,10 +20,12 @@ class InviteStudentValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'email' => [
                 'required' => true,
+                'is' => 'string',
                 'email' => true,
             ],
             'courseId' => [
                 'required' => true,
+                'is' => ['string', 'integer'],
                 'existsOnDatabase' => ['courses', 'course_id'],
             ],
         ]);

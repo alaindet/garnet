@@ -20,10 +20,12 @@ class CreateCourseValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'name' => [
                 'required' => true,
+                'is' => 'string',
                 'minLength' => 5,
             ],
             'description' => [
                 'required' => false,
+                'is' => 'string',
                 'minLength' => 5,
             ]
         ]);

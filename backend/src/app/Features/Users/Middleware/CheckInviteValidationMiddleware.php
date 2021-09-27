@@ -23,6 +23,7 @@ class CheckInviteValidationMiddleware extends Middleware
         $validator = new Validator($body, [
             'token' => [
                 'required' => true,
+                'is' => 'string',
                 'exactLength' => $length,
             ],
         ]);
