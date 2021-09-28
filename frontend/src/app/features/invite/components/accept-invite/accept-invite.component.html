@@ -3,41 +3,40 @@
     <h2>{{ ui.title$ | async }}</h2>
   </div>
 
-  <ng-container *ngIf="!isTokenValid; else loadingRef">
-    <mat-tab-group
-      [selectedIndex]="tabIndex"
-      (selectedIndexChange)="onTabChange($event)"
-    >
-      <!-- By registering -->
-      <mat-tab>
+  <mat-tab-group
+    *ngIf="isTokenValid && !isLoading; else loadingRef"
+    [selectedIndex]="tabIndex"
+    (selectedIndexChange)="onTabChange($event)"
+  >
+    <!-- By registering -->
+    <mat-tab>
 
-        <ng-template mat-tab-label>
-          Register &nbsp; <mat-icon>person_add_alt</mat-icon>
-        </ng-template>
+      <ng-template mat-tab-label>
+        Register &nbsp; <mat-icon>person_add_alt</mat-icon>
+      </ng-template>
 
-        <app-accept-invite-by-registration
-          *ngIf="tabsLoaded[1]"
-          [inviteToken]="inviteToken"
-        ></app-accept-invite-by-registration>
+      <app-accept-invite-by-registration
+        *ngIf="tabsLoaded[1]"
+        [inviteToken]="inviteToken"
+      ></app-accept-invite-by-registration>
 
-      </mat-tab>
+    </mat-tab>
 
-      <!-- By signin in -->
-      <mat-tab>
+    <!-- By signin in -->
+    <mat-tab>
 
-        <ng-template mat-tab-label>
-          Sign In &nbsp; <mat-icon>person_outline</mat-icon>
-        </ng-template>
+      <ng-template mat-tab-label>
+        Sign In &nbsp; <mat-icon>person_outline</mat-icon>
+      </ng-template>
 
-        <app-accept-invite-by-signin-in
-          *ngIf="tabsLoaded[0]"
-          [inviteToken]="inviteToken"
-        ></app-accept-invite-by-signin-in>
+      <app-accept-invite-by-signin-in
+        *ngIf="tabsLoaded[0]"
+        [inviteToken]="inviteToken"
+      ></app-accept-invite-by-signin-in>
 
-      </mat-tab>
+    </mat-tab>
 
-    </mat-tab-group>
-  </ng-container>
+  </mat-tab-group>
 </main>
 
 <!-- Template: loading -->

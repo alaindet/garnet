@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 
@@ -29,6 +29,7 @@ export class CourseFormComponent implements OnInit, OnDestroy {
     private coursesService: CoursesService,
     private router: Router,
     private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
   ) {}
 
   get name(): FormControl {
@@ -137,14 +138,9 @@ export class CourseFormComponent implements OnInit, OnDestroy {
   }
 
   private initForm(data?: CourseFormValue): void {
-    this.courseForm = new FormGroup({
-      name: new FormControl(data?.name, [
-        Validators.required,
-        Validators.minLength(5)
-      ]),
-      description: new FormControl(data?.description, [
-        Validators.minLength(5)
-      ]),
+    this.courseForm = this.formBuilder.group({
+      name: [data?.name, [Validators.required, Validators.minLength(5)]],
+      description: [data?.description, Validators.minLength(5)],
     });
   }
 }

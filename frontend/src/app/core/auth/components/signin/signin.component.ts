@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize, tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
@@ -17,21 +17,19 @@ export class SignInComponent implements OnInit {
 
   isLoading = false;
   title = environment.appName;
-
-  signInForm = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [Validators.required]),
-  });
+  signInForm!: FormGroup;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private titleService: Title,
     private toaster: ToasterService,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
     this.titleService.setTitle(`${this.title} || Sign In`);
+    this.initForm();
   }
 
   onSubmit(): void {
@@ -50,5 +48,12 @@ export class SignInComponent implements OnInit {
         next: () => this.router.navigate(['/courses']),
         error: err => this.toaster.setError('Wrong email and/or password'),
       });
+  }
+
+  private initForm(): void {
+    this.signInForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, Validators.required],
+    });
   }
 }

@@ -1,3 +1,71 @@
-<p>Accept by registration</p>
+<main class="app-container-narrow app-mt4">
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <mat-card>
 
-<p>Invite token: {{ inviteToken }}</p>
+      <mat-card-content class="-card-content">
+
+        <!-- Email -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            type="email"
+            placeholder="Enter your email..."
+            formControlName="email"
+          >
+          <mat-icon matSuffix aria-hidden="true">person</mat-icon>
+        </mat-form-field>
+
+        <!-- Password -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            placeholder="Enter your password..."
+            formControlName="password"
+          >
+          <mat-icon matSuffix aria-hidden="true">lock</mat-icon>
+        </mat-form-field>
+
+        <!-- First name -->
+        <!-- TODO: Icon -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>First name</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Enter your first name..."
+            formControlName="firstName"
+          >
+          <mat-icon matSuffix aria-hidden="true">person</mat-icon>
+        </mat-form-field>
+
+        <!-- Last name -->
+        <!-- TODO: Icon -->
+        <mat-form-field appearance="fill" class="app-my2">
+          <mat-label>Last name</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Enter your last name..."
+            formControlName="lastName"
+          >
+          <mat-icon matSuffix aria-hidden="true">person</mat-icon>
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          [disabled]="isLoading"
+          type="submit"
+          style="width: 100%"
+        >
+          Sign Up
+        </button>
+
+      </mat-card-content>
+
+    </mat-card>
+  </form>
+</main>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { finalize, startWith, debounceTime, distinctUntilChanged, switchMap, map, tap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -29,6 +29,7 @@ export class InviteStudentComponent implements OnInit, OnDestroy {
     private inviteService: InviteService,
     private route: ActivatedRoute,
     private coursesService: CoursesService,
+    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +67,7 @@ export class InviteStudentComponent implements OnInit, OnDestroy {
 
     this.ui.loading = true;
 
+    // TODO
     // this.authService.signIn(dto)
     //   .pipe(finalize(() => this.ui.loading = false))
     //   .subscribe({
@@ -76,8 +78,8 @@ export class InviteStudentComponent implements OnInit, OnDestroy {
 
   private initForm(courseName: string | null = null): void {
 
-    this.inviteForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
+    this.inviteForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.email]],
     });
 
     let courseFormControl: FormControl;
