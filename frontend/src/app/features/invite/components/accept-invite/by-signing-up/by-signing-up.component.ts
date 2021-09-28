@@ -3,16 +3,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from '@app/shared/components/toaster';
 
 @Component({
-  selector: 'app-accept-invite-by-registration',
-  templateUrl: './by-registration.component.html',
-  styleUrls: ['./by-registration.component.scss'],
+  selector: 'app-accept-invite-by-signing-up',
+  templateUrl: './by-signing-up.component.html',
+  styleUrls: ['./by-signing-up.component.scss'],
 })
-export class AcceptInviteByRegistrationComponent implements OnInit {
+export class AcceptInviteBySigningUpComponent implements OnInit {
 
   @Input() inviteToken!: string;
 
   isLoading = false;
-  registrationForm!: FormGroup;
+  signUpForm!: FormGroup;
 
   constructor(
     private toaster: ToasterService,
@@ -25,16 +25,16 @@ export class AcceptInviteByRegistrationComponent implements OnInit {
 
   onSubmit(): void {
 
-    if (this.registrationForm.invalid) {
+    if (this.signUpForm.invalid) {
       // TODO: Feedback
       return;
     }
 
-    console.log('onSubmit', this.registrationForm.value);
+    console.log('onSubmit', this.signUpForm.value);
   }
 
   private initForm(): void {
-    this.registrationForm = this.formBuilder.group({
+    this.signUpForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]],
       firstName: [null, [Validators.required, Validators.min(2)]],

@@ -2,9 +2,7 @@
 
 namespace App\Features\Authentication\Dtos;
 
-use App\Features\Users\Enums\UserRole;
-
-class RegisterUserDto
+class SignUpUserDto
 {
     public string $email;
     public string $password;

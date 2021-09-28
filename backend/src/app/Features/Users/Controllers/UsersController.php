@@ -60,7 +60,7 @@ class UsersController extends Controller
     public function acceptInviteBySigningIn(Request $req, Response $res): Response
     {
         $acceptDto = $req->getValidatedData('dto');
-        $acceptedDto = $this->usersService->acceptInviteBySignIn($acceptDto);
+        $acceptedDto = $this->usersService->acceptInviteBySigningIn($acceptDto);
 
         $res->setBody([
             'message' => 'Invite accepted by signing in',
@@ -70,13 +70,13 @@ class UsersController extends Controller
         return $res;
     }
 
-    public function acceptInviteByRegistration(Request $req, Response $res): Response
+    public function acceptInviteBySigningUp(Request $req, Response $res): Response
     {
         $acceptDto = $req->getValidatedData('dto');
-        $acceptedDto = $this->usersService->acceptInviteByRegistration($acceptDto);
+        $acceptedDto = $this->usersService->acceptInviteBySigningUp($acceptDto);
 
         $res->setBody([
-            'message' => 'Invite accepted by registration',
+            'message' => 'Invite accepted by signing up',
             'data' => $acceptedDto,
         ]);
 

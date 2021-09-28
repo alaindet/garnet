@@ -4,14 +4,14 @@ namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
-use App\Features\Authentication\Dtos\RegisterUserDto;
+use App\Features\Authentication\Dtos\SignUpUserDto;
 use App\Features\Authentication\Dtos\SignInUserDto;
 use App\Features\Authentication\Services\AuthenticationService;
 use App\Features\Courses\Repositories\CoursesRepository;
 use App\Features\Tasks\Repositories\TasksRepository;
 use App\Features\Users\Constants\UserConstants;
 use App\Features\Users\Dtos\AcceptedInviteDto;
-use App\Features\Users\Dtos\AcceptInviteByRegistrationDto;
+use App\Features\Users\Dtos\AcceptInviteBySigningUpDto;
 use App\Features\Users\Dtos\AcceptInviteBySigningInDto;
 use App\Features\Users\Dtos\CheckInviteDto;
 use App\Features\Users\Dtos\CreatedStudentInviteDto;
@@ -105,7 +105,7 @@ class UsersService
         return $invite;
     }
 
-    public function acceptInviteBySignIn(
+    public function acceptInviteBySigningIn(
         AcceptInviteBySigningInDto $acceptDto
     ): AcceptedInviteDto
     {
@@ -150,8 +150,8 @@ class UsersService
         return $acceptedInviteDto;
     }
 
-    public function acceptInviteByRegistration(
-        AcceptInviteByRegistrationDto $acceptDto
+    public function acceptInviteBySigningUp(
+        AcceptInviteBySigningUpDto $acceptDto
     ): AcceptedInviteDto
     {
         $invitesRepo = new InvitesRepository();
@@ -170,15 +170,15 @@ class UsersService
             );
         }
 
-        // Try registering the user
-        $registerDto = new RegisterUserDto();
-        $registerDto->email = $acceptDto->email;
-        $registerDto->password = $acceptDto->password;
-        $registerDto->firstName = $acceptDto->firstName;
-        $registerDto->lastName = $acceptDto->lastName;
-        $registerDto->roleId = $invite['user_role_id'];
+        // Try signin up the user
+        $signUpDto = new SignUpUserDto();
+        $signUpDto->email = $acceptDto->email;
+        $signUpDto->password = $acceptDto->password;
+        $signUpDto->firstName = $acceptDto->firstName;
+        $signUpDto->lastName = $acceptDto->lastName;
+        $signUpDto->roleId = $invite['user_role_id'];
 
-        $signedInDto = $authService->register($registerDto);
+        $signedInDto = $authService->signUp($signUpDto);
 
         switch ($invite['user_role_id']) {
 

@@ -3,7 +3,7 @@
 namespace App\Features\Users\Repositories;
 
 use App\Core\Repository;
-use App\Features\Authentication\Dtos\RegisterUserDto;
+use App\Features\Authentication\Dtos\SignUpUserDto;
 use App\Core\Services\Database\Database;
 
 class UsersRepository extends Repository
@@ -16,7 +16,7 @@ class UsersRepository extends Repository
         $this->db = appServiceProvider(Database::class);
     }
 
-    public function createUser(RegisterUserDto $dto): int
+    public function createUser(SignUpUserDto $dto): int
     {
         $sql = "
             INSERT INTO {$this->table}

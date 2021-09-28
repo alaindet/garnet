@@ -10,7 +10,7 @@ use App\Features\Users\Constants\UserConstants;
 use App\Features\Users\Dtos\AcceptInviteBySigningInDto;
 use App\Shared\Validation\Validator;
 
-class AcceptInviteBySignInValidationMiddleware extends Middleware
+class AcceptInviteBySigninInValidationMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
 

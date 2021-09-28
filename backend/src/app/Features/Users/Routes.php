@@ -8,8 +8,8 @@ use App\Features\Authentication\Middleware\AuthenticationMiddleware;
 use App\Features\Authentication\Middleware\RoleAuthorizationMiddleware;
 use App\Features\Users\Middleware\InviteStudentValidationMiddleware;
 use App\Features\Users\Middleware\CheckInviteValidationMiddleware;
-use App\Features\Users\Middleware\AcceptInviteBySignInValidationMiddleware;
-use App\Features\Users\Middleware\AcceptInviteByRegistrationValidationMiddleware;
+use App\Features\Users\Middleware\AcceptInviteBySigninInValidationMiddleware;
+use App\Features\Users\Middleware\AcceptInviteBySigningUpValidationMiddleware;
 use App\Features\Users\Controllers\UsersController;
 use App\Features\Users\Enums\UserRole;
 
@@ -37,11 +37,11 @@ class Routes
 
                 // Public
                 Route::post('/invite/accept/signin', '@acceptInviteBySigningIn')
-                    ->middleware(AcceptInviteBySignInValidationMiddleware::class),
+                    ->middleware(AcceptInviteBySigninInValidationMiddleware::class),
 
                 // Public
-                Route::post('/invite/accept/register', '@acceptInviteByRegistration')
-                    ->middleware(AcceptInviteByRegistrationValidationMiddleware::class),
+                Route::post('/invite/accept/signup', '@acceptInviteBySigningUp')
+                    ->middleware(AcceptInviteBySigningUpValidationMiddleware::class),
 
                 // Public
                 Route::post('/invite/check', '@checkInviteValidity')

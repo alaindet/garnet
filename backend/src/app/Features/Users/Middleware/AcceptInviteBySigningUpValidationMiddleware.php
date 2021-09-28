@@ -7,10 +7,10 @@ use App\Core\Http\Request\Request;
 use App\Core\Http\Response\Response;
 use App\Core\Middleware;
 use App\Features\Users\Constants\UserConstants;
-use App\Features\Users\Dtos\AcceptInviteByRegistrationDto;
+use App\Features\Users\Dtos\AcceptInviteBySigningUpDto;
 use App\Shared\Validation\Validator;
 
-class AcceptInviteByRegistrationValidationMiddleware extends Middleware
+class AcceptInviteBySigningUpValidationMiddleware extends Middleware
 {
     const TIMING = self::RUN_BEFORE;
 
@@ -53,7 +53,7 @@ class AcceptInviteByRegistrationValidationMiddleware extends Middleware
             throw (new BadRequestHttpException($message))->setData($data);
         }
 
-        $dto = new AcceptInviteByRegistrationDto();
+        $dto = new AcceptInviteBySigningUpDto();
         $dto->email = $body['email'];
         $dto->password = $body['password'];
         $dto->firstName = $body['firstName'];

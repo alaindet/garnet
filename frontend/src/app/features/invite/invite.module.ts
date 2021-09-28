@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { InviteRoutingModule } from './invite.routing';
 import { InviteComponentsModule } from './invite.components.module';
-import { InviteStudentComponent, AcceptInviteComponent, AcceptInviteBySigningInComponent, AcceptInviteByRegistrationComponent } from './components';
+import { InviteStudentComponent, AcceptInviteComponent, AcceptInviteBySigningInComponent, AcceptInviteBySigningUpComponent } from './components';
 import { InviteService } from './services';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { InviteService } from './services';
     InviteStudentComponent,
     AcceptInviteComponent,
     AcceptInviteBySigningInComponent,
-    AcceptInviteByRegistrationComponent,
+    AcceptInviteBySigningUpComponent,
   ],
   providers: [
     InviteService,
