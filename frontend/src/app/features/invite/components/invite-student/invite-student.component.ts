@@ -27,8 +27,6 @@ export class InviteStudentComponent implements OnInit, OnDestroy {
   constructor(
     private ui: UiService,
     private inviteService: InviteService,
-    private toaster: ToasterService,
-    private router: Router,
     private route: ActivatedRoute,
     private coursesService: CoursesService,
   ) {}

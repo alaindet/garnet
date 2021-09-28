@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatTabsModule } from '@angular/material/tabs';
 
 import { InviteRoutingModule } from './invite.routing';
 import { InviteComponentsModule } from './invite.components.module';
-import { InviteStudentComponent } from './components';
+import { InviteStudentComponent, AcceptInviteComponent, AcceptInviteBySigningInComponent, AcceptInviteByRegistrationComponent } from './components';
 import { InviteService } from './services';
 
 @NgModule({
@@ -14,10 +13,12 @@ import { InviteService } from './services';
     ReactiveFormsModule,
     InviteRoutingModule,
     InviteComponentsModule,
-    MatTabsModule,
   ],
   declarations: [
     InviteStudentComponent,
+    AcceptInviteComponent,
+    AcceptInviteBySigningInComponent,
+    AcceptInviteByRegistrationComponent,
   ],
   providers: [
     InviteService,

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UiService } from '@app/core/main-layout/services';
+import { finalize } from 'rxjs/operators';
+import { InviteService } from '../../services';
 
 @Component({
   templateUrl: './accept-invite.component.html',
@@ -11,18 +12,20 @@ import { UiService } from '@app/core/main-layout/services';
 export class AcceptInviteComponent {
 
   inviteToken!: string;
+  isTokenValid = false;
   tabIndex = 0;
-  tabsLoaded = [false, false];
-
-  private subs: { [sub: string]: Subscription } = {};
+  tabsLoaded = [true, false];
 
   constructor(
     public ui: UiService,
     private route: ActivatedRoute,
+    private router: Router,
+    private inviteService: InviteService,
   ) {}
 
   ngOnInit(): void {
     this.validateToken();
+    this.ui.title = 'Accept invite';
   }
 
   onTabChange(tabIndex: number): void {
@@ -32,12 +35,27 @@ export class AcceptInviteComponent {
 
   private validateToken(): void {
     this.ui.loading = true;
-    const token =
-    // ...
-    // Start loading state
-    // Check if token in query params exists
-    // Check if token is valid via API
-    // Stop loading state
-    // Select first tab
+    this.inviteToken = this.route.snapshot.queryParams['token'];
+
+    if (!this.inviteToken) {
+      this.ui.loading = false;
+      this.handleInvalidToken();
+      return;
+    }
+
+    this.inviteService.checkInviteToken(this.inviteToken)
+      .pipe(finalize(() => this.ui.loading = false))
+      .subscribe({
+        error: () => this.handleInvalidToken(),
+        next: () => {
+          this.ui.setSuccessToaster('Invite token is valid');
+          this.isTokenValid = true;
+        },
+      });
+  }
+
+  private handleInvalidToken(message: string | null = null): void {
+    this.ui.setErrorToaster(message ?? 'Invalid token');
+    this.router.navigate(['/']);
   }
 }

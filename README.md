@@ -28,6 +28,13 @@ Garnet: a progress tracker
   npm install
   npm run start -- --open
   ```
+- Open your browser on http://localhost:4200 and use these fake credentials if you imported mock data
+  - Teacher
+    - Username: john.doe@example.com
+    - Password: john.doe@example.com
+  - Student
+    - Username: vanessa.collin@example.com
+    - Password: vanessa.collin@example.com
 
 ## Scripts
 

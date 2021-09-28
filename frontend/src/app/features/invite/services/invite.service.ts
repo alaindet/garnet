@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { JwtService } from '@app/core/auth/services/jwt.service';
-import { UserProfile, GetUserProfileResponse } from '@app/features/profile/types';
 import { environment } from '@environment/environment';
-import { CourseSearchItem, GetCoursesByNameResponse } from '../types';
+import { CheckInviteTokenResponse, CourseSearchItem, GetCoursesByNameResponse } from '../types';
 
 @Injectable()
 export class InviteService {
@@ -16,12 +15,13 @@ export class InviteService {
     private jwtService: JwtService,
   ) {}
 
-  // getProfile(): Observable<UserProfile> {
-  //   const url = `${environment.apiUrl}/profile`;
-  //   const options = this.getCorsOptions();
-  //   return this.http.get<GetUserProfileResponse>(url, options)
-  //     .pipe(map(response => response.data));
-  // }
+  checkInviteToken(token: string): Observable<boolean> {
+    const url = `${environment.apiUrl}/invite/check`;
+    const body = { token };
+    const options = this.getCorsOptions();
+    return this.http.post<CheckInviteTokenResponse>(url, body, options)
+      .pipe(map(response => response.data));
+  }
 
   searchCoursesByName(name: string): Observable<CourseSearchItem[]> {
     const url = `${environment.apiUrl}/courses/search/by-name`;

@@ -51,17 +51,17 @@ const routes: Routes = [
         loadChildren: () => import('./features/profile/profile.module')
           .then(m => m.ProfileModule),
       },
-      {
-        path: 'invite',
-        loadChildren: () => import('./features/invite/invite.module')
-          .then(m => m.InviteModule),
-      },
     ],
   },
   {
     path: 'auth',
     loadChildren: () => import('./core/auth/auth.module')
       .then(m => m.AuthModule),
+  },
+  {
+    path: 'invite',
+    loadChildren: () => import('./features/invite/invite.module')
+      .then(m => m.InviteModule),
   },
 ];
 

@@ -1,37 +1,48 @@
-<div class="app-page-header">
-  <h2>{{ ui.title$ | async }}</h2>
-</div>
+<main class="app-container-narrow app-mt4">
+  <div class="app-page-header">
+    <h2>{{ ui.title$ | async }}</h2>
+  </div>
 
-<mat-tab-group
-  [selectedIndex]="tabIndex"
-  (selectedIndexChange)="onTabChange($event)"
->
-  <!-- By registering -->
-  <mat-tab>
+  <ng-container *ngIf="!isTokenValid; else loadingRef">
+    <mat-tab-group
+      [selectedIndex]="tabIndex"
+      (selectedIndexChange)="onTabChange($event)"
+    >
+      <!-- By registering -->
+      <mat-tab>
 
-    <ng-template mat-tab-label>
-      Register &nbsp; <mat-icon>person_add_alt</mat-icon>
-    </ng-template>
+        <ng-template mat-tab-label>
+          Register &nbsp; <mat-icon>person_add_alt</mat-icon>
+        </ng-template>
 
-    <app-accept-invite-by-registration
-      *ngIf="tabsLoaded[1]"
-      [inviteToken]="inviteToken"
-    ></app-accept-invite-by-registration>
+        <app-accept-invite-by-registration
+          *ngIf="tabsLoaded[1]"
+          [inviteToken]="inviteToken"
+        ></app-accept-invite-by-registration>
 
-  </mat-tab>
+      </mat-tab>
 
-  <!-- By signin in -->
-  <mat-tab>
+      <!-- By signin in -->
+      <mat-tab>
 
-    <ng-template mat-tab-label>
-      Sign In &nbsp; <mat-icon>person_outline</mat-icon>
-    </ng-template>
+        <ng-template mat-tab-label>
+          Sign In &nbsp; <mat-icon>person_outline</mat-icon>
+        </ng-template>
 
-    <app-accept-invite-by-signin-in
-      *ngIf="tabsLoaded[0]"
-      [inviteToken]="inviteToken"
-    ></app-accept-invite-by-signin-in>
+        <app-accept-invite-by-signin-in
+          *ngIf="tabsLoaded[0]"
+          [inviteToken]="inviteToken"
+        ></app-accept-invite-by-signin-in>
 
-  </mat-tab>
+      </mat-tab>
 
-</mat-tab-group>
+    </mat-tab-group>
+  </ng-container>
+</main>
+
+<!-- Template: loading -->
+<ng-template #loadingRef>
+  <app-skeleton height="2.5rem" width="100%"></app-skeleton>
+  <app-skeleton height="5rem" width="100%"></app-skeleton>
+  <app-skeleton height="6rem" width="100%"></app-skeleton>
+</ng-template>

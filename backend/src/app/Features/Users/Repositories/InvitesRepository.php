@@ -48,7 +48,7 @@ class InvitesRepository extends Repository
      */
     public function getInviteByToken(string $token): array | null
     {
-        $sql = "SELECT * FROM {$this->table} WHERE token = BINARY :token";
+        $sql = "SELECT * FROM {$this->table} WHERE token = :token";
         $params = [':token' => $token];
         return $this->db->selectFirst($sql, $params);
     }
