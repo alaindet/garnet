@@ -21,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InviteRoutingModule {}
+export class InvitesRoutingModule {}

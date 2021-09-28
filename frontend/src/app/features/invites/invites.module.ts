@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { InviteRoutingModule } from './invite.routing';
-import { InviteComponentsModule } from './invite.components.module';
+import { InvitesRoutingModule } from './invites.routing';
+import { InvitesComponentsModule } from './invites.components.module';
 import { InviteStudentComponent, AcceptInviteComponent, AcceptInviteBySigningInComponent, AcceptInviteBySigningUpComponent } from './components';
 import { InviteService } from './services';
 
@@ -11,8 +11,8 @@ import { InviteService } from './services';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    InviteRoutingModule,
-    InviteComponentsModule,
+    InvitesRoutingModule,
+    InvitesComponentsModule,
   ],
   declarations: [
     InviteStudentComponent,
@@ -24,4 +24,4 @@ import { InviteService } from './services';
     InviteService,
   ],
 })
-export class InviteModule {}
+export class InvitesModule {}

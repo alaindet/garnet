@@ -4,17 +4,17 @@
     'mobile': (
       'gutter': 10px,
       'breakpoint': 0,
-      'focus-max-width': 400px,
+      'focus-max-width': 450px,
     ),
     'tablet': (
       'gutter': 20px,
       'breakpoint': 768px,
-      'focus-max-width': 500px,
+      'focus-max-width': 550px,
     ),
     'desktop': (
       'gutter': 72px,
       'breakpoint': 1024px,
-      'focus-max-width': 500px,
+      'focus-max-width': 600px,
     ),
   );
 
@@ -51,7 +51,7 @@
       $focus-max-width: map-get($device-data, 'focus-max-width');
 
       @media screen and (min-width: $breakpoint) {
-        max-width: $focus-max-width;
+        max-width: min(#{$focus-max-width}, 90vw);
         padding-left: $gutter;
         padding-right: $gutter;
       }

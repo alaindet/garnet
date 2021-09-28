@@ -34,4 +34,4 @@ import { SkeletonModule } from '@app/shared/components/skeleton';
     SkeletonModule,
   ],
 })
-export class InviteComponentsModule {}
+export class InvitesComponentsModule {}

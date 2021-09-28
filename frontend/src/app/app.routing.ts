@@ -59,9 +59,9 @@ const routes: Routes = [
       .then(m => m.AuthModule),
   },
   {
-    path: 'invite',
-    loadChildren: () => import('./features/invite/invite.module')
-      .then(m => m.InviteModule),
+    path: 'invites',
+    loadChildren: () => import('./features/invites/invites.module')
+      .then(m => m.InvitesModule),
   },
 ];
 
