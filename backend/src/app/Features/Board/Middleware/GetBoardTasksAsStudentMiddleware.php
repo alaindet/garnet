@@ -21,15 +21,24 @@ class GetBoardTasksAsStudentMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $teacherId = $req->getAuthenticationData('user_id');            
+        $teacherId = $req->getAuthenticationData('user_id');
         $studentId = $req->getUriParameter('studentid');
         $courseId = $req->getUriParameter('courseid');
 
-        if (!$this->boardService->doTeacherAndStudentBelongToCourse(
-            $teacherId,
-            $studentId,
-            $courseId
-        )) {
+        if (
+            $teacherId === null ||
+            $studentId === null ||
+            $courseId === null ||
+            !$this->boardService->doTeacherAndStudentBelongToCourse(
+                $teacherId,
+                $studentId,
+                $courseId
+            )
+        ) {
+            $courseId = $courseId ?? '%COURSE_ID%';
+            $teacherId = $teacherId ?? '%TEACHER_ID%';
+            $studentId = $studentId ?? '%STUDENT_ID%';
+
             throw new BadRequestHttpException(
                 "Could not fetch tasks from course {$courseId} " .
                 "by teacher {$teacherId} as student {$studentId}"

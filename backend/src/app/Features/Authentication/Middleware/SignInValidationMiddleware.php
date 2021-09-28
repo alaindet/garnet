@@ -31,7 +31,7 @@ class SignInValidationMiddleware extends Middleware
             ],
         ]);
 
-        if (!$validator->validate()) {
+        if ($body === null || !$validator->validate()) {
             $message = 'Wrong email and/or password';
             throw new BadRequestHttpException($message);
         }

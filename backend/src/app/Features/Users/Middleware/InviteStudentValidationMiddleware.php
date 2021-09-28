@@ -30,15 +30,12 @@ class InviteStudentValidationMiddleware extends Middleware
             ],
         ]);
 
-        if (!$validator->validate()) {
-            $message = (
-                "Could not invite student {$body['email']} ".
-                "to join course #{$body['courseId']}"
-            );
-            $data = [
-                'validation' => $validator->getErrors(),
-            ];
-            throw (new BadRequestHttpException($message))->setData($data);
+        if ($body === null || !$validator->validate()) {
+            $email = $body['email'] ?? '%STUDENT_EMAIL%';
+            $courseId = $body['courseId'] ?? '%COURSE_ID%';
+            $msg = "Could not invite student {$email} to join course #{$courseId}";
+            $data = ['validation' => $validator->getErrors()];
+            throw (new BadRequestHttpException($msg))->setData($data);
         }
 
         $dto = new CreateStudentInviteDto();

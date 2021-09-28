@@ -15,8 +15,8 @@ class CreateTaskValidationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $courseId = $req->getUriParameter('courseid');
         $body = $req->getBody();
+        $courseId = $req->getUriParameter('courseid');
 
         $validator = new Validator($body, [
             'name' => [
@@ -31,11 +31,10 @@ class CreateTaskValidationMiddleware extends Middleware
             ]
         ]);
 
-        if (!$validator->validate()) {
-            $message = 'Could not create a new task';
-            $data = [
-                'validation' => $validator->getErrors(),
-            ];
+        if ($body === null || $courseId === null || !$validator->validate()) {
+            $courseId = $courseId ?? '%COURSE_ID%';
+            $message = "Could not create a new task for course {$courseId}";
+            $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
         }
 

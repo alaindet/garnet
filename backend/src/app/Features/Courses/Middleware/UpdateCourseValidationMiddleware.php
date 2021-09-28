@@ -15,8 +15,8 @@ class UpdateCourseValidationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $courseId = $req->getUriParameter('courseid');
         $body = $req->getBody();
+        $courseId = $req->getUriParameter('courseid');
 
         $validator = new Validator($body, [
             'name' => [
@@ -31,11 +31,9 @@ class UpdateCourseValidationMiddleware extends Middleware
             ]
         ]);
 
-        if (!$validator->validate()) {
+        if ($body === null || $courseId === null || !$validator->validate()) {
             $message = 'Invalid data';
-            $data = [
-                'validation' => $validator->getErrors(),
-            ];
+            $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
         }
 

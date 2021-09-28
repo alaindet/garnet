@@ -2,6 +2,7 @@
 
 namespace App\Shared\Validation;
 
+use App\Core\Exceptions\Validation\ValidationException;
 use App\Shared\Validation\RuleValidators\BetweenRuleValidator;
 use App\Shared\Validation\RuleValidators\EmailRuleValidator;
 use App\Shared\Validation\RuleValidators\EqualsRuleValidator;
@@ -19,6 +20,7 @@ use App\Shared\Validation\RuleValidators\MinRuleValidator;
 use App\Shared\Validation\RuleValidators\MissingOnDatabaseRuleValidator;
 use App\Shared\Validation\RuleValidators\RegexRuleValidator;
 use App\Shared\Validation\RuleValidators\RequiredRuleValidator;
+
 // ...
 
 /**
@@ -26,7 +28,7 @@ use App\Shared\Validation\RuleValidators\RequiredRuleValidator;
  */
 class Validator
 {
-    private array $input = [];
+    private array | null $input = [];
     private array $errors = [];
     private array $rules;
     private array $ruleValidators = [
@@ -50,7 +52,7 @@ class Validator
         // ...
     ];
 
-    public function __construct(array $input, ?array $rules = null)
+    public function __construct(array | null $input = null, ?array $rules = null)
     {
         $this->input = $input;
         $this->rules = $rules;
@@ -64,6 +66,11 @@ class Validator
     public function validate(): bool
     {
         $this->errors = [];
+
+        if (empty($this->input)) {
+            $this->errors['validation'] = 'No input provided';
+            return false;
+        }
 
         foreach ($this->rules as $inputKey => $ruleValidators) {
             foreach ($ruleValidators as $ruleName => $ruleParams) {

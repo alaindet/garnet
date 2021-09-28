@@ -15,11 +15,14 @@ class UpdateTaskStateValidationMiddleware extends Middleware
     public function process(Request $req, Response $res, ...$args): Response
     {
         $body = $req->getBody();
-        $taskStateId = $body['taskStateId'];
-
+        $taskStateId = $body['taskStateId'] ?? null;
         $taskStateIds = TaskState::getValues();
 
-        if (!in_array($taskStateId, $taskStateIds)) {
+        if (
+            $body === null ||
+            $taskStateId === null ||
+            !in_array($taskStateId, $taskStateIds)
+        ) {
             throw new BadRequestHttpException(
                 'Please provide a valid task state'
             );

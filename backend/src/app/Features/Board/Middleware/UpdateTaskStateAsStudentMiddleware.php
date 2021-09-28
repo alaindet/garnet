@@ -26,11 +26,22 @@ class UpdateTaskStateAsStudentMiddleware extends Middleware
         $courseId = $req->getUriParameter('courseid');
         $taskId = $req->getUriParameter('courseid');
 
-        if (!$this->boardService->doTeacherAndStudentBelongToCourse(
-            $teacherId,
-            $studentId,
-            $courseId
-        )) {
+        if (
+            $teacherId === null ||
+            $studentId === null ||
+            $courseId === null ||
+            $taskId === null ||
+            !$this->boardService->doTeacherAndStudentBelongToCourse(
+                $teacherId,
+                $studentId,
+                $courseId
+            )
+        ) {
+            $taskId = $taskId ?? '%TASK_ID%';
+            $courseId = $courseId ?? '%COURSE_ID%';
+            $teacherId = $teacherId ?? '%TEACHER_ID%';
+            $studentId = $studentId ?? '%STUDENT_ID%';
+
             throw new BadRequestHttpException(
                 "Could not update task {$taskId} of course {$courseId} " .
                 "by teacher {$teacherId} as student {$studentId}"

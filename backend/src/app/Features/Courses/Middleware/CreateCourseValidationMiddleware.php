@@ -30,11 +30,9 @@ class CreateCourseValidationMiddleware extends Middleware
             ]
         ]);
 
-        if (!$validator->validate()) {
+        if ($body === null || !$validator->validate()) {
             $message = 'Could not create a new course';
-            $data = [
-                'validation' => $validator->getErrors(),
-            ];
+            $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
         }
 

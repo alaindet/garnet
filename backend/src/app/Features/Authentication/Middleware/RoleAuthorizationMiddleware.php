@@ -18,6 +18,7 @@ class RoleAuthorizationMiddleware extends Middleware
         $authData = $req->getAuthenticationData();
 
         if (
+            $authData === null ||
             !isset($authData['user_role_id']) ||
             $authData['user_role_id'] !== $requiredRole
         ) {

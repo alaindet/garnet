@@ -15,7 +15,7 @@ class SearchCoursesByNameValidationMiddleware extends Middleware
     {
         $courseName = $req->getQueryParameter('name');
 
-        if (!isset($courseName)) {
+        if ($courseName === null) {
             throw new BadRequestHttpException(
                 'Provide a "name" query parameter'
             );

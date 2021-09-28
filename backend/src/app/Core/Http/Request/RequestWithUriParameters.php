@@ -23,7 +23,7 @@ trait RequestWithUriParameters
 
     public function getUriParameter(string $name)
     {
-        return $this->uriParameters[$name];
+        return $this->uriParameters[$name] ?? null;
     }
 
     public function setUriParameters(array $uriParameters): self

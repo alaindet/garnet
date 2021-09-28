@@ -27,7 +27,7 @@ trait RequestWithAuthentication
     public function getAuthenticationData(string|null $key = null)
     {
         if ($key !== null) {
-            return $this->auth[$key];
+            return $this->auth[$key] ?? null;
         }
 
         return $this->auth;

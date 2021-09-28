@@ -15,8 +15,8 @@ class UpdateTaskValidationMiddleware extends Middleware
 
     public function process(Request $req, Response $res, ...$args): Response
     {
-        $taskId = $req->getUriParameter('taskid');
         $body = $req->getBody();
+        $taskId = $req->getUriParameter('taskid');
 
         $validator = new Validator($body, [
             'name' => [
@@ -31,11 +31,9 @@ class UpdateTaskValidationMiddleware extends Middleware
             ]
         ]);
 
-        if (!$validator->validate()) {
+        if ($body === null || $taskId === null || !$validator->validate()) {
             $message = 'Invalid data';
-            $data = [
-                'validation' => $validator->getErrors(),
-            ];
+            $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
         }
 

@@ -28,7 +28,7 @@ class CheckInviteValidationMiddleware extends Middleware
             ],
         ]);
 
-        if (!$validator->validate()) {
+        if ($body === null || !$validator->validate()) {
             $message = 'Invite token is invalid';
             $data = ['validation' => $validator->getErrors()];
             throw (new BadRequestHttpException($message))->setData($data);
