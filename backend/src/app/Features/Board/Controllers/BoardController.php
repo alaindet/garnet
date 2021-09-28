@@ -22,7 +22,7 @@ class BoardController extends Controller
     {
         $authData = $req->getAuthenticationData();
         $validatedData = $req->getValidatedData();
-        $studentId = $validatedData['studentId'];
+        $studentId = $validatedData['studentId'] ?? null;
         $userId = $studentId ?? $authData['user_id'];
         $courseId = $req->getUriParameter('courseid');
 

@@ -84,7 +84,7 @@ trait CoursesRepositoryReadOperations
         ";
 
         $params = [
-            ':coursename' => "%".$courseName."%"
+            ':coursename' => "%{$courseName}%"
         ];
 
         return $this->db->select($sql, $params);
