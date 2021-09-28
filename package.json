@@ -11,7 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/alaindet/garnet.git"
   },
-  "keywords": ["garnet", "progress", "tracker"],
+  "keywords": [
+    "garnet",
+    "progress",
+    "tracker"
+  ],
   "author": "Alain D'Ettorre <alain.det@gmail.com>",
   "license": "MIT",
   "bugs": {
