@@ -28,11 +28,11 @@ class UsersController extends Controller
         return $res;
     }
 
-    public function generateStudentInvite(Request $req, Response $res): Response
+    public function createStudentInvite(Request $req, Response $res): Response
     {
         $dto = $req->getValidatedData('dto');
 
-        $invite = $this->usersService->generateStudentInvite($dto);
+        $invite = $this->usersService->createStudentInvite($dto);
 
         $res->setBody([
             'message' => (

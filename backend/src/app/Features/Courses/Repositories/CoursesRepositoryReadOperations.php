@@ -49,7 +49,7 @@ trait CoursesRepositoryReadOperations
         return $this->db->selectFirst($sql, $params);
     }
 
-    public function getStudentAndTeacherCourseAssociation(
+    public function getStudentAndTeacherAssociation(
         string|int $studentId,
         string|int $courseId
     ): array|null
@@ -69,6 +69,31 @@ trait CoursesRepositoryReadOperations
 
         $params = [
             ':studentid' => $studentId,
+            ':courseid' => $courseId,
+        ];
+
+        return $this->db->selectFirst($sql, $params);
+    }
+
+    public function getStudentAssociationByEmail(
+        string $studentEmail,
+        string|int $courseId
+    ): array|null
+    {
+        $sql = "
+            SELECT
+                u.email,
+                cs.course_id
+            FROM
+                course_student AS cs
+                INNER JOIN users AS u ON cs.student_id = u.user_id
+            WHERE
+                cs.course_id = :courseid AND
+                u.email = :studentemail
+        ";
+
+        $params = [
+            ':studentemail' => $studentEmail,
             ':courseid' => $courseId,
         ];
 

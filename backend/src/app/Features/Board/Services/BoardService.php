@@ -68,7 +68,7 @@ class BoardService
             $parsedData[] = $progress;
         }
 
-        return new GetProgressByStudentDto(...$parsedData);    
+        return new GetProgressByStudentDto(...$parsedData);
     }
 
     public function getProgressByTask(string|int $courseId): GetProgressByTaskDto
@@ -96,8 +96,8 @@ class BoardService
         string|int $courseId,
     ): bool
     {
-        $assoc = (new CoursesRepository)
-            ->getStudentAndTeacherCourseAssociation($studentId, $courseId);
+        $coursesRepo = new CoursesRepository();
+        $assoc = $coursesRepo->getStudentAndTeacherAssociation($studentId, $courseId);
 
         if (
             !isset($assoc) ||

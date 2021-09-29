@@ -4,6 +4,7 @@ namespace App\Features\Users\Services;
 
 use App\Core\Exceptions\Http\NotFoundHttpException;
 use App\Core\Exceptions\Http\UnauthorizedHttpException;
+use App\Core\Exceptions\Http\ConflictHttpException;
 use App\Features\Authentication\Dtos\SignUpUserDto;
 use App\Features\Authentication\Dtos\SignInUserDto;
 use App\Features\Authentication\Services\AuthenticationService;
@@ -54,10 +55,21 @@ class UsersService
         return $dto;
     }
 
-    public function generateStudentInvite(
+    public function createStudentInvite(
         CreateStudentInviteDto $dtoIn,
     ): CreatedStudentInviteDto
     {
+        $coursesRepo = new CoursesRepository();
+        $email = $dtoIn->email;
+        $courseId = $dtoIn->courseId;
+        $assoc = $coursesRepo->getStudentAssociationByEmail($email, $courseId);
+
+        if ($assoc !== null) {
+            throw new ConflictHttpException(
+                "Student {$email} already belongs to course #{$courseId}"
+            );
+        }
+
         $type = RandomTextType::AlphaNumeric;
         $length = UserConstants::INVITE_TOKEN_LENGTH;
         $dtoIn->token = Random::getRandomText($type, $length);

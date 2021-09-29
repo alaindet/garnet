@@ -27,7 +27,7 @@ class Routes
                 Route::get('/profile', '@getProfile')
                     ->middleware(AuthenticationMiddleware::class),
 
-                Route::post('/invite/student', '@generateStudentInvite')
+                Route::post('/invite/student', '@createStudentInvite')
                     ->middleware(AuthenticationMiddleware::class)
                     ->middleware($role, [$teacher])
                     ->middleware(InviteStudentValidationMiddleware::class),
