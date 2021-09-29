@@ -16,7 +16,7 @@
       </ng-template>
 
       <app-accept-invite-by-signing-up
-        *ngIf="tabsLoaded[1]"
+        *ngIf="tabsLoaded[0]"
         [inviteToken]="inviteToken"
       ></app-accept-invite-by-signing-up>
 
@@ -30,7 +30,7 @@
       </ng-template>
 
       <app-accept-invite-by-signin-in
-        *ngIf="tabsLoaded[0]"
+        *ngIf="tabsLoaded[1]"
         [inviteToken]="inviteToken"
       ></app-accept-invite-by-signin-in>
 

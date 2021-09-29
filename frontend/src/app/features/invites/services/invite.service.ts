@@ -5,7 +5,8 @@ import { map } from 'rxjs/operators';
 
 import { JwtService } from '@app/core/auth/services/jwt.service';
 import { environment } from '@environment/environment';
-import { CheckInviteTokenResponse, CourseSearchItem, GetCoursesByNameResponse } from '../types';
+import { AcceptInviteBySigningUpRequest, CheckInviteTokenResponse, CourseSearchItem, GetCoursesByNameResponse } from '../types';
+import { AcceptedInvite, AcceptedInviteResponse } from '../types/accepted-invite.response';
 
 @Injectable()
 export class InviteService {
@@ -28,6 +29,13 @@ export class InviteService {
     const params = { name };
     const options = { params, ...this.getCorsOptions() };
     return this.http.get<GetCoursesByNameResponse>(url, options)
+      .pipe(map(response => response.data));
+  }
+
+  acceptInviteBySigningUp(body: AcceptInviteBySigningUpRequest): Observable<AcceptedInvite> {
+    const url = `${environment.apiUrl}/invite/accept/signup`;
+    const options = this.getCorsOptions();
+    return this.http.post<AcceptedInviteResponse>(url, body, options)
       .pipe(map(response => response.data));
   }
 

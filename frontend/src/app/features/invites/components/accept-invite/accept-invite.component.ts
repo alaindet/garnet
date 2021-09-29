@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UiService } from '@app/core/main-layout/services';
@@ -22,6 +22,7 @@ export class AcceptInviteComponent {
     private route: ActivatedRoute,
     private router: Router,
     private inviteService: InviteService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {

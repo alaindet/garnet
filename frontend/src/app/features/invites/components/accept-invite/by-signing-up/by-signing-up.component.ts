@@ -26,9 +26,19 @@ export class AcceptInviteBySigningUpComponent implements OnInit {
   onSubmit(): void {
 
     if (this.signUpForm.invalid) {
-      // TODO: Feedback
+      this.toaster.setError('Please provide all info before submitting');
       return;
     }
+
+    /*
+    export interface AcceptInviteBySigningUpRequest {
+      email: string;
+      password: string;
+      firstName: string;
+      lastName: string;
+      token: string;
+    }
+    */
 
     console.log('onSubmit', this.signUpForm.value);
   }
