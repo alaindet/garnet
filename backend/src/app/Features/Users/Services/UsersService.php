@@ -79,7 +79,6 @@ class UsersService
         $inviteId = $invitesRepo->createStudentInvite($dtoIn);
 
         $dtoOut = new CreatedStudentInviteDto();
-        $dtoOut->inviteId = $inviteId;
         $dtoOut->token = $dtoIn->token;
         $dtoOut->email = $dtoIn->email;
         $dtoOut->expiresOn = $dtoIn->expiresOn;

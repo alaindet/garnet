@@ -20,7 +20,7 @@ trait AuthenticationWithSignUp
 
         $signInDto = new SignInUserDto();
         $signInDto->email = $signUpDto->email;
-        $signInDto->password = $signUpDto->password;
+        $signInDto->password = $plainPassword;
 
         return $this->signIn($signInDto);
     }
