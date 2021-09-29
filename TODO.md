@@ -18,6 +18,3 @@
 - [ ] Global: Add Git commit and branches convention
 - [ ] Docker: try multi-stage build with Composer => PHP 8.0 images
 - [ ] BE/FE: Invite student list feature
-- [ ] BE: Stop creating invite if user exists and already belongs to course
-- [ ] BE: If user is accepting a course but he/she already belongs to it, BE returns an SQL duplicate violation on course_student table
-- [ ] BE: If user if accepting by signing up but he/she already belongs to it, BE returns an SQL duplicate violation on course_student table
