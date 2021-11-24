@@ -2,17 +2,40 @@ version: '3.8'
 
 services:
 
-  php:
+  # php:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/php.dockerfile
+  #   env_file:
+  #     - ./environment/php.env
+  #   ports:
+  #     - '8080:80'
+  #   volumes:
+  #     - ./backend:/var/www/html
+  #     - /var/www/html/src/vendor
+
+  # composer:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/composer.dockerfile
+  #   volumes:
+  #     - ./backend/src:/home/composer/app
+
+  node:
     build:
       context: .
-      dockerfile: ./docker/php.dockerfile
+      dockerfile: ./docker/node.dockerfile
+      target: development
     env_file:
-      - ./environment/php.env
-    ports:
-      - '8080:80'
+      - ./environment/node.env
     volumes:
-      - ./backend:/var/www/html
-      - /var/www/html/src/vendor
+      - ./backend/src:/home/node/app/src
+      - ./backend/nodemon.json:/home/node/app/nodemon.json
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mariadb
+    command: npm run dev
 
   mariadb:
     image: mariadb:10.6
@@ -30,14 +53,6 @@ services:
       - '8081:8080'
     depends_on:
       - mariadb
-
-  composer:
-    build:
-      context: .
-      dockerfile: ./docker/composer.dockerfile
-    volumes:
-      - ./backend/src:/home/composer/app
-      # - ./_dev/some-demo:/home/composer/app
 
   # mailhog: TODO
 

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  node:
+    build:
+      target: production
+    command: npm run star
+    restart: always
+    env_file:
+      - ./environment/node.prod.env
+
+  mariadb:
+    restart: always

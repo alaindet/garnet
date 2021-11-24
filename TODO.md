@@ -18,3 +18,4 @@
 - [ ] Global: Add Git commit and branches convention
 - [ ] Docker: try multi-stage build with Composer => PHP 8.0 images
 - [ ] BE/FE: Invite student list feature
+- [ ] Add Nginx to docker.compose.yml
