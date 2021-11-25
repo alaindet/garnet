@@ -50,7 +50,7 @@ services:
   postgres:
     image: postgres:14.1
     volumes:
-      - database-data:/var/lib/postgresql/data/
+      - database-data:/var/lib/postgresql/data
     env_file:
       - ./environment/postgres.env
     ports:
@@ -68,6 +68,9 @@ services:
   # Utility
   pgadmin:
     image: dpage/pgadmin4
+    volumes:
+      - pgadmin-settings:/var/lib/pgadmin
+      - ./database/backup:/var/lib/pgadmin/storage/garnet/backup
     env_file:
       - ./environment/pgadmin.env
     ports:
@@ -76,5 +79,6 @@ services:
   # mailhog: TODO
 
 volumes:
-  db_data: {}
   database-data: {}
+  pgadmin-settings: {}
+  pgadmin-backup: {}

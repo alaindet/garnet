@@ -1,0 +1,4 @@
+/usr/local/pgsql-14/pg_dump --file "/var/lib/pgadmin/storage/garnet_garnet.com/backup_2021_11_25_1419" --host "postgres" --port "5432" --username "garnet" --no-password --verbose --format=c --blobs --encoding "UTF8" "garnet"
+
+
+docker exec -it garnet-pgadmin-1 /usr/local/pgsql-14/pg_dump -h postgres -U garnet -W -p 5432 -d garnet --verbose -f /var/lib/pgadmin/storage/garnet_garnet.com/backup_2021_11_24_14_40 --blobs -E utf8
