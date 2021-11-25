@@ -57,6 +57,7 @@ services:
       - '5432:5432'
 
 
+  # Utility
   adminer:
     image: adminer:4.8.0
     ports:
@@ -64,6 +65,7 @@ services:
     depends_on:
       - postgres
 
+  # Utility
   pgadmin:
     image: dpage/pgadmin4
     env_file:
