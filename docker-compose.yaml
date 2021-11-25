@@ -68,9 +68,6 @@ services:
     image: dpage/pgadmin4
     env_file:
       - ./environment/pgadmin.env
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: garnet
     ports:
       - '5050:80'
 
