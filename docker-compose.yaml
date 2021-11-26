@@ -59,7 +59,7 @@ services:
 
   # Utility
   adminer:
-    image: adminer:4.8.0
+    image: adminer:4.8.1
     ports:
       - '8081:8080'
     depends_on:
