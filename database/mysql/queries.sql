@@ -1,7 +1,3 @@
-INSERT INTO task_user
-SELECT * FROM tasks
-WHERE condition;
-
 /*
 Clone tasks of course_id = 1 to user_id = 3 as state_id = 1 (To Do)
 */
@@ -103,7 +99,7 @@ JOIN task_user AS tu ON tu.task_id = t.task_id
 WHERE
 t.course_id = 1
 ORDER BY
-t.task_id ASC
+t.task_id ASC;
 
 /*
 Get task counters of course #1
@@ -128,7 +124,7 @@ ORDER BY
 t.task_id ASC
 ) AS sub
 GROUP BY
-sub.task_id
+sub.task_id;
 
 -- Progress on course #1 by student
 SELECT
@@ -143,7 +139,7 @@ INNER JOIN task_user AS tu ON t.task_id = tu.task_id
 INNER JOIN users AS u ON tu.user_id = u.user_id
 WHERE t.course_id = 1
 GROUP BY tu.user_id
-ORDER BY tu.user_id ASC
+ORDER BY tu.user_id ASC;
 
 -- Progress on course #1 by task
 SELECT
@@ -157,7 +153,7 @@ FROM tasks AS t
 INNER JOIN task_user AS tu ON t.task_id = tu.task_id
 WHERE t.course_id = 1
 GROUP BY t.task_id
-ORDER BY t.task_id ASC
+ORDER BY t.task_id ASC;
 
 -- Raw progress data
 SELECT
@@ -171,4 +167,4 @@ FROM tasks
 INNER JOIN task_user ON tasks.task_id = task_user.task_id
 INNER JOIN users ON task_user.user_id = users.user_id
 WHERE tasks.course_id = 1
-ORDER BY tasks.task_id ASC
+ORDER BY tasks.task_id ASC;

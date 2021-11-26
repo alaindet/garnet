@@ -5,7 +5,7 @@
 CREATE TABLE "public"."course_student" (
     "course_id" integer NOT NULL,
     "student_id" integer NOT NULL,
-    "created_on" timestamp NOT NULL,
+    "created_on" timestamp DEFAULT '(now())' NOT NULL,
     CONSTRAINT "course_student_pkey" PRIMARY KEY ("course_id", "student_id")
 ) WITH (oids = false);
 
@@ -17,8 +17,8 @@ CREATE SEQUENCE courses_teacher_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 214748364
 CREATE TABLE "public"."courses" (
     "course_id" integer DEFAULT nextval('courses_course_id_seq') NOT NULL,
     "teacher_id" integer DEFAULT nextval('courses_teacher_id_seq') NOT NULL,
-    "created_on" timestamp NOT NULL,
-    "updated_on" timestamp NOT NULL,
+    "created_on" timestamp DEFAULT '(now())' NOT NULL,
+    "updated_on" timestamp DEFAULT '(now())' NOT NULL,
     "name" text NOT NULL,
     "description" text NOT NULL,
     CONSTRAINT "courses_pkey" PRIMARY KEY ("course_id"),
@@ -30,8 +30,8 @@ CREATE SEQUENCE invites_invite_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647
 
 CREATE TABLE "public"."invites" (
     "invite_id" integer DEFAULT nextval('invites_invite_id_seq') NOT NULL,
-    "created_on" timestamp NOT NULL,
-    "expires_on" timestamp NOT NULL,
+    "created_on" timestamp DEFAULT '(now())' NOT NULL,
+    "expires_on" timestamp DEFAULT '(now())' NOT NULL,
     "token" text NOT NULL,
     "email" text NOT NULL,
     "user_role_id" integer NOT NULL,
@@ -64,8 +64,8 @@ CREATE SEQUENCE tasks_task_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CAC
 CREATE TABLE "public"."tasks" (
     "task_id" integer DEFAULT nextval('tasks_task_id_seq') NOT NULL,
     "course_id" integer NOT NULL,
-    "created_on" timestamp NOT NULL,
-    "updated_on" timestamp NOT NULL,
+    "created_on" timestamp DEFAULT '(now())' NOT NULL,
+    "updated_on" timestamp DEFAULT '(now())' NOT NULL,
     "name" text NOT NULL,
     "description" text NOT NULL,
     CONSTRAINT "tasks_pkey" PRIMARY KEY ("task_id")
@@ -86,8 +86,8 @@ CREATE SEQUENCE users_user_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CAC
 
 CREATE TABLE "public"."users" (
     "user_id" integer DEFAULT nextval('users_user_id_seq') NOT NULL,
-    "created_on" timestamp NOT NULL,
-    "updated_on" timestamp NOT NULL,
+    "created_on" timestamp DEFAULT '(now())' NOT NULL,
+    "updated_on" timestamp DEFAULT '(now())' NOT NULL,
     "first_name" text NOT NULL,
     "last_name" text NOT NULL,
     "email" text NOT NULL,
@@ -100,16 +100,17 @@ CREATE TABLE "public"."users" (
 
 ALTER TABLE ONLY "public"."course_student" ADD CONSTRAINT "course_id" FOREIGN KEY (course_id) REFERENCES courses(course_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
-ALTER TABLE ONLY "public"."courses" ADD CONSTRAINT "teacher_id_fk" FOREIGN KEY (teacher_id) REFERENCES users(user_id) NOT DEFERRABLE;
+ALTER TABLE ONLY "public"."courses" ADD CONSTRAINT "courses_teacher_id_fkey" FOREIGN KEY (teacher_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."invites" ADD CONSTRAINT "course_id" FOREIGN KEY (course_id) REFERENCES courses(course_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."invites" ADD CONSTRAINT "user_role_id_fk" FOREIGN KEY (user_role_id) REFERENCES user_roles(user_role_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."task_user" ADD CONSTRAINT "task_user_task_id_fkey" FOREIGN KEY (task_id) REFERENCES tasks(task_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
+ALTER TABLE ONLY "public"."task_user" ADD CONSTRAINT "task_user_task_state_id_fkey" FOREIGN KEY (task_state_id) REFERENCES task_states(task_state_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 ALTER TABLE ONLY "public"."task_user" ADD CONSTRAINT "task_user_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(user_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."tasks" ADD CONSTRAINT "tasks_course_id_fkey" FOREIGN KEY (course_id) REFERENCES courses(course_id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE;
 
 ALTER TABLE ONLY "public"."users" ADD CONSTRAINT "user_roles_fk" FOREIGN KEY (user_role_id) REFERENCES user_roles(user_role_id) NOT DEFERRABLE;
 
--- 2021-11-26 07:09:42.790155+00
+-- 2021-11-26 12:19:09.469186+00
