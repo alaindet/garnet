@@ -1,5 +1,5 @@
 import express from 'express';
-import { sql, createPool } from 'slonik';
+import knex from 'knex';
 
 const app = express();
 
@@ -11,23 +11,27 @@ const dbConfig = {
   port: process.env.GARNET_DB_PORT,
 };
 
-// TODO: Does not work!
-(async () => {
-  const connectionString = (
-    'postgresql://' +
-    `${dbConfig.host}:` +
-    `${dbConfig.port}/` +
-    `${dbConfig.database}?` +
-    `user=${dbConfig.user}&` +
-    `password=${dbConfig.password}`
-  );
+const db = knex({
+  client: 'pg',
+  connection: {
+    host: dbConfig.host,
+    port: +(dbConfig.port ?? 5432),
+    user: dbConfig.user,
+    password: dbConfig.password,
+    database: dbConfig.database,
+  },
+  // migrations: {
+  //   directory: './database/migrations',
+  // },
+  // seeds: {
+  //   directory: './database/seeds',
+  // },
+  // useNullAsDefault: true,
+});
 
-  const pool = createPool(connectionString);
-  const sqlQuery = sql`SELECT now()::timestamp`;
-  pool.connect(async connection => {
-    const result = await connection.query(sqlQuery);
-    console.log(result);
-  });
+(async () => {
+  const result = await db.raw('SELECT * FROM "public"."courses"');
+  console.log(result.rows);
 })();
 
 app.get('/', (req, res) => {
