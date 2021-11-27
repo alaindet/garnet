@@ -29,14 +29,10 @@ const db = knex({
   // useNullAsDefault: true,
 });
 
-(async () => {
-  const result = await db.raw('SELECT * FROM "public"."courses"');
-  console.log(result.rows);
-})();
-
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  const courses = await db.raw('SELECT * FROM "public"."courses"');
   res.json({
-    GARNET_SECURITY_JWT_SECRET: process.env.GARNET_SECURITY_JWT_SECRET,
+    courses: courses.rows,
   });
 });
 
