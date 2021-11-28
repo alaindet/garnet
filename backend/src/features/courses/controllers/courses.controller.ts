@@ -1,9 +1,14 @@
-import { Request } from 'express';
+import { Request, Response, RequestHandler, Router } from 'express';
 
-const getAll = (req: Request, res: Response) => {
+const getAll: RequestHandler = (req: Request, res: Response) => {
+  // ...
+};
+
+const getById: RequestHandler = (req: Request, res: Response) => {
   // ...
 };
 
 export const coursesController = {
   getAll,
+  getById,
 }
