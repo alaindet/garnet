@@ -1,10 +1,10 @@
-import knex from 'knex';
+import knex, { Knex } from 'knex';
 
-import config from '@/config';
+import config from '../config';
 
 export const database = knex({
   client: 'pg',
-  connection: config.database,
+  connection: { ...config.database } as Knex.PgConnectionConfig,
   // migrations: {
   //   directory: config.path.databaseMigrations,
   // },
