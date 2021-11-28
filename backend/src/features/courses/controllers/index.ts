@@ -1,1 +1,2 @@
-export * from './courses.controller';
+export * from './get-all';
+export * from './get-by-id';
