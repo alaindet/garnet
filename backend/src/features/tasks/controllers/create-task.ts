@@ -1,9 +1,10 @@
 import { createRoute, Request, Response } from '@/core/routing';
 
-export const getById = createRoute.get(
-  '/:courseid',
+export const createTask = createRoute.post('/',
   // Add middlewares here...
   (req: Request, res: Response) => {
-    res.send('Get course by ID: ' + req.params.courseid);
+    const message = 'Create task';
+    const data = null;
+    res.json({ message, data });
   },
 );
