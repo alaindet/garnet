@@ -1,12 +1,9 @@
-import { Request, Response } from 'express';
+import { createRoute, Request, Response } from '@/core/routing';
 
-import { createRoute, HttpMethod } from '../../../core/routing';
-
-export const getById = createRoute(
-  HttpMethod.Get,
+export const getById = createRoute.get(
   '/:courseid',
   // Some middleware...
   (req: Request, res: Response) => {
-    res.send('Get course by ID');
+    res.send('Get course by ID: ' + req.params.courseid);
   },
 );

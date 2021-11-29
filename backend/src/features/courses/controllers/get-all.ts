@@ -1,13 +1,8 @@
-import express, { Request, Response } from 'express';
+import { createRoute, Request, Response } from '@/core/routing';
 
-const router = express.Router();
-
-router.get(
-  '/courses',
+export const getAll = createRoute.get('/',
   // Some middleware...
   (req: Request, res: Response) => {
     res.send('Get all courses');
   },
 );
-
-export default router;
