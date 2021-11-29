@@ -1,5 +1,7 @@
 import express, { Request as ExpressRequest, Response as ExpressResponse, RequestHandler } from 'express';
 
+import { trimSlash } from '@/shared/utils';
+
 export enum HttpMethod {
   Get = 'get',
   Post = 'post',
@@ -62,7 +64,8 @@ export const createRoutes = (
   const router = express.Router();
   for (const route of Object.values(routes)) {
     const { httpMethod, path, handlers } = route;
-    router[httpMethod](`${prefix}/${path}`, ...handlers);
+    const sanitizedPath = trimSlash(path);
+    router[httpMethod](`${prefix}/${sanitizedPath}`, ...handlers);
   }
   return router;
 };

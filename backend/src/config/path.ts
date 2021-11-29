@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-const ROOT = join(__dirname, '..');
+const ROOT = join(__dirname, '..', '..');
 
 export const path = {
   root: ROOT,
