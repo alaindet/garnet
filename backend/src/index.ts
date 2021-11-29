@@ -8,12 +8,13 @@ import { boardRoutes } from '@/features/board';
 import { authRoutes } from '@/features/authentication';
 
 const app = express();
+const version = 'v1.0';
 
-app.use(coursesRoutes);
-app.use(usersRoutes);
-app.use(tasksRoutes);
-app.use(boardRoutes);
-app.use(authRoutes);
+app.use(version, coursesRoutes);
+app.use(version, usersRoutes);
+app.use(version, tasksRoutes);
+app.use(version, boardRoutes);
+app.use(version, authRoutes);
 
 app.listen(config.app.port, () => {
   console.log(`${config.app.name} running on port ${config.app.port}`);
