@@ -44,9 +44,9 @@ services:
       - '/home/node/app/node_modules'
     ports:
       - '3001:3001'
-    depends_on:
-      - postgres
-    command: npm run dev
+    # depends_on:
+    #   - postgres
+    command: npm run start:dev
 
   postgres:
     image: postgres:14.1

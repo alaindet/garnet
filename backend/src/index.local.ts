@@ -1,5 +1,11 @@
 import express from 'express';
 
+import dotenv from 'dotenv';
+
+dotenv.config({
+  path: './.env.local',
+});
+
 import config from '@/config';
 import { coursesRoutes } from '@/features/courses';
 import { usersRoutes } from '@/features/users';

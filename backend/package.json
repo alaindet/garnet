@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_PATH=./dist node ./dist/index.js",
     "start:once": "npx ts-node ./src/index.ts",
-    "dev": "npx nodemon",
+    "start:dev": "npx nodemon --config nodemon.dev.json",
+    "start:local": "npx nodemon --config nodemon.local.json",
     "build": "rimraf ./dist && tsc --project ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^16.11.10",
+    "dotenv": "^10.0.0",
     "nodemon": "^2.0.15",
     "rimraf": "^3.0.2",
     "ts-node": "^10.4.0",
