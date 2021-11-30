@@ -41,6 +41,7 @@ services:
     volumes:
       - ./backend/src:/home/node/app/src
       - ./backend/nodemon.json:/home/node/app/nodemon.json
+      - '/home/node/app/node_modules'
     ports:
       - '3001:3001'
     depends_on:
