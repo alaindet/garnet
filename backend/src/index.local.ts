@@ -16,6 +16,9 @@ import { authRoutes } from '@/features/authentication';
 const app = express();
 const version = `/v${process.env.GARNET_APP_VERSION_SHORT}`;
 
+// Add global middlwares here...
+
+// Routes
 app.use(version, coursesRoutes);
 app.use(version, usersRoutes);
 app.use(version, tasksRoutes);
