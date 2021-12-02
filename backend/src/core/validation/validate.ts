@@ -20,7 +20,7 @@ export const validate = (
       const validatorParams = schema[propKey][validatorKey];
       const value = input[propKey];
       // TODO: Pass args to validator
-      const validatorErrors = validator(value, ...validatorParams);
+      const validatorErrors = validator(value, validatorParams);
 
       if (validatorErrors !== null) {
         errorsCount++;
