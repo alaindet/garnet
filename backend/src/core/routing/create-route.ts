@@ -1,24 +1,8 @@
-import express, { Request as ExpressRequest, Response as ExpressResponse, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 
-import { trimSlash } from '@/shared/utils';
+import { HttpMethod } from './http-method';
+import { Route } from './route';
 
-export enum HttpMethod {
-  Get = 'get',
-  Post = 'post',
-  Put = 'put',
-  Patch = 'patch',
-  Delete = 'delete',
-}
-
-export interface Request extends ExpressRequest {};
-
-export interface Response extends ExpressResponse {};
-
-export interface Route {
-  httpMethod: HttpMethod;
-  path: string;
-  handlers: RequestHandler[];
-};
 
 const _createRoute = (
   httpMethod: HttpMethod,
@@ -55,17 +39,4 @@ export const createRoute = {
     path: string,
     ...handlers: RequestHandler[]
   ) => _createRoute(HttpMethod.Delete, path, ...handlers),
-};
-
-export const createRoutes = (
-  prefix: string,
-  routes: { [route: string]: Route },
-): express.Router => {
-  const router = express.Router();
-  for (const route of Object.values(routes)) {
-    const { httpMethod, path, handlers } = route;
-    const sanitizedPath = trimSlash(path);
-    router[httpMethod](`${prefix}/${sanitizedPath}`, ...handlers);
-  }
-  return router;
 };
