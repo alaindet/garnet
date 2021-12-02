@@ -17,9 +17,10 @@ export const validate = (
   for (const propKey of Object.keys(schema)) {
     for (const validatorKey of Object.keys(schema[propKey])) {
       const validator = ruleValidators[validatorKey];
+      const validatorParams = schema[propKey][validatorKey];
       const value = input[propKey];
       // TODO: Pass args to validator
-      const validatorErrors = validator(value);
+      const validatorErrors = validator(value, ...validatorParams);
 
       if (validatorErrors !== null) {
         errorsCount++;

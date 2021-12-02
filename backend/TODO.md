@@ -1,0 +1,20 @@
+# TODO
+
+Rule validators
+  - between
+  - email
+  - equals
+  - exact-length
+  - except
+  - except-in
+  - exists-on-database
+  - filled
+  - in
+  - is
+  - max-length
+  - min-length
+  - min
+  - max
+  - missing-on-database
+  - regex
+  - required

@@ -15,7 +15,7 @@ export const getAllCourses = createRoute.get('/',
 
     const schema: ValidationSchema = {
       foo: {
-        isString: true,
+        min: 142,
       },
     };
 
